@@ -19,6 +19,8 @@
  *
  */
 
+#define FORBIDDEN_SYMBOL_EXCEPTION_FILE
+
 #include "audio/softsynth/pcspk.h"
 #include "audio/mods/mod_xm_s3m.h"
 
@@ -29,6 +31,7 @@
 #include "common/file.h"
 
 #include "testbed/sound.h"
+#include "common/textconsole.h"
 
 namespace Testbed {
 
@@ -111,6 +114,60 @@ void SoundSubsystemDialog::handleCommand(GUI::CommandSender *sender, uint32 cmd,
 			_mixer->stopAll();
 			GUI::Dialog::handleCommand(sender, cmd, data);
 	}
+}
+
+// HSK PLAY TEST FIELLLDDD
+// #include <mikmod.h>
+
+namespace mikmod{
+	
+}
+#include <mikmod.h>
+#include <common/system.h>
+
+TestExitStatus SoundSubsystem::impulseTrack(){
+	TestExitStatus passed = kTestPassed;
+
+    MODULE *module;
+
+    /* register all the drivers */
+    MikMod_RegisterAllDrivers();
+
+    /* register all the module loaders */
+    MikMod_RegisterAllLoaders();
+
+    /* initialize the library */
+    // md_mode |= DMODE_SOFT_MUSIC;
+    if (MikMod_Init("")) {
+        error("Could not initialize sound, reason: %s\n",
+                MikMod_strerror(MikMod_errno));
+    }
+
+    /* load module */
+    module = Player_Load("dists/engine-data/testbed-audiocd-files/music0077.it", 64, 0);
+	warning("Have i reached afrer loading player?");
+    if (module) {
+		warning("Smtart module?");
+        /* start module */
+        Player_Start(module);
+
+        while (Player_Active()) {
+            /* we're playing */
+            g_system->delayMillis(10);
+            MikMod_Update();
+        }
+
+        Player_Stop();
+        Player_Free(module);
+    } else
+        error("Could not load module, reason: %s\n",
+                MikMod_strerror(MikMod_errno));
+
+    /* give up */
+    MikMod_Exit();
+
+
+	return passed;
 }
 
 TestExitStatus SoundSubsystem::playBeeps() {
@@ -337,6 +394,8 @@ TestExitStatus SoundSubsystem::sampleRates() {
 }
 
 SoundSubsystemTestSuite::SoundSubsystemTestSuite() {
+	addTest("ImpulseTracker", &SoundSubsystem::impulseTrack, true);
+
 	addTest("SimpleBeeps", &SoundSubsystem::playBeeps, true);
 	addTest("MixSounds", &SoundSubsystem::mixSounds, true);
 	addTest("MODPlayback", &SoundSubsystem::modPlayback, true);

@@ -42,6 +42,8 @@ namespace SoundSubsystem {
 // Helper functions for SoundSubsystem tests
 
 // will contain function declarations for SoundSubsystem tests
+TestExitStatus impulseTrack();
+
 TestExitStatus playBeeps();
 TestExitStatus mixSounds();
 TestExitStatus modPlayback();

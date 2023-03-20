@@ -128,6 +128,11 @@ TestbedEngine::TestbedEngine(OSystem *syst)
 void TestbedEngine::pushTestsuites(Common::Array<Testsuite *> &testsuiteList) {
 	// Initialize testsuites here
 	Testsuite *ts;
+
+	// TEST
+	ts = new SoundSubsystemTestSuite();
+	testsuiteList.push_back(ts);
+
 	// GFX
 	ts = new GFXTestSuite();
 	testsuiteList.push_back(ts);

@@ -151,6 +151,7 @@ _sndio=auto
 _timidity=auto
 _zlib=auto
 _mpeg2=auto
+_mikmod=auto
 _a52=auto
 _sparkle=auto
 _osxdockplugin=auto
@@ -1162,6 +1163,8 @@ for ac_option in $@; do
 	--disable-nasm)               _nasm=no               ;;
 	--enable-mpeg2)               _mpeg2=yes             ;;
 	--disable-mpeg2)              _mpeg2=no              ;;
+	--enable-mikmod)              _mikmod=yes            ;;
+	--disable-mikmod)             _mikmod=no             ;;
 	--enable-a52)                 _a52=yes               ;;
 	--disable-a52)                _a52=no                ;;
 	--disable-jpeg)               _jpeg=no               ;;
@@ -1257,6 +1260,11 @@ for ac_option in $@; do
 		arg=`echo $ac_option | cut -d '=' -f 2`
 		MPEG2_CFLAGS="-I$arg/include"
 		MPEG2_LIBS="-L$arg/lib"
+		;;
+	--with-mikmod-prefix=*)
+		arg=`echo $ac_option | cut -d '=' -f 2`
+		MIKMOD_CFLAGS="-I$arg/include"
+		MIKMOD_LIBS="-L$arg/lib"
 		;;
 	--with-a52-prefix=*)
 		arg=`echo $ac_option | cut -d '=' -f 2`
@@ -5459,6 +5467,36 @@ if test "$_mpeg2" = yes ; then
 fi
 define_in_config_if_yes "$_mpeg2" 'USE_MPEG2'
 echo "$_mpeg2"
+
+#
+# Check for libmikmod
+#
+echocheck "libmikmod"
+if test "$_mikmod" = auto ; then
+	_mikmod=no
+	cat > $TMPC << EOF
+#include <mikmod.h>
+
+int main(void) {
+	SAMPLE *spl = Sample_Load("abcd");
+	Sample_Free(spl);
+	return 0;
+}
+EOF
+	if test -n "$_host"; then
+		# don't execute while cross compiling
+		cc_check $MIKMOD_CFLAGS $MIKMOD_LIBS -lmikmod && _mikmod=yes
+	else
+		cc_check_no_clean $MIKMOD_CFLAGS $MIKMOD_LIBS -lmikmod && $TMPO$HOSTEXEEXT 2>/dev/null && _mikmod=yes
+		cc_check_clean
+	fi
+fi
+if test "$_mikmod" = yes ; then
+	INCLUDES="$INCLUDES $MIKMOD_CFLAGS"
+	LIBS="$LIBS $MIKMOD_LIBS -lmikmod"
+fi
+define_in_config_if_yes "$_mikmod" 'USE_MIKMOD'
+echo "$_mikmod"
 
 #
 # Check for liba52
