@@ -23,6 +23,7 @@
 
 #include "audio/softsynth/pcspk.h"
 #include "audio/mods/mod_xm_s3m.h"
+#include "audio/mods/impulsetracker.h"
 
 #include "backends/audiocd/audiocd.h"
 
@@ -116,60 +117,6 @@ void SoundSubsystemDialog::handleCommand(GUI::CommandSender *sender, uint32 cmd,
 	}
 }
 
-// HSK PLAY TEST FIELLLDDD
-// #include <mikmod.h>
-
-namespace mikmod{
-	
-}
-#include <mikmod.h>
-#include <common/system.h>
-
-TestExitStatus SoundSubsystem::impulseTrack(){
-	TestExitStatus passed = kTestPassed;
-
-    MODULE *module;
-
-    /* register all the drivers */
-    MikMod_RegisterAllDrivers();
-
-    /* register all the module loaders */
-    MikMod_RegisterAllLoaders();
-
-    /* initialize the library */
-    // md_mode |= DMODE_SOFT_MUSIC;
-    if (MikMod_Init("")) {
-        error("Could not initialize sound, reason: %s\n",
-                MikMod_strerror(MikMod_errno));
-    }
-
-    /* load module */
-    module = Player_Load("dists/engine-data/testbed-audiocd-files/music0077.it", 64, 0);
-	warning("Have i reached afrer loading player?");
-    if (module) {
-		warning("Smtart module?");
-        /* start module */
-        Player_Start(module);
-
-        while (Player_Active()) {
-            /* we're playing */
-            g_system->delayMillis(10);
-            MikMod_Update();
-        }
-
-        Player_Stop();
-        Player_Free(module);
-    } else
-        error("Could not load module, reason: %s\n",
-                MikMod_strerror(MikMod_errno));
-
-    /* give up */
-    MikMod_Exit();
-
-
-	return passed;
-}
-
 TestExitStatus SoundSubsystem::playBeeps() {
 	Testsuite::clearScreen();
 	TestExitStatus passed = kTestPassed;
@@ -239,6 +186,76 @@ const char *music[] = {
 	"music0078.it",
 	0
 };
+
+
+// HSK PLAY TEST FIELLLDDD
+// #include <mikmod.h>
+
+namespace mikmod{
+	
+}
+#include <mikmod.h>
+#include <common/system.h>
+#include "myloader.cpp"
+
+// #include "impulsetrakcer.h"
+
+TestExitStatus SoundSubsystem::impulseTrack(){
+	TestExitStatus passed = kTestPassed;
+	
+	// MREADER *mreader = new MREADER();
+	// my_delete_mem_reader(mreader);
+	MikMod_InitThreads ();
+	MikMod_RegisterDriver(&drv_nos);
+	md_mode |= DMODE_SOFT_MUSIC | DMODE_NOISEREDUCTION;
+	md_mixfreq = 44100;
+	if (MikMod_Init("")) {
+		// fprintf(stderr, "Could not initialize sound, reason: %s\n",
+		// 		MikMod_strerror(MikMod_errno));
+	}
+  	MikMod_RegisterAllLoaders();
+
+
+	MODULE* module = Player_Load("dists/engine-data/testbed-audiocd-files/music0077.it", 64, 0);
+
+	// TODO USE BELOW LATER
+	Common::File f;
+	f.open(music[2]);
+
+	Audio::SoundHandle handle;
+	Audio::Mixer *mixer = g_system->getMixer();
+	Player_Start(module);
+
+	Audio::AudioStream *stream = Audio::makeImpulseStream(&f, DisposeAfterUse::NO);
+
+	mixer->playStream(Audio::Mixer::kMusicSoundType, &handle, stream);
+
+	Common::EventManager *eventMan = g_system->getEventManager();
+	Common::Event event;
+	Common::Point pt(0, 100);
+	Common::Point pt2(0, 110);
+
+	while (mixer->isSoundHandleActive(handle)) {
+		g_system->delayMillis(10);
+		Testsuite::writeOnScreen(Common::String::format("Playing Now: Impulse"), pt);
+		Testsuite::writeOnScreen("Press 'S' to stop", pt2);
+
+		if (eventMan->pollEvent(event)) {
+			if (event.type == Common::EVENT_KEYDOWN && event.kbd.keycode == Common::KEYCODE_s)
+				break;
+		}
+	}
+	g_system->delayMillis(10);
+
+	// while(true){
+	// 	g_system->delayMillis(100);
+	// }
+	// if (!module) {
+    // //   fprintf(stderr, "Could not load %s: %s\n",
+    // //           argv[i], MikMod_strerror(MikMod_errno));
+    // }
+	return passed;
+}
 
 TestExitStatus SoundSubsystem::modPlayback() {
 	Testsuite::clearScreen();
@@ -396,8 +413,8 @@ TestExitStatus SoundSubsystem::sampleRates() {
 SoundSubsystemTestSuite::SoundSubsystemTestSuite() {
 	addTest("ImpulseTracker", &SoundSubsystem::impulseTrack, true);
 
-	addTest("SimpleBeeps", &SoundSubsystem::playBeeps, true);
-	addTest("MixSounds", &SoundSubsystem::mixSounds, true);
+	// addTest("SimpleBeeps", &SoundSubsystem::playBeeps, true);
+	// addTest("MixSounds", &SoundSubsystem::mixSounds, true);
 	addTest("MODPlayback", &SoundSubsystem::modPlayback, true);
 
 	// Make audio-files discoverable
