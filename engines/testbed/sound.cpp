@@ -198,38 +198,19 @@ namespace mikmod{
 #include <common/system.h>
 #include "myloader.cpp"
 
-// #include "impulsetrakcer.h"
-
 TestExitStatus SoundSubsystem::impulseTrack(){
 	TestExitStatus passed = kTestPassed;
-	
-	// MREADER *mreader = new MREADER();
-	// my_delete_mem_reader(mreader);
-	MikMod_InitThreads ();
-	MikMod_RegisterDriver(&drv_nos);
-	md_mode |= DMODE_SOFT_MUSIC | DMODE_NOISEREDUCTION;
-	md_mixfreq = 44100;
-	if (MikMod_Init("")) {
-		// fprintf(stderr, "Could not initialize sound, reason: %s\n",
-		// 		MikMod_strerror(MikMod_errno));
-	}
-  	MikMod_RegisterAllLoaders();
 
-
-	MODULE* module = Player_Load("dists/engine-data/testbed-audiocd-files/music0077.it", 64, 0);
-
-	// TODO USE BELOW LATER
 	Common::File f;
 	f.open(music[2]);
 
 	Audio::SoundHandle handle;
 	Audio::Mixer *mixer = g_system->getMixer();
-	Player_Start(module);
 
+	// Make impulse stream!
 	Audio::AudioStream *stream = Audio::makeImpulseStream(&f, DisposeAfterUse::NO);
-
+	
 	mixer->playStream(Audio::Mixer::kMusicSoundType, &handle, stream);
-
 	Common::EventManager *eventMan = g_system->getEventManager();
 	Common::Event event;
 	Common::Point pt(0, 100);
@@ -247,13 +228,7 @@ TestExitStatus SoundSubsystem::impulseTrack(){
 	}
 	g_system->delayMillis(10);
 
-	// while(true){
-	// 	g_system->delayMillis(100);
-	// }
-	// if (!module) {
-    // //   fprintf(stderr, "Could not load %s: %s\n",
-    // //           argv[i], MikMod_strerror(MikMod_errno));
-    // }
+	mixer->stopAll();
 	return passed;
 }
 
