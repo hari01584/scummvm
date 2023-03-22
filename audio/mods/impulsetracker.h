@@ -35,25 +35,21 @@
 
 namespace Common {
 class SeekableReadStream;
-class File;
 }
 
 namespace Audio {
 
-class SeekableAudioStream;
 class AudioStream;
 /**
- * Create a new SeekableAudioStream from the impulse tracker data in the given stream.
- * Allows for seeking (which is why we require a SeekableReadStream).
+ * Create a new AudioStream from the impulse tracker data in the given stream.
  *
- * @param stream			the SeekableReadStream from which to read the Ogg Vorbis data
- * @param disposeAfterUse	whether to delete the stream after use
- * @return	a new SeekableAudioStream, or NULL, if an error occurred
+ * @param stream            the SeekableReadStream from which to read the Ogg Vorbis data
+ * @param disposeAfterUse   whether to delete the stream after use
+ * @return  a new AudioStream, or NULL, if an error occurred
  */
 AudioStream *makeImpulseStream(
-	Common::SeekableReadStream *stream,
-	DisposeAfterUse::Flag disposeAfterUse);
-
+    Common::SeekableReadStream *stream,
+    DisposeAfterUse::Flag disposeAfterUse);
 } // End of namespace Audio
 
 #endif // #ifdef USE_MIKMOD

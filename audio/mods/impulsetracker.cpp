@@ -37,50 +37,48 @@ extern "C" {
 
 // Start memory wrapper
 // Extras, mikmod mreader struct to wrap readstream
-typedef struct _MY_MEMREADER {
+typedef struct MikMemoryReader {
 	MREADER core;
 	const void *buffer;
 	Common::SeekableReadStream *base;
-	long len;
-	long pos;
-} MY_MEMREADER;
+} MikMemoryReader;
 
-static BOOL My_MemReader_Eof(MREADER *reader);
-static BOOL My_MemReader_Read(MREADER *reader, void *ptr, size_t size);
-static int  My_MemReader_Get(MREADER *reader);
-static int  My_MemReader_Seek(MREADER *reader, long offset, int whence);
-static long My_MemReader_Tell(MREADER *reader);
+static BOOL memoryReaderEof(MREADER *reader);
+static BOOL memoryReaderRead(MREADER *reader, void *ptr, size_t size);
+static int  memoryReaderGet(MREADER *reader);
+static int  memoryReaderSeek(MREADER *reader, long offset, int whence);
+static long memoryReaderTell(MREADER *reader);
 
-MREADER *my_new_mem_reader(Common::SeekableReadStream *base);
-void my_delete_mem_reader(MREADER *reader);
+MREADER *createMikMemoryReader(Common::SeekableReadStream *base);
+void freeMikMemoryReader(MREADER *reader);
 
-void my_delete_mem_reader(MREADER *reader) {
+void freeMikMemoryReader(MREADER *reader) {
 	if (reader) free(reader);
 }
 
-MREADER *my_new_mem_reader(Common::SeekableReadStream *base) {
-	MY_MEMREADER *reader = (MY_MEMREADER *) calloc(1, sizeof(MY_MEMREADER));
+MREADER *createMikMemoryReader(Common::SeekableReadStream *base) {
+	MikMemoryReader *reader = (MikMemoryReader *) calloc(1, sizeof(MikMemoryReader));
 	if (reader) {
-		reader->core.Eof = &My_MemReader_Eof;
-		reader->core.Read = &My_MemReader_Read;
-		reader->core.Get = &My_MemReader_Get;
-		reader->core.Seek = &My_MemReader_Seek;
-		reader->core.Tell = &My_MemReader_Tell;
+		reader->core.Eof = &memoryReaderEof;
+		reader->core.Read = &memoryReaderRead;
+		reader->core.Get = &memoryReaderGet;
+		reader->core.Seek = &memoryReaderSeek;
+		reader->core.Tell = &memoryReaderTell;
 		reader->base = base;
 	}
 	return (MREADER *)reader;
 }
 
-static BOOL My_MemReader_Eof(MREADER *reader) {
-	MY_MEMREADER *mr = (MY_MEMREADER *) reader;
+static BOOL memoryReaderEof(MREADER *reader) {
+	MikMemoryReader *mr = (MikMemoryReader *) reader;
 	if (!mr) return 1;
 	if (mr->base && mr->base->eos() == true) return 1;
 	return 0;
 }
 
-static BOOL My_MemReader_Read(MREADER *reader, void *ptr, size_t size) {
-	MY_MEMREADER *mr;
-	mr = (MY_MEMREADER *) reader;
+static BOOL memoryReaderRead(MREADER *reader, void *ptr, size_t size) {
+	MikMemoryReader *mr;
+	mr = (MikMemoryReader *) reader;
 
 	if (!mr && !mr->base) return 0;
 
@@ -90,33 +88,31 @@ static BOOL My_MemReader_Read(MREADER *reader, void *ptr, size_t size) {
 	return 1;
 }
 
-static int My_MemReader_Get(MREADER *reader) {
-	MY_MEMREADER *mr;
+static int memoryReaderGet(MREADER *reader) {
+	MikMemoryReader *mr;
 
-	mr = (MY_MEMREADER *) reader;
+	mr = (MikMemoryReader *) reader;
 	if (!mr->base) return -1;
-	return mr->base->readByte();;
+	return mr->base->readByte();
 }
 
-static int My_MemReader_Seek(MREADER *reader, long offset, int whence) {
-	MY_MEMREADER *mr;
+static int memoryReaderSeek(MREADER *reader, long offset, int whence) {
+	MikMemoryReader *mr;
 
 	if (!reader) return -1;
-	mr = (MY_MEMREADER *) reader;
+	mr = (MikMemoryReader *) reader;
 	if (!mr->base) return -1;
 
 	return mr->base->seek(offset, whence);
 }
 
-static long My_MemReader_Tell(MREADER *reader) {
+static long memoryReaderTell(MREADER *reader) {
 	if (reader) {
-		return ((MY_MEMREADER *)reader)->base->pos();
+		return ((MikMemoryReader *)reader)->base->pos();
 	}
 	return 0;
 }
-
 // End memory wrappper
-
 
 namespace Audio {
 class ImpulseTrackerMod : public AudioStream {
@@ -144,13 +140,13 @@ public:
 	}
 
 private:
-	DisposeAfterUse::Flag dispose;
+	DisposeAfterUse::Flag _dispose;
 
-	bool mikmod_load_successful = true;
+	bool _mikmod_load_successful = true;
 	// Private for class use vars
-	Common::SeekableReadStream *s;
-	MREADER *reader;
-	MODULE *mod;
+	Common::SeekableReadStream *_s;
+	MREADER *_reader;
+	MODULE *_mod;
 
 	bool initMikMod();
 	void freeMikMod();
@@ -167,7 +163,7 @@ bool ImpulseTrackerMod::initMikMod() {
 
 	md_mixfreq = 44100;
 	if (MikMod_Init("")) {
-		mikmod_load_successful = false;
+		_mikmod_load_successful = false;
 		warning("Could not initialize sound, reason: %s\n",
 		        MikMod_strerror(MikMod_errno));
 		return false;
@@ -184,36 +180,38 @@ void ImpulseTrackerMod::freeMikMod() {
 
 ImpulseTrackerMod::ImpulseTrackerMod(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
 	if (!stream) {
-		mikmod_load_successful = false;
+		_mikmod_load_successful = false;
 		warning("Bad impulse tracker stream");
 		return;
 	}
 
-	s = stream;
-	dispose = disposeAfterUse;
+	_s = stream;
+
+	// TODO: Use this dispose flag
+	_dispose = disposeAfterUse;
 
 	if (!initMikMod()) return;
 
 	// Load mod using custom loader class!
-	reader = my_new_mem_reader(s);
-	mod = Player_LoadGeneric(reader, 64, 0);
-	if (!mod) {
-		mikmod_load_successful = false;
+	_reader = createMikMemoryReader(_s);
+	_mod = Player_LoadGeneric(_reader, 64, 0);
+	if (!_mod) {
+		_mikmod_load_successful = false;
 		warning("mod file problem %s", MikMod_strerror(MikMod_errno));
 		return;
 	}
 	// warning("Playing %s", mod->songname);
 
 	// Start mikmod playing, ie fill VC_Driver buffer with data
-	if (mod) Player_Start(mod);
+	if (_mod) Player_Start(_mod);
 }
 
 ImpulseTrackerMod::~ImpulseTrackerMod() {
 	freeMikMod();
 
 	Player_Stop();
-	if (mod) Player_Free(mod);
-	if (reader) my_delete_mem_reader(reader);
+	if (_mod) Player_Free(_mod);
+	if (_reader) freeMikMemoryReader(_reader);
 
 	// Delete stream pointer or free it?
 	// if (s) delete s;

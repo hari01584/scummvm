@@ -33,6 +33,7 @@
 
 #include "testbed/sound.h"
 #include "common/textconsole.h"
+#include <mikmod.h>
 
 namespace Testbed {
 
@@ -187,51 +188,6 @@ const char *music[] = {
 	0
 };
 
-
-// HSK PLAY TEST FIELLLDDD
-// #include <mikmod.h>
-
-namespace mikmod{
-	
-}
-#include <mikmod.h>
-#include <common/system.h>
-#include "myloader.cpp"
-
-TestExitStatus SoundSubsystem::impulseTrack(){
-	TestExitStatus passed = kTestPassed;
-
-	Common::File f;
-	f.open(music[2]);
-
-	Audio::SoundHandle handle;
-	Audio::Mixer *mixer = g_system->getMixer();
-
-	// Make impulse stream!
-	Audio::AudioStream *stream = Audio::makeImpulseStream(&f, DisposeAfterUse::NO);
-	
-	mixer->playStream(Audio::Mixer::kMusicSoundType, &handle, stream);
-	Common::EventManager *eventMan = g_system->getEventManager();
-	Common::Event event;
-	Common::Point pt(0, 100);
-	Common::Point pt2(0, 110);
-
-	while (mixer->isSoundHandleActive(handle)) {
-		g_system->delayMillis(10);
-		Testsuite::writeOnScreen(Common::String::format("Playing Now: Impulse"), pt);
-		Testsuite::writeOnScreen("Press 'S' to stop", pt2);
-
-		if (eventMan->pollEvent(event)) {
-			if (event.type == Common::EVENT_KEYDOWN && event.kbd.keycode == Common::KEYCODE_s)
-				break;
-		}
-	}
-	g_system->delayMillis(10);
-
-	mixer->stopAll();
-	return passed;
-}
-
 TestExitStatus SoundSubsystem::modPlayback() {
 	Testsuite::clearScreen();
 	TestExitStatus passed = kTestPassed;
@@ -257,7 +213,13 @@ TestExitStatus SoundSubsystem::modPlayback() {
 		if (!f.isOpen())
 			continue;
 
-		Audio::RewindableAudioStream *mod = Audio::makeModXmS3mStream(&f, DisposeAfterUse::NO);
+		Audio::AudioStream *mod;
+		if(i == 2 || i == 3){
+			// Impulse tracker loader
+			mod = Audio::makeImpulseStream(&f, DisposeAfterUse::NO);
+		} else {
+			mod = Audio::makeModXmS3mStream(&f, DisposeAfterUse::NO);
+		}
 		if (!mod) {
 			Testsuite::displayMessage(Common::String::format("Could not load MOD file '%s'", music[i]));
 			f.close();
@@ -386,10 +348,8 @@ TestExitStatus SoundSubsystem::sampleRates() {
 }
 
 SoundSubsystemTestSuite::SoundSubsystemTestSuite() {
-	addTest("ImpulseTracker", &SoundSubsystem::impulseTrack, true);
-
-	// addTest("SimpleBeeps", &SoundSubsystem::playBeeps, true);
-	// addTest("MixSounds", &SoundSubsystem::mixSounds, true);
+	addTest("SimpleBeeps", &SoundSubsystem::playBeeps, true);
+	addTest("MixSounds", &SoundSubsystem::mixSounds, true);
 	addTest("MODPlayback", &SoundSubsystem::modPlayback, true);
 
 	// Make audio-files discoverable
