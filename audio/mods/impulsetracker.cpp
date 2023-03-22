@@ -39,7 +39,6 @@ extern "C" {
 // Extras, mikmod mreader struct to wrap readstream
 typedef struct MikMemoryReader {
 	MREADER core;
-	const void *buffer;
 	Common::SeekableReadStream *base;
 } MikMemoryReader;
 
@@ -49,15 +48,8 @@ static int  memoryReaderGet(MREADER *reader);
 static int  memoryReaderSeek(MREADER *reader, long offset, int whence);
 static long memoryReaderTell(MREADER *reader);
 
-MREADER *createMikMemoryReader(Common::SeekableReadStream *base);
-void freeMikMemoryReader(MREADER *reader);
-
-void freeMikMemoryReader(MREADER *reader) {
-	if (reader) free(reader);
-}
-
 MREADER *createMikMemoryReader(Common::SeekableReadStream *base) {
-	MikMemoryReader *reader = (MikMemoryReader *) calloc(1, sizeof(MikMemoryReader));
+	MikMemoryReader *reader = (MikMemoryReader *)calloc(1, sizeof(MikMemoryReader));
 	if (reader) {
 		reader->core.Eof = &memoryReaderEof;
 		reader->core.Read = &memoryReaderRead;
@@ -70,46 +62,46 @@ MREADER *createMikMemoryReader(Common::SeekableReadStream *base) {
 }
 
 static BOOL memoryReaderEof(MREADER *reader) {
-	MikMemoryReader *mr = (MikMemoryReader *) reader;
-	if (!mr) return 1;
-	if (mr->base && mr->base->eos() == true) return 1;
+	MikMemoryReader *mr = (MikMemoryReader *)reader;
+	if (!mr)
+		return 1;
+	if (mr->base && mr->base->eos() == true)
+		return 1;
 	return 0;
 }
 
 static BOOL memoryReaderRead(MREADER *reader, void *ptr, size_t size) {
 	MikMemoryReader *mr;
-	mr = (MikMemoryReader *) reader;
+	mr = (MikMemoryReader *)reader;
+	if (!mr && !mr->base)
+		return 0;
 
-	if (!mr && !mr->base) return 0;
-
-	uint32 si = mr->base->read(ptr, size);
-
-	if (si < size) return 0; // not enough remaining bytes (or error)
+	uint32 receivedBytes = mr->base->read(ptr, size);
+	if (receivedBytes < size)
+		return 0; // not enough remaining bytes (or error)
 	return 1;
 }
 
 static int memoryReaderGet(MREADER *reader) {
 	MikMemoryReader *mr;
-
-	mr = (MikMemoryReader *) reader;
-	if (!mr->base) return -1;
+	mr = (MikMemoryReader *)reader;
+	if (!mr->base)
+		return -1;
 	return mr->base->readByte();
 }
 
 static int memoryReaderSeek(MREADER *reader, long offset, int whence) {
 	MikMemoryReader *mr;
-
-	if (!reader) return -1;
-	mr = (MikMemoryReader *) reader;
-	if (!mr->base) return -1;
+	mr = (MikMemoryReader *)reader;
+	if (!reader || !mr->base)
+		return -1;
 
 	return mr->base->seek(offset, whence);
 }
 
 static long memoryReaderTell(MREADER *reader) {
-	if (reader) {
+	if (reader)
 		return ((MikMemoryReader *)reader)->base->pos();
-	}
 	return 0;
 }
 // End memory wrappper
@@ -120,8 +112,14 @@ public:
 	ImpulseTrackerMod(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse);
 	~ImpulseTrackerMod();
 
+	// ImpulseTrackerMod functions
+	bool isLoaded(){
+		return _mikmod_load_successful;
+	}
+
 	// AudioStream API
 	int readBuffer(int16 *buffer, const int numSamples) override {
+		// Multiplied by 2 as VC_WriteBytes function expects 8 byte integer arrays, whereas buffer needs 16 ones.
 		VC_WriteBytes((SBYTE *)buffer, numSamples * 2);
 		return numSamples;
 	}
@@ -141,85 +139,73 @@ public:
 
 private:
 	DisposeAfterUse::Flag _dispose;
-
-	bool _mikmod_load_successful = true;
-	// Private for class use vars
-	Common::SeekableReadStream *_s;
+	bool _mikmod_load_successful = false;
+	Common::SeekableReadStream *_stream;
 	MREADER *_reader;
 	MODULE *_mod;
-
-	bool initMikMod();
-	void freeMikMod();
 };
 
-bool ImpulseTrackerMod::initMikMod() {
+ImpulseTrackerMod::ImpulseTrackerMod(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
+	if (!stream) {
+		warning("ImpulseTrackerMod::ImpulseTrackerMod(): Input file/stream is invalid.");
+		return;
+	}
+
 	MikMod_InitThreads();
 
 	// No sound driver as we will be routing through scrumm mixer!
 	MikMod_RegisterDriver(&drv_nos);
 
-	// See flags
+	// Set flags
 	md_mode |= DMODE_SOFT_MUSIC | DMODE_NOISEREDUCTION;
-
-	md_mixfreq = 44100;
+	md_mixfreq = getRate();
 	if (MikMod_Init("")) {
-		_mikmod_load_successful = false;
-		warning("Could not initialize sound, reason: %s\n",
+		warning("ImpulseTrackerMod::ImpulseTrackerMod(): Could not initialize sound, reason: %s\n",
 		        MikMod_strerror(MikMod_errno));
-		return false;
+		return;
 	}
 
 	// Loading only impulse tracker loader!
 	MikMod_RegisterLoader(&load_it);
-	return true;
-}
 
-void ImpulseTrackerMod::freeMikMod() {
-	MikMod_Exit();
-}
 
-ImpulseTrackerMod::ImpulseTrackerMod(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
-	if (!stream) {
-		_mikmod_load_successful = false;
-		warning("Bad impulse tracker stream");
-		return;
-	}
-
-	_s = stream;
+	// TODO: Not currently in use
+	_stream = stream;
 
 	// TODO: Use this dispose flag
 	_dispose = disposeAfterUse;
 
-	if (!initMikMod()) return;
-
 	// Load mod using custom loader class!
-	_reader = createMikMemoryReader(_s);
+	_reader = createMikMemoryReader(_stream);
 	_mod = Player_LoadGeneric(_reader, 64, 0);
 	if (!_mod) {
-		_mikmod_load_successful = false;
-		warning("mod file problem %s", MikMod_strerror(MikMod_errno));
+		warning("ImpulseTrackerMod::ImpulseTrackerMod(): Parsing mod error : %s", MikMod_strerror(MikMod_errno));
 		return;
 	}
-	// warning("Playing %s", mod->songname);
 
 	// Start mikmod playing, ie fill VC_Driver buffer with data
-	if (_mod) Player_Start(_mod);
+	Player_Start(_mod);
+
+	_mikmod_load_successful = true;
 }
 
 ImpulseTrackerMod::~ImpulseTrackerMod() {
-	freeMikMod();
-
 	Player_Stop();
-	if (_mod) Player_Free(_mod);
-	if (_reader) freeMikMemoryReader(_reader);
+	if (_mod)
+		Player_Free(_mod);
+	if (_reader)
+		free(_reader);
 
 	// Delete stream pointer or free it?
-	// if (s) delete s;
+	// if (s)
+	//  delete s;
+
+	MikMod_Exit();
 }
 
 AudioStream *makeImpulseStream(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
-	ImpulseTrackerMod *itm = new ImpulseTrackerMod(stream, disposeAfterUse);
-	return itm;
+	ImpulseTrackerMod *impulseTrackerMod = new ImpulseTrackerMod(stream, disposeAfterUse);
+	return impulseTrackerMod;
 }
 
 } // End of namespace Audio
