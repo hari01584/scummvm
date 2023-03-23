@@ -107,13 +107,13 @@ static long memoryReaderTell(MREADER *reader) {
 // End memory wrappper
 
 namespace Audio {
-class ImpulseTrackerMod : public AudioStream {
+class ImpulseTrackerMod : public RewindableAudioStream {
 public:
 	ImpulseTrackerMod(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse);
 	~ImpulseTrackerMod();
 
 	// ImpulseTrackerMod functions
-	bool isLoaded(){
+	bool isLoaded() {
 		return _mikmod_load_successful;
 	}
 
@@ -135,6 +135,12 @@ public:
 	}
 	bool endOfStream() const override {
 		return endOfData();
+	}
+
+	// RewindableAudioStream API
+	bool rewind() {
+		Player_SetPosition(0);
+		return true;
 	}
 
 private:
@@ -172,7 +178,6 @@ ImpulseTrackerMod::ImpulseTrackerMod(Common::SeekableReadStream *stream, Dispose
 	// TODO: Not currently in use
 	_stream = stream;
 
-	// TODO: Use this dispose flag
 	_dispose = disposeAfterUse;
 
 	// Load mod using custom loader class!
@@ -197,12 +202,12 @@ ImpulseTrackerMod::~ImpulseTrackerMod() {
 		free(_reader);
 
 	if (_dispose == DisposeAfterUse::Flag::YES)
-	delete _stream;
+		delete _stream;
 
 	MikMod_Exit();
 }
 
-AudioStream *makeImpulseStream(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
+RewindableAudioStream *makeImpulseStream(Common::SeekableReadStream *stream, DisposeAfterUse::Flag disposeAfterUse) {
 	ImpulseTrackerMod *impulseTrackerMod = new ImpulseTrackerMod(stream, disposeAfterUse);
 	return impulseTrackerMod;
 }

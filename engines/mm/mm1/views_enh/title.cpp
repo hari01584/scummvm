@@ -49,6 +49,26 @@ bool Title::msgFocus(const FocusMessage &msg) {
 	return true;
 }
 
+<<<<<<< HEAD:engines/mm/mm1/views_enh/title.cpp
 } // namespace ViewsEnh
 } // namespace MM1
 } // namespace MM
+=======
+namespace Audio {
+
+class RewindableAudioStream;
+/**
+ * Create a new AudioStream from the impulse tracker data in the given stream.
+ *
+ * @param stream            the SeekableReadStream from which to read the Ogg Vorbis data
+ * @param disposeAfterUse   whether to delete the stream after use
+ * @return  a new AudioStream, or NULL, if an error occurred
+ */
+RewindableAudioStream *makeImpulseStream(
+    Common::SeekableReadStream *stream,
+    DisposeAfterUse::Flag disposeAfterUse);
+} // End of namespace Audio
+
+#endif // #ifdef USE_MIKMOD
+#endif // #ifndef AUDIO_IMPULSETRACKER_H
+>>>>>>> 308971d6173... SLUDGE: Add support for impulse tracker mod files in sound:audio/mods/impulsetracker.h
