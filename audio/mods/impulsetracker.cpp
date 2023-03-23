@@ -39,7 +39,7 @@ extern "C" {
 // Extras, mikmod mreader struct to wrap readstream
 typedef struct MikMemoryReader {
 	MREADER core;
-	Common::SeekableReadStream *base;
+	Common::SeekableReadStream *stream;
 } MikMemoryReader;
 
 static BOOL memoryReaderEof(MREADER *reader);
@@ -48,7 +48,7 @@ static int  memoryReaderGet(MREADER *reader);
 static int  memoryReaderSeek(MREADER *reader, long offset, int whence);
 static long memoryReaderTell(MREADER *reader);
 
-MREADER *createMikMemoryReader(Common::SeekableReadStream *base) {
+MREADER *createMikMemoryReader(Common::SeekableReadStream *stream) {
 	MikMemoryReader *reader = (MikMemoryReader *)calloc(1, sizeof(MikMemoryReader));
 	if (reader) {
 		reader->core.Eof = &memoryReaderEof;
@@ -56,7 +56,7 @@ MREADER *createMikMemoryReader(Common::SeekableReadStream *base) {
 		reader->core.Get = &memoryReaderGet;
 		reader->core.Seek = &memoryReaderSeek;
 		reader->core.Tell = &memoryReaderTell;
-		reader->base = base;
+		reader->stream = stream;
 	}
 	return (MREADER *)reader;
 }
@@ -65,7 +65,7 @@ static BOOL memoryReaderEof(MREADER *reader) {
 	MikMemoryReader *mr = (MikMemoryReader *)reader;
 	if (!mr)
 		return 1;
-	if (mr->base && mr->base->eos() == true)
+	if (mr->stream && mr->stream->eos() == true)
 		return 1;
 	return 0;
 }
@@ -73,10 +73,10 @@ static BOOL memoryReaderEof(MREADER *reader) {
 static BOOL memoryReaderRead(MREADER *reader, void *ptr, size_t size) {
 	MikMemoryReader *mr;
 	mr = (MikMemoryReader *)reader;
-	if (!mr && !mr->base)
+	if (!mr && !mr->stream)
 		return 0;
 
-	uint32 receivedBytes = mr->base->read(ptr, size);
+	uint32 receivedBytes = mr->stream->read(ptr, size);
 	if (receivedBytes < size)
 		return 0; // not enough remaining bytes (or error)
 	return 1;
@@ -85,23 +85,23 @@ static BOOL memoryReaderRead(MREADER *reader, void *ptr, size_t size) {
 static int memoryReaderGet(MREADER *reader) {
 	MikMemoryReader *mr;
 	mr = (MikMemoryReader *)reader;
-	if (!mr->base)
+	if (!mr->stream)
 		return -1;
-	return mr->base->readByte();
+	return mr->stream->readByte();
 }
 
 static int memoryReaderSeek(MREADER *reader, long offset, int whence) {
 	MikMemoryReader *mr;
 	mr = (MikMemoryReader *)reader;
-	if (!reader || !mr->base)
+	if (!reader || !mr->stream)
 		return -1;
 
-	return mr->base->seek(offset, whence);
+	return mr->stream->seek(offset, whence);
 }
 
 static long memoryReaderTell(MREADER *reader) {
 	if (reader)
-		return ((MikMemoryReader *)reader)->base->pos();
+		return ((MikMemoryReader *)reader)->stream->pos();
 	return 0;
 }
 // End memory wrappper
@@ -196,9 +196,8 @@ ImpulseTrackerMod::~ImpulseTrackerMod() {
 	if (_reader)
 		free(_reader);
 
-	// Delete stream pointer or free it?
-	// if (s)
-	//  delete s;
+	if (_dispose == DisposeAfterUse::Flag::YES)
+	delete _stream;
 
 	MikMod_Exit();
 }
