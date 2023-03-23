@@ -39,7 +39,7 @@ class SeekableReadStream;
 
 namespace Audio {
 
-class AudioStream;
+class RewindableAudioStream;
 /**
  * Create a new AudioStream from the impulse tracker data in the given stream.
  *
@@ -47,7 +47,7 @@ class AudioStream;
  * @param disposeAfterUse   whether to delete the stream after use
  * @return  a new AudioStream, or NULL, if an error occurred
  */
-AudioStream *makeImpulseStream(
+RewindableAudioStream *makeImpulseStream(
     Common::SeekableReadStream *stream,
     DisposeAfterUse::Flag disposeAfterUse);
 } // End of namespace Audio
