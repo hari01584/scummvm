@@ -49,6 +49,7 @@ MODULE_OBJS = \
 	lingo/xlibs/cdromxobj.o \
 	lingo/xlibs/darkenscreen.o \
 	lingo/xlibs/developerStack.o \
+	lingo/xlibs/dialogs.o \
 	lingo/xlibs/draw.o \
 	lingo/xlibs/ednox.o \
 	lingo/xlibs/fileexists.o \
