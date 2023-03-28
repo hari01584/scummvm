@@ -23,7 +23,6 @@
 #define DIRECTOR_LINGO_XLIBS_DIALOGSXOBJ_H
 
 namespace Director {
-
 class DialogsXObject : public Object<DialogsXObject> {
 public:
 	DialogsXObject(ObjectType objType);

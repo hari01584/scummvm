@@ -95,6 +95,7 @@ namespace Director {
 const char *FileIO::xlibName = "FileIO";
 const char *FileIO::fileNames[] = {
 	"FileIO",
+	"@:shFILEIO", // TD loads this up using openXLib("@:shFILEIO.DLL")
 	nullptr
 };
 
@@ -416,7 +417,7 @@ void FileIO::m_writeString(int nargs) {
 		g_lingo->push(Datum(kErrorReadOnly));
 		return;
 	}
-
+	
 	me->_outStream->writeString(d.asString());
 	g_lingo->push(Datum(kErrorNone));
 }

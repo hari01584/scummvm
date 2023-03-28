@@ -1650,11 +1650,23 @@ void LC::call(const Symbol &funcSym, int nargs, bool allowRetVal) {
 
 		if (funcSym.u.bltin != LB::b_return && funcSym.u.bltin != LB::b_value) {
 			if (stackSize == stackSizeBefore + 1) {
+				// Set "the result" to return value!, when a method
+				// this is for handling result after execution!
+				Datum top = g_lingo->peek(0);
+				if(top.type == DatumType::INT)
+					g_lingo->_theResult = top;
+
 				if (!allowRetVal) {
 					Datum extra = g_lingo->pop();
 					warning("Builtin '%s' dropping return value: %s", funcSym.name->c_str(), extra.asString(true).c_str());
 				}
 			} else if (stackSize == stackSizeBefore) {
+				// No value, hence "the result" is VOID
+				Datum d;
+				d.u.s = nullptr;
+				d.type = VOID;
+				g_lingo->_theResult = d;
+
 				if (allowRetVal)
 					error("Builtin '%s' did not return value", funcSym.name->c_str());
 			} else if (stackSize > stackSizeBefore) {
