@@ -34,6 +34,31 @@ SSSS     mGetFile, Dialog Title, Default Name, Default Extension       --Display
 set GameFileFULLPATH to gDialogsObj(mPutFile, "Save your Total Distortion Game File!", "TDGame", "TDG")
 set GameFileFULLPATH to gDialogsObj(mGetFile, "Find your Total Distortion Game File!", "*.TDG", "TDG")
 
+-- Extended
+set VidFileFULLPATH to gDialogsObj(mPutFile, "Save your Total Distortion Video File!", "TDVideo", "TDV")
+me(MakeACorrectFileName, VidFileFULLPATH, ".TDV")
+set fileV to FileIO(mnew, "Write", VidFileFULLPATH)
+
+set VidFileFULLPATH to gDialogsObj(mGetFile, "Find your Total Distortion Video File!", "*.TDV", "TDV")
+set fileV to FileIO(mnew, "Read", VidFileFULLPATH)
+
+method MakeACorrectFileName UserFullPath, WindowsSuffix
+  set normitemDelimiter to the itemDelimiter
+  set the itemDelimiter to "\"
+  set TotalItemsInPath to the number of items in UserFullPath
+  set filenam to item TotalItemsInPath of UserFullPath
+  set LastCharN to the number of chars in filenam
+  repeat with x = LastCharN down to 1
+    set c to char x of filenam
+    if c = "." then
+      set breakOffCharN to x - 1
+      exit repeat
+    end if
+  end repeat
+  set VidFileNAME to chars(filenam, 1, breakOffCharN) & WindowsSuffix
+  set VidFileFULLPATH to item 1 to TotalItemsInPath - 1 of UserFullPath & "\" & VidFileNAME
+  set the itemDelimiter to normitemDelimiter
+
  *************************************
  *
  * USED IN:
@@ -42,9 +67,7 @@ set GameFileFULLPATH to gDialogsObj(mGetFile, "Find your Total Distortion Game F
  *************************************/
 
 #include "gui/saveload.h"
-#include <common/savefile.h>
-#include "common/translation.h"
-#include "common/config-manager.h"
+#include "common/savefile.h"
 
 #include "director/director.h"
 #include "director/lingo/lingo.h"
@@ -53,14 +76,16 @@ set GameFileFULLPATH to gDialogsObj(mGetFile, "Find your Total Distortion Game F
 
 
 namespace Director {
-Common::String getSaveStateName(int slot) {
-	return Common::String::format("%02d", slot);
-}
 
 class DialogsSaveMetaEngine : public MetaEngine {
+	Common::String _title;
+	Common::String _name;
+	Common::String _extension;
 private:
 	Common::String findFileByGameId(const Common::String &gameId) const;
 public:
+	DialogsSaveMetaEngine(Common::String title, Common::String name, Common::String extn);
+
 	const char *getName() const override {
 		return "DialogsSaveMetaEngine";
 	}
@@ -72,8 +97,14 @@ public:
 	int getMaximumSaveSlot() const override;
 };
 
+DialogsSaveMetaEngine::DialogsSaveMetaEngine(Common::String title, Common::String name, Common::String extn) {
+	_title = title;
+	_name = name;
+	_extension = extn;
+}
+
 bool DialogsSaveMetaEngine::hasFeature(MetaEngineFeature f) const {
-	return f == kSupportsListSaves;
+	return f == kSupportsListSaves; // Only supporting saves
 }
 
 Common::Error DialogsSaveMetaEngine::createInstance(OSystem *syst, Engine **engine) {
@@ -84,8 +115,9 @@ SaveStateList DialogsSaveMetaEngine::DialogsSaveMetaEngine::listSaves(const char
 	Common::SaveFileManager *saveFileMan = g_system->getSavefileManager();
 	SaveStateList saveList;
 
+	// Bruteforce each slot and check if a matching file exist! If yes then adds to saveslotlist
 	for (int slot = 0; slot < getMaximumSaveSlot(); slot++) {
-		Common::String filen = Common::String::format("%s-%02d\\.TDG.txt", target, slot);
+		Common::String filen = Common::String::format("%s-%02d\\.%s.txt", target, slot, _extension.c_str());
 		Common::InSaveFile *in = saveFileMan->openForLoading(filen);
 		if (in) {
 			Common::String desc = Common::String::format("%s.%02d", target, slot);
@@ -102,6 +134,31 @@ SaveStateList DialogsSaveMetaEngine::DialogsSaveMetaEngine::listSaves(const char
 int DialogsSaveMetaEngine::DialogsSaveMetaEngine::getMaximumSaveSlot() const {
 	return 99;
 }
+
+/* --------------- Dummy Meta Engine Ends --------------- */
+
+Common::String getFileName(Common::String title, Common::String defaultName, Common::String extension, bool isSave) {
+	Common::String label = isSave ? "Save" : "Load";
+	Common::String buttonLabel = Common::String::format("%s %s file!", label.c_str(), extension.c_str());
+	
+	DialogsSaveMetaEngine *dummyEngine = new DialogsSaveMetaEngine(title, defaultName, extension); // Create dummy engine for saves!
+	GUI::SaveLoadChooser *dialog = new GUI::SaveLoadChooser(title, buttonLabel, true);
+	int saveSlot = dialog->runModalWithMetaEngineAndTarget(dummyEngine, g_director->getTargetName()); // Get slot!
+	delete dialog;
+	delete dummyEngine;
+
+	// If slots < 0, ie invalid, then use default one (ie slot 0)
+	if (saveSlot <= 0) {
+		saveSlot = 0;
+	}
+
+	// Create filename from slot, here if slot is 4, then filename will simply be 04!
+	Common::String fileName = Common::String::format("%02d", saveSlot);
+
+	return fileName;
+}
+
+/* --------------- Helper Function Ends --------------- */
 
 const char *DialogsXObj::xlibNames[] = {
 	"DialogS",
@@ -150,31 +207,32 @@ void DialogsXObj::m_new(int nargs) {
 }
 
 void DialogsXObj::m_putFile(int nargs) {
-	// g_lingo->printSTUBWithArglist("DialogsXObj::m_getFile", nargs);
-	g_lingo->dropStack(nargs);
+	Datum d3 = g_lingo->pop();
+	Datum d2 = g_lingo->pop();
+	Datum d1 = g_lingo->pop();
 
-	DialogsSaveMetaEngine *dummyEngine = new DialogsSaveMetaEngine();
-	GUI::SaveLoadChooser *dialog = new GUI::SaveLoadChooser(_("Save game:"), _("Save"), true);
-	int saveSlot = dialog->runModalWithMetaEngineAndTarget(dummyEngine, g_director->getTargetName());
-	delete dialog;
-	delete dummyEngine;
+	Common::String title = d1.asString();
+	Common::String name = d2.asString();
+	Common::String extn = d3.asString();
 
-	// Common::String fileName = getSaveStateName(saveSlot);
-	Common::String fileName = Common::String::format("%d", saveSlot);
+	Common::String fileName = getFileName(title, name, extn, true);
 	g_lingo->push(Datum(fileName));
 }
 
 void DialogsXObj::m_getFile(int nargs) {
-	// g_lingo->printSTUBWithArglist("DialogsXObj::m_getFile", nargs);
-	g_lingo->dropStack(nargs);
+	Datum d3 = g_lingo->pop();
+	Datum d2 = g_lingo->pop();
+	Datum d1 = g_lingo->pop();
 
-	DialogsSaveMetaEngine *dummyEngine = new DialogsSaveMetaEngine();
-	GUI::SaveLoadChooser *dialog = new GUI::SaveLoadChooser(_("Restore game:"), _("Restore"), false);
-	int saveSlot = dialog->runModalWithMetaEngineAndTarget(dummyEngine, g_director->getTargetName());
-	delete dialog;
-	delete dummyEngine;
+	Common::String title = d1.asString();
+	Common::String name = d2.asString();
+	Common::String extn = d3.asString();
 
-	Common::String fileName = getSaveStateName(saveSlot) + "\\.TDG";
+	Common::String fileName = getFileName(title, name, extn, true);
+	// Format filename to returning format filename\.{extension} string, ie for slot 04 and extn TDG, filename will be "04\.TDG"
+	// this is done because in m_putFile, the returned path is corrected internally lingo script using MakeACorrectFileName handler(in comments top)
+	// which is then fed to FileIO for saving, all this creates filename to be in this format!
+	fileName = Common::String::format("%s\\.%s", fileName.c_str(), extn.c_str());
 
 	g_lingo->push(Datum(fileName));
 }
