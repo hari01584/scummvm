@@ -140,7 +140,7 @@ int DialogsSaveMetaEngine::DialogsSaveMetaEngine::getMaximumSaveSlot() const {
 Common::String getFileName(Common::String title, Common::String defaultName, Common::String extension, bool isSave) {
 	Common::String label = isSave ? "Save" : "Load";
 	Common::String buttonLabel = Common::String::format("%s %s file!", label.c_str(), extension.c_str());
-	
+
 	DialogsSaveMetaEngine *dummyEngine = new DialogsSaveMetaEngine(title, defaultName, extension); // Create dummy engine for saves!
 	GUI::SaveLoadChooser *dialog = new GUI::SaveLoadChooser(title, buttonLabel, true);
 	int saveSlot = dialog->runModalWithMetaEngineAndTarget(dummyEngine, g_director->getTargetName()); // Get slot!
@@ -154,7 +154,6 @@ Common::String getFileName(Common::String title, Common::String defaultName, Com
 
 	// Create filename from slot, here if slot is 4, then filename will simply be 04!
 	Common::String fileName = Common::String::format("%02d", saveSlot);
-
 	return fileName;
 }
 
@@ -196,7 +195,6 @@ void DialogsXObj::close(int type) {
 		}
 	}
 }
-
 
 DialogsXObject::DialogsXObject(ObjectType ObjectType) : Object<DialogsXObject>("DialogS") {
 	_objType = ObjectType;
