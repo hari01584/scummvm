@@ -236,6 +236,9 @@ Common::String Lingo::normalizeXLibName(Common::String name) {
 
 	name.trim();
 
+	// Normalize to remove machintosh path delimiters (':', '@:')
+	name = convertPath(name);
+
 	return name;
 }
 

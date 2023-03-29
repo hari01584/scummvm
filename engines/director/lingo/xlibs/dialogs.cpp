@@ -110,7 +110,7 @@ const char *DialogsXObj::xlibNames[] = {
 
 const char *DialogsXObj::fileNames[] = {
 	"DialogS",
-	"@:shaREQUE", // TD loads this up using openXLib("@:shaREQUE.DLL")
+	"shaREQUE", // TD loads this up using openXLib("@:shaREQUE.DLL")
 	nullptr
 };
 
@@ -159,7 +159,8 @@ void DialogsXObj::m_putFile(int nargs) {
 	delete dialog;
 	delete dummyEngine;
 
-	Common::String fileName = getSaveStateName(saveSlot);
+	// Common::String fileName = getSaveStateName(saveSlot);
+	Common::String fileName = Common::String::format("%d", saveSlot);
 	g_lingo->push(Datum(fileName));
 }
 
