@@ -148,27 +148,81 @@ void PopUpMenuXObj::close(int type) {
 	}
 }
 
-
 PopUpMenuXObject::PopUpMenuXObject(ObjectType ObjectType) :Object<PopUpMenuXObject>("PopMenu") {
 	_objType = ObjectType;
 }
 
 void PopUpMenuXObj::m_new(int nargs) {
-	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_new", nargs);
-	g_lingo->dropStack(nargs);
+	Datum menuId = g_lingo->pop();
+	Datum menuList = g_lingo->pop();
+
+	Graphics::MacPopUp *menu = new Graphics::MacPopUp(menuId.u.i, g_director->_wm->getScreenBounds(), g_director->_wm, menuList.u.s->c_str());
 	g_lingo->push(g_lingo->_state->me);
 }
 
-XOBJSTUBNR(PopUpMenuXObj::m_appendMenu)
-XOBJSTUBNR(PopUpMenuXObj::m_disableItem)
-XOBJSTUBNR(PopUpMenuXObj::m_enableItem)
-XOBJSTUB(PopUpMenuXObj::m_getItem, "")
-XOBJSTUB(PopUpMenuXObj::m_getMenuID, 0)
-XOBJSTUB(PopUpMenuXObj::m_popNum, 0)
-XOBJSTUB(PopUpMenuXObj::m_popText, "")
-XOBJSTUBNR(PopUpMenuXObj::m_setItem)
-XOBJSTUBNR(PopUpMenuXObj::m_setItemMark)
-XOBJSTUBNR(PopUpMenuXObj::m_smart)
-XOBJSTUBNR(PopUpMenuXObj::m_setItemIcon)
+void PopUpMenuXObj::m_appendMenu(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_appendMenu", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_disableItem(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_disableItem", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_enableItem(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_enableItem", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_getItem(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_getItem", nargs);
+	g_lingo->dropStack(nargs);
+	g_lingo->push(Datum());
+}
+
+void PopUpMenuXObj::m_getMenuID(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_getMenuID", nargs);
+	g_lingo->dropStack(nargs);
+	g_lingo->push(Datum());
+}
+
+void PopUpMenuXObj::m_popNum(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_popNum", nargs);
+	Datum d1, d2, d3;
+	d1 = g_lingo->pop();
+	d2 = g_lingo->pop();
+	d3 = g_lingo->pop();
+
+	g_director->_wm->getMenu(201)->mouseClick(d3.u.i, d2.u.i, true);
+
+	g_lingo->push(Datum());
+}
+
+void PopUpMenuXObj::m_popText(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_popText", nargs);
+	g_lingo->dropStack(nargs);
+	g_lingo->push(Datum());
+}
+
+void PopUpMenuXObj::m_setItem(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_setItem", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_setItemMark(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_setItemMark", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_smart(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_smart", nargs);
+	g_lingo->dropStack(nargs);
+}
+
+void PopUpMenuXObj::m_setItemIcon(int nargs) {
+	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_setItemIcon", nargs);
+	g_lingo->dropStack(nargs);
+}
 
 } // End of namespace Director
