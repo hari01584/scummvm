@@ -107,6 +107,7 @@
 #include "director/lingo/lingo-utils.h"
 #include "director/lingo/xlibs/popupmenuxobj.h"
 
+#include "graphics/macgui/macpopupmenu.h"
 
 namespace Director {
 
@@ -149,23 +150,55 @@ void PopUpMenuXObj::close(int type) {
 }
 
 
-PopUpMenuXObject::PopUpMenuXObject(ObjectType ObjectType) :Object<PopUpMenuXObject>("PopMenu") {
+PopUpMenuXObject::PopUpMenuXObject(ObjectType ObjectType) : Object<PopUpMenuXObject>("PopMenu") {
 	_objType = ObjectType;
 }
 
 void PopUpMenuXObj::m_new(int nargs) {
-	g_lingo->printSTUBWithArglist("PopUpMenuXObj::m_new", nargs);
-	g_lingo->dropStack(nargs);
+	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
+	Datum menuId = g_lingo->pop();
+	Datum menuList = g_lingo->pop();
+
+	new Graphics::MacPopUp(menuId.u.i, g_director->_wm->getScreenBounds(), g_director->_wm, menuList.u.s->c_str());
+	me->_menuId = menuId.u.i;
+
 	g_lingo->push(g_lingo->_state->me);
 }
+
+void PopUpMenuXObj::m_popNum(int nargs) {
+	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
+
+	Datum itemNum = g_lingo->pop();
+	Datum top = g_lingo->pop();
+	Datum left = g_lingo->pop();
+
+	Graphics::MacPopUp *menu = static_cast<Graphics::MacPopUp *>(g_director->_wm->getMenu(me->_menuId));
+	int selected = menu->drawAndSelectMenu(left.u.i, top.u.i, itemNum.u.i);
+	g_lingo->push(Datum(selected));
+}
+
+void PopUpMenuXObj::m_popText(int nargs) {
+	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
+
+	Datum itemNum = g_lingo->pop();
+	Datum top = g_lingo->pop();
+	Datum left = g_lingo->pop();
+
+	Graphics::MacPopUp *menu = static_cast<Graphics::MacPopUp *>(g_director->_wm->getMenu(me->_menuId));
+	int selected = menu->drawAndSelectMenu(left.u.i, top.u.i, itemNum.u.i);
+	Common::String text = menu->getItemText(selected);
+
+	g_lingo->push(Datum(text));
+}
+
 
 XOBJSTUBNR(PopUpMenuXObj::m_appendMenu)
 XOBJSTUBNR(PopUpMenuXObj::m_disableItem)
 XOBJSTUBNR(PopUpMenuXObj::m_enableItem)
 XOBJSTUB(PopUpMenuXObj::m_getItem, "")
 XOBJSTUB(PopUpMenuXObj::m_getMenuID, 0)
-XOBJSTUB(PopUpMenuXObj::m_popNum, 0)
-XOBJSTUB(PopUpMenuXObj::m_popText, "")
+// XOBJSTUB(PopUpMenuXObj::m_popNum, 0)
+// XOBJSTUB(PopUpMenuXObj::m_popText, "")
 XOBJSTUBNR(PopUpMenuXObj::m_setItem)
 XOBJSTUBNR(PopUpMenuXObj::m_setItemMark)
 XOBJSTUBNR(PopUpMenuXObj::m_smart)
