@@ -131,7 +131,7 @@ public:
 
 	bool draw(ManagedSurface *g, bool forceRedraw = false) override;
 	void eventLoop();
-	bool mouseClick(int x, int y, bool bypass = false);
+	bool mouseClick(int x, int y);
 	bool draw(bool forceRedraw = false) override { return false; }
 	void blit(ManagedSurface *g, Common::Rect &dest) override {}
 
@@ -174,6 +174,10 @@ protected:
 	ItemArray _items;
 	bool _isVisible;
 	bool _dimensionsDirty;
+	Common::Array<MacMenuSubMenu *> _menustack;
+
+	int _activeItem;
+	int _activeSubItem;
 
 	void renderSubmenu(MacMenuSubMenu *menu, bool recursive = true);
 
@@ -210,9 +214,6 @@ private:
 	const Font *_font;
 	Font *_loadedFont;
 
-	int _activeItem;
-	Common::Array<MacMenuSubMenu *> _menustack;
-	int _activeSubItem;
 
 	int _lastActiveItem;
 	int _lastActiveSubItem;

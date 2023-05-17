@@ -109,7 +109,6 @@ CastMemberID Score::getCurrentPalette() {
 
 bool Score::processImmediateFrameScript(Common::String s, int id) {
 	s.trim();
-
 	// In D2/D3 this specifies immediately the sprite/field properties
 	if (!s.compareToIgnoreCase("moveableSprite") || !s.compareToIgnoreCase("editableText")) {
 		_immediateActions[id] = true;

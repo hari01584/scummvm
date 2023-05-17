@@ -43,9 +43,9 @@ namespace Director {
 uint32 DirectorEngine::getMacTicks() { return (g_system->getMillis() * 60 / 1000.) - _tickBaseline; }
 
 bool DirectorEngine::processEvents(bool captureClick) {
-	debugC(3, kDebugEvents, "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-	debugC(3, kDebugEvents, "@@@@   Processing events");
-	debugC(3, kDebugEvents, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+	// debugC(3, kDebugEvents, "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+	// debugC(3, kDebugEvents, "@@@@   Processing events");
+	// debugC(3, kDebugEvents, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 
 	Common::Event event;
 	while (g_system->getEventManager()->pollEvent(event)) {

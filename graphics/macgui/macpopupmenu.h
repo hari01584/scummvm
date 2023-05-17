@@ -23,13 +23,6 @@
 #define GRAPHICS_MACGUI_MACPOPUPMENU_H
 
 #include "graphics/macgui/macmenu.h"
-#include "graphics/macgui/macwindowmanager.h"
-
-namespace Common {
-class U32String;
-class MacResManager;
-class PEResources;
-}
 
 namespace Graphics {
 
@@ -44,6 +37,8 @@ public:
 
 	bool draw(ManagedSurface *g, bool forceRedraw = false) override;
 private:
+	Common::Rect _windowsRect;
+
 	int _mouseX;
 	int _mouseY;
 	int _menuItemId;

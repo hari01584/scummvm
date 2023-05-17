@@ -20,18 +20,22 @@
  */
 
 #include "graphics/macgui/macpopupmenu.h"
+#include "graphics/macgui/macwindowmanager.h"
 
 namespace Graphics {
 
 MacPopUp::MacPopUp(int id, const Common::Rect &bounds, MacWindowManager *wm, const char *string) : MacMenu(id, bounds, wm) {
+	_windowsRect = _windowsRect;
 	_menuItemId = addMenuItem(nullptr, "");
 	createSubMenuFromString(0, string, 0);
 	wm->addMenu(id, this);
 	_menuId = id;
+
 }
 
 bool MacPopUp::draw(ManagedSurface *g, bool forceRedraw) {
-	Common::Rect r(_bbox);
+	// debug("Am i being called to draw? 36");
+	_bbox.bottom = 1;
 
 	if (!_isVisible)
 		return false;
@@ -44,7 +48,7 @@ bool MacPopUp::draw(ManagedSurface *g, bool forceRedraw) {
 	_contentIsDirty = false;
 
 	_screen.clear(_wm->_colorGreen);
-	renderSubmenu(_items[0]->submenu, true);
+	renderSubmenu(_items[0]->submenu, false);
 
 	if (g)
 		g->transBlitFrom(_screen, _wm->_colorGreen);
@@ -56,11 +60,35 @@ bool MacPopUp::draw(ManagedSurface *g, bool forceRedraw) {
 }
 
 uint32 MacPopUp::drawAndSelectMenu(int x, int y, int item) {
+	// Transform window coordinate to screen coordinates
+	// TODO: Performance degradation when using moveTo.. why?
+	// This is a workaround and dirty hack around bypassing the _bbox.contains()
+	// statement inside mouseClick, required only for first time!
+	// _bbox = Common::Rect(x - 1, y - 1, x + 1, y + 1);
+	_bbox.bottom = _screen.h;
+	// _bbox.moveTo(x, y);
+	// _bbox.moveTo(x, 0);
 	_mouseX = x;
 	_mouseY = y;
 
-	// Open selector first
-	mouseClick(x, y, true);
+	if (!_active)
+		_wm->activateMenu();
+	setActive(true);
+	_isVisible = true;
+	_contentIsDirty = true;
+	_dimensionsDirty = true;
+	_menustack.clear();
+	_menustack.push_back(_items[0]->submenu);
+	
+	// debug("this is called... right?");
+	this->draw(_wm->_screen);
+	eventLoop();
+
+	closeMenu();
+	// _menustack.clear();
+	// _activeSubItem = -1;
+	// _highlight = -1;
+	// mouseClick(x, y);
 
 	int activeSubItem = getLastSelectedSubmenuItem();
 	if (activeSubItem == -1)

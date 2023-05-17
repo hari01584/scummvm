@@ -544,7 +544,7 @@ void MacMenu::removeMenuItem(MacMenuSubMenu *submenu, uint pos) {
 }
 
 void MacMenu::calcDimensions(int x, int y) {
-	// Calculate menu dimensions
+	// Calculate menu dimensions (default x=18, y=1)
 
 	for (uint i = 0; i < _items.size(); i++) {
 		int w = _items[i]->unicode ? _font->getStringWidth(_items[i]->unicodeText) : _font->getStringWidth(_items[i]->text);
@@ -685,7 +685,7 @@ void MacMenu::createSubMenuFromString(int id, const char *str, int commandId) {
 		submenu = addSubMenu(nullptr, id);
 
 	for (uint i = 0; i < string.size(); i++) {
-		while (i < string.size() && (string[i] != ';' && string[i] != '\r')) // Read token
+		while (i < string.size() && (string[i] != ';' && string[i] != '\r')) // Read token, consume \r for popup menu (MacPopUp)
 			item += string[i++];
 
 		if (item.lastChar() == ']') { // we have command id
@@ -1063,7 +1063,7 @@ bool MacMenu::draw(ManagedSurface *g, bool forceRedraw) {
 
 void MacMenu::renderSubmenu(MacMenuSubMenu *menu, bool recursive) {
 	Common::Rect *r = &menu->bbox;
-
+	// debug("render submenu, 1070");
 	if (r->width() == 0 || r->height() == 0)
 		return;
 
@@ -1245,62 +1245,71 @@ bool MacMenu::checkIntersects(Common::Rect &rect) {
 	return false;
 }
 
-bool MacMenu::mouseClick(int x, int y, bool bypass) {
-	if (_bbox.contains(x, y) || bypass) {
-		for (uint i = 0; i < _items.size(); i++) {
-			if (_items[i]->bbox.contains(x, y)) {
-				if ((uint)_activeItem == i)
-					return true; // We catch the event but do not do anything
+bool MacMenu::mouseClick(int x, int y) {
+	// debug("flags, (%d, %d), %d, %d, %d", x, y, _activeItem, _active, _isVisible);
 
-				if (_activeItem != -1) { // Restore background
-					if (_items[_activeItem]->submenu != nullptr) {
-						if (_wm->_mode & kWMModalMenuMode)
-							g_system->copyRectToScreen(_wm->_screenCopy->getPixels(), _wm->_screenCopy->pitch, 0, 0, _wm->_screenCopy->w, _wm->_screenCopy->h);
+	// if (_bbox.contains(x, y) && false) {
+	// 	for (uint i = 0; i < _items.size(); i++) {
+	// 		if (_items[i]->bbox.contains(x, y)) {
+	// 			if ((uint)_activeItem == i)
+	// 				return true; // We catch the event but do not do anything
 
-						_menustack.pop_back(); // Drop previous submenu
-						_contentIsDirty = true;
-						_wm->setFullRefresh(true);
-					}
-				}
+	// 			if (_activeItem != -1) { // Restore background
+	// 				if (_items[_activeItem]->submenu != nullptr) {
+	// 					if (_wm->_mode & kWMModalMenuMode)
+	// 						g_system->copyRectToScreen(_wm->_screenCopy->getPixels(), _wm->_screenCopy->pitch, 0, 0, _wm->_screenCopy->w, _wm->_screenCopy->h);
 
-				_activeItem = i;
-				_activeSubItem = -1;
-				if (_items[_activeItem]->submenu != nullptr) {
-					_menustack.push_back(_items[_activeItem]->submenu);
-					_items[_activeItem]->submenu->highlight = -1;
-					_contentIsDirty = true;
-				}
-			}
-		}
+	// 					_menustack.pop_back(); // Drop previous submenu
+	// 					_contentIsDirty = true;
+	// 					_wm->setFullRefresh(true);
+	// 				}
+	// 			}
 
-		if (!_active)
-			_wm->activateMenu();
+	// 			_activeItem = i;
+	// 			_activeSubItem = -1;
+	// 			if (_items[_activeItem]->submenu != nullptr) {
+	// 				_menustack.push_back(_items[_activeItem]->submenu);
+	// 				_items[_activeItem]->submenu->highlight = -1;
+	// 				_contentIsDirty = true;
+	// 			}
+	// 		}
+	// 	}
 
-		setActive(true);
+	// 	if (!_active)
+	// 		_wm->activateMenu();
 
-		if (_wm->_mode & kWMModalMenuMode) {
-			draw(_wm->_screen);
-			eventLoop();
+	// 	setActive(true);
 
-			// Do not do full refresh as we took care of restoring
-			// the screen. WM is not even aware we were drawing.
-			_wm->setFullRefresh(false);
-		}
+	// 	if (_wm->_mode & kWMModalMenuMode) {
+	// 		draw(_wm->_screen);
+	// 		eventLoop();
 
-		return true;
-	}
+	// 		// Do not do full refresh as we took care of restoring
+	// 		// the screen. WM is not even aware we were drawing.
+	// 		_wm->setFullRefresh(false);
+	// 	}
+
+	// 	return true;
+	// }
 
 	if (!_active)
 		return false;
 
+	// debug("1302 %d", _menustack.size());
+
 	if (_menustack.size() > 0 && _menustack.back()->bbox.contains(x, y)) {
+		
 		MacMenuSubMenu *menu = _menustack.back();
 		int numSubItem = menu->ytoItem(y, _menuDropdownItemHeight);
-
+		// debug("Inside 1305 %d", numSubItem);
 		if (numSubItem != _activeSubItem) {
+			// debug("Can't you? 1310");
 			if (_wm->_mode & kWMModalMenuMode) {
-				if (_activeSubItem == -1 || menu->items[_activeSubItem]->submenu != nullptr)
+				// debug("Come here? 1312");
+				if (_activeSubItem == -1 || menu->items[_activeSubItem]->submenu != nullptr){
+					// debug("to your mama? 1314");
 					g_system->copyRectToScreen(_wm->_screenCopy->getPixels(), _wm->_screenCopy->pitch, 0, 0, _wm->_screenCopy->w, _wm->_screenCopy->h);
+				}
 			}
 			_activeSubItem = numSubItem;
 			menu->highlight = _activeSubItem;
@@ -1311,6 +1320,8 @@ bool MacMenu::mouseClick(int x, int y, bool bypass) {
 
 		return true;
 	}
+
+	// debug("1323");
 
 	if (_activeSubItem != -1 && _menustack.back()->items[_activeSubItem]->submenu != nullptr) {
 		if (_menustack.back()->items[_activeSubItem]->submenu->bbox.contains(x, y)) {
@@ -1410,6 +1421,7 @@ bool MacMenu::checkCallback(bool unicode) {
 }
 
 void MacMenu::closeMenu() {
+	// debug("Closing menu!, 1428");
 	setActive(false);
 	if (_wm->_mode & kWMModeAutohideMenu)
 		_isVisible = false;
@@ -1434,25 +1446,26 @@ bool MacMenu::mouseRelease(int x, int y) {
 		return false;
 
 	bool haveCallBack = false;
-	if (_activeItem != -1 && _activeSubItem != -1 && _menustack.back()->items[_activeSubItem]->enabled) {
-		// no action if item has submenu
-		if (_menustack.back()->items[_activeSubItem]->submenu) {
-			return false;
-		}
-		if (_menustack.back()->items[_activeSubItem]->unicode) {
-			if (checkCallback(true)) {
-				(*_unicodeccallback)(_menustack.back()->items[_activeSubItem]->action,
-									 _menustack.back()->items[_activeSubItem]->unicodeText, _cdata);
-				haveCallBack = true;
-			}
-		} else {
-			if (checkCallback()) {
-				(*_ccallback)(_menustack.back()->items[_activeSubItem]->action,
-							  _menustack.back()->items[_activeSubItem]->text, _cdata);
-				haveCallBack = true;
-			}
-		}
-	}
+	// if (_activeItem != -1 && _activeSubItem != -1 && _menustack.back()->items[_activeSubItem]->enabled) {
+	// 	debug("Mouse release, 1453");
+	// 	// no action if item has submenu
+	// 	if (_menustack.back()->items[_activeSubItem]->submenu) {
+	// 		return false;
+	// 	}
+	// 	if (_menustack.back()->items[_activeSubItem]->unicode) {
+	// 		if (checkCallback(true)) {
+	// 			(*_unicodeccallback)(_menustack.back()->items[_activeSubItem]->action,
+	// 								 _menustack.back()->items[_activeSubItem]->unicodeText, _cdata);
+	// 			haveCallBack = true;
+	// 		}
+	// 	} else {
+	// 		if (checkCallback()) {
+	// 			(*_ccallback)(_menustack.back()->items[_activeSubItem]->action,
+	// 						  _menustack.back()->items[_activeSubItem]->text, _cdata);
+	// 			haveCallBack = true;
+	// 		}
+	// 	}
+	// }
 
 	// Set last active items and subitems before leaving!
 	_lastActiveItem = _activeItem;
@@ -1568,9 +1581,11 @@ void MacMenu::eventLoop() {
 		Common::Event event;
 
 		while (g_system->getEventManager()->pollEvent(event)) {
+			// debug("catch event 1588");
 			processEvent(event);
-
+			// debug("draw now 1590");
 			draw(_wm->_screen);
+			// debug("draw now 1592");
 		}
 
 		if (_active) {

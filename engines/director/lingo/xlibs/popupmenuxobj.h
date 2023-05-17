@@ -22,16 +22,11 @@
 #ifndef DIRECTOR_LINGO_XLIBS_POPUPMENUXOBJ_H
 #define DIRECTOR_LINGO_XLIBS_POPUPMENUXOBJ_H
 
-namespace Graphics {
-class MacPopUp;
-}
-
 namespace Director {
 
 class PopUpMenuXObject : public Object<PopUpMenuXObject> {
 public:
 	int _menuId;
-public:
 	PopUpMenuXObject(ObjectType objType);
 };
 

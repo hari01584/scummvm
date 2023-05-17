@@ -102,6 +102,8 @@
  */
 
 #include "director/director.h"
+#include "director/window.h"
+
 #include "director/lingo/lingo.h"
 #include "director/lingo/lingo-object.h"
 #include "director/lingo/lingo-utils.h"
@@ -159,8 +161,8 @@ void PopUpMenuXObj::m_new(int nargs) {
 	Datum menuId = g_lingo->pop();
 	Datum menuList = g_lingo->pop();
 
-	new Graphics::MacPopUp(menuId.u.i, g_director->_wm->getScreenBounds(), g_director->_wm, menuList.u.s->c_str());
-	me->_menuId = menuId.u.i;
+	new Graphics::MacPopUp(menuId.asInt(), g_director->_wm->getScreenBounds(), g_director->_wm, menuList.u.s->c_str());
+	me->_menuId = menuId.asInt();
 
 	g_lingo->push(g_lingo->_state->me);
 }
@@ -172,8 +174,14 @@ void PopUpMenuXObj::m_popNum(int nargs) {
 	Datum top = g_lingo->pop();
 	Datum left = g_lingo->pop();
 
+	debug("AM i called?-------------------------");
+	// Convert window coordinates to screen coordinates
+	Common::Rect windowRect = g_director->getCurrentWindow()->getInnerDimensions();
+	int screenTop = top.asInt() + windowRect.top;
+	int screenLeft = left.asInt() + windowRect.left;
+
 	Graphics::MacPopUp *menu = static_cast<Graphics::MacPopUp *>(g_director->_wm->getMenu(me->_menuId));
-	int selected = menu->drawAndSelectMenu(left.u.i, top.u.i, itemNum.u.i);
+	int selected = menu->drawAndSelectMenu(screenLeft, screenTop, itemNum.asInt());
 	g_lingo->push(Datum(selected));
 }
 
@@ -184,8 +192,13 @@ void PopUpMenuXObj::m_popText(int nargs) {
 	Datum top = g_lingo->pop();
 	Datum left = g_lingo->pop();
 
+	// Convert window coordinates to screen coordinates
+	Common::Rect windowRect = g_director->getCurrentWindow()->getInnerDimensions();
+	int screenTop = top.asInt() + windowRect.top;
+	int screenLeft = left.asInt() + windowRect.left;
+
 	Graphics::MacPopUp *menu = static_cast<Graphics::MacPopUp *>(g_director->_wm->getMenu(me->_menuId));
-	int selected = menu->drawAndSelectMenu(left.u.i, top.u.i, itemNum.u.i);
+	int selected = menu->drawAndSelectMenu(screenLeft, screenTop, itemNum.asInt());
 	Common::String text = menu->getItemText(selected);
 
 	g_lingo->push(Datum(text));
@@ -197,8 +210,6 @@ XOBJSTUBNR(PopUpMenuXObj::m_disableItem)
 XOBJSTUBNR(PopUpMenuXObj::m_enableItem)
 XOBJSTUB(PopUpMenuXObj::m_getItem, "")
 XOBJSTUB(PopUpMenuXObj::m_getMenuID, 0)
-// XOBJSTUB(PopUpMenuXObj::m_popNum, 0)
-// XOBJSTUB(PopUpMenuXObj::m_popText, "")
 XOBJSTUBNR(PopUpMenuXObj::m_setItem)
 XOBJSTUBNR(PopUpMenuXObj::m_setItemMark)
 XOBJSTUBNR(PopUpMenuXObj::m_smart)
