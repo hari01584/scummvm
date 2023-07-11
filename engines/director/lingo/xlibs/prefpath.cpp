@@ -71,11 +71,11 @@ PrefPathObject::PrefPathObject(ObjectType ObjectType) :Object<PrefPathObject>("P
 	_objType = ObjectType;
 }
 
-void PrefPath::m_new(int nargs) {
+void PrefPath::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void PrefPath::m_prefpath(int nargs) {
+void PrefPath::m_prefpath(int nargs, bool allowRetVal) {
 	// Returns 0 if the Preferences File cannot be read
 	g_lingo->printSTUBWithArglist("PrefPath", nargs);
 	g_lingo->dropStack(nargs);

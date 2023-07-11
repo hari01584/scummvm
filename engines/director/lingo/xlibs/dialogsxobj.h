@@ -36,9 +36,9 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_putFile(int nargs);
-void m_getFile(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_putFile(int nargs, bool allowRetVal);
+void m_getFile(int nargs, bool allowRetVal);
 
 } // End of namespace DialogsXObj
 

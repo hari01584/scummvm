@@ -37,24 +37,24 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_reset(int nargs);
-void m_newPage(int nargs);
-void m_setPrintableMargins(int nargs);
-void m_getPageWidth(int nargs);
-void m_getPageHeight(int nargs);
-void m_picture(int nargs);
-void m_stagePicture(int nargs);
-void m_1bitStagePicture(int nargs);
-void m_setLandscapeMode(int nargs);
-void m_doPageSetup(int nargs);
-void m_doJobSetup(int nargs);
-void m_setProgressMsg(int nargs);
-void m_printPreview(int nargs);
-void m_printPicts(int nargs);
-void m_print(int nargs);
-void m_register(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_reset(int nargs, bool allowRetVal);
+void m_newPage(int nargs, bool allowRetVal);
+void m_setPrintableMargins(int nargs, bool allowRetVal);
+void m_getPageWidth(int nargs, bool allowRetVal);
+void m_getPageHeight(int nargs, bool allowRetVal);
+void m_picture(int nargs, bool allowRetVal);
+void m_stagePicture(int nargs, bool allowRetVal);
+void m_1bitStagePicture(int nargs, bool allowRetVal);
+void m_setLandscapeMode(int nargs, bool allowRetVal);
+void m_doPageSetup(int nargs, bool allowRetVal);
+void m_doJobSetup(int nargs, bool allowRetVal);
+void m_setProgressMsg(int nargs, bool allowRetVal);
+void m_printPreview(int nargs, bool allowRetVal);
+void m_printPicts(int nargs, bool allowRetVal);
+void m_print(int nargs, bool allowRetVal);
+void m_register(int nargs, bool allowRetVal);
 
 } // End of namespace PrintOMaticXObj
 

@@ -161,13 +161,13 @@ PrintOMaticXObject::PrintOMaticXObject(ObjectType ObjectType) :Object<PrintOMati
 	_objType = ObjectType;
 }
 
-void PrintOMaticXObj::m_new(int nargs) {
+void PrintOMaticXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
 XOBJSTUBNR(PrintOMaticXObj::m_dispose)
 
-void PrintOMaticXObj::m_register(int nargs) {
+void PrintOMaticXObj::m_register(int nargs, bool allowRetVal) {
 	Common::String serialNumber = g_lingo->pop().asString();
 	warning("PrintOMaticXObj::m_register: Registered with serial \"%s\"", serialNumber.c_str());
 }
@@ -181,7 +181,7 @@ XOBJSTUBV(PrintOMaticXObj::m_picture)
 XOBJSTUBV(PrintOMaticXObj::m_stagePicture)
 XOBJSTUBV(PrintOMaticXObj::m_1bitStagePicture)
 
-void PrintOMaticXObj::m_setLandscapeMode(int nargs) {
+void PrintOMaticXObj::m_setLandscapeMode(int nargs, bool allowRetVal) {
 	// int trueOrFalse = g_lingo->pop.asInt()
 	g_lingo->printSTUBWithArglist("PrintOMaticXObj::m_setLandscapeMode", nargs);
 	g_lingo->dropStack(nargs);

@@ -29,7 +29,7 @@ namespace Director {
 
 struct MethodProto {
 	const char *name;
-	void (*func)(int);
+	void (*func)(int, bool);
 	int minArgs;	// -1 -- arglist
 	int maxArgs;
 	int version;
@@ -237,23 +237,23 @@ public:
 namespace LM {
 
 // predefined methods
-void m_describe(int nargs);
-void m_dispose(int nargs);
-void m_get(int nargs);
-void m_instanceRespondsTo(int nargs);
-void m_messageList(int nargs);
-void m_name(int nargs);
-void m_new(int nargs);
-void m_perform(int nargs);
-void m_put(int nargs);
-void m_respondsTo(int nargs);
+void m_describe(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_get(int nargs, bool allowRetVal);
+void m_instanceRespondsTo(int nargs, bool allowRetVal);
+void m_messageList(int nargs, bool allowRetVal);
+void m_name(int nargs, bool allowRetVal);
+void m_new(int nargs, bool allowRetVal);
+void m_perform(int nargs, bool allowRetVal);
+void m_put(int nargs, bool allowRetVal);
+void m_respondsTo(int nargs, bool allowRetVal);
 
 // window
-void m_close(int nargs);
-void m_forget(int nargs);
-void m_moveToBack(int nargs);
-void m_moveToFront(int nargs);
-void m_open(int nargs);
+void m_close(int nargs, bool allowRetVal);
+void m_forget(int nargs, bool allowRetVal);
+void m_moveToBack(int nargs, bool allowRetVal);
+void m_moveToFront(int nargs, bool allowRetVal);
+void m_open(int nargs, bool allowRetVal);
 
 } // End of namespace LM
 

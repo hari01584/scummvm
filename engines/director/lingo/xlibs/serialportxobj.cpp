@@ -84,7 +84,7 @@ SerialPortXObject::SerialPortXObject(ObjectType ObjectType) :Object<SerialPortXO
 	_objType = ObjectType;
 }
 
-void SerialPortXObj::m_new(int nargs) {
+void SerialPortXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("SerialPortXObj::m_new", nargs);
 	g_lingo->dropStack(nargs);
 	g_lingo->push(g_lingo->_state->me);

@@ -37,23 +37,23 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_line(int nargs);
-void m_lineBrush(int nargs);
-void m_lineBrushTrans(int nargs);
-void m_lineBrushCol(int nargs);
-void m_filterBMP(int nargs);
-void m_filterDIB(int nargs);
-void m_filterBMP128(int nargs);
-void m_filterDIB128(int nargs);
-void m_filterBMPMakeGhostImage(int nargs);
-void m_filterDIBMakeGhostImage(int nargs);
-void m_emptyClipboard(int nargs);
-void m_fill(int nargs);
-void m_getColor(int nargs);
-void m_drawRect(int nargs);
-void m_drawFrame(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_line(int nargs, bool allowRetVal);
+void m_lineBrush(int nargs, bool allowRetVal);
+void m_lineBrushTrans(int nargs, bool allowRetVal);
+void m_lineBrushCol(int nargs, bool allowRetVal);
+void m_filterBMP(int nargs, bool allowRetVal);
+void m_filterDIB(int nargs, bool allowRetVal);
+void m_filterBMP128(int nargs, bool allowRetVal);
+void m_filterDIB128(int nargs, bool allowRetVal);
+void m_filterBMPMakeGhostImage(int nargs, bool allowRetVal);
+void m_filterDIBMakeGhostImage(int nargs, bool allowRetVal);
+void m_emptyClipboard(int nargs, bool allowRetVal);
+void m_fill(int nargs, bool allowRetVal);
+void m_getColor(int nargs, bool allowRetVal);
+void m_drawRect(int nargs, bool allowRetVal);
+void m_drawFrame(int nargs, bool allowRetVal);
 
 } // End of namespace DrawXObj
 

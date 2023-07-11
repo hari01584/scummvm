@@ -499,7 +499,7 @@ void LC::cb_list() {
 	if ((nargs.type != ARGC) && (nargs.type != ARGCNORET)) {
 		error("cb_list: first arg should be of type ARGC or ARGCNORET, not %s", nargs.type2str());
 	}
-	LB::b_list(nargs.u.i);
+	LB::b_list(nargs.u.i, nargs.type == ARGC);
 }
 
 

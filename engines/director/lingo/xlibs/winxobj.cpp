@@ -265,30 +265,30 @@ RearWindowXObject::RearWindowXObject(ObjectType ObjectType) :Object<RearWindowXO
 	_objType = ObjectType;
 }
 
-void RearWindowXObj::m_new(int nargs) {
+void RearWindowXObj::m_new(int nargs, bool allowRetVal) {
 	Datum d1 = g_lingo->pop();
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void RearWindowXObj::m_getMemoryNeeded(int nargs) {
+void RearWindowXObj::m_getMemoryNeeded(int nargs, bool allowRetVal) {
 	// No memory is needed for a stubbed XLib.
 	g_lingo->push(Datum(0));
 }
 
-void RearWindowXObj::m_patToWindow(int nargs) {
+void RearWindowXObj::m_patToWindow(int nargs, bool allowRetVal) {
 	g_lingo->pop();
 	g_lingo->push(Datum(0));
 }
 
-void RearWindowXObj::m_indexColorToWindow(int nargs) {
+void RearWindowXObj::m_indexColorToWindow(int nargs, bool allowRetVal) {
 	g_lingo->pop();
 }
 
-void RearWindowXObj::m_getAppName(int nargs) {
+void RearWindowXObj::m_getAppName(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(g_director->getStartMovie().startMovie));
 }
 
-void RearWindowXObj::m_rgbColorToWindow(int nargs) {
+void RearWindowXObj::m_rgbColorToWindow(int nargs, bool allowRetVal) {
 	Datum r = g_lingo->pop();
 	Datum g = g_lingo->pop();
 	Datum b = g_lingo->pop();
@@ -297,19 +297,19 @@ void RearWindowXObj::m_rgbColorToWindow(int nargs) {
 	window->setDesktopColor(r.asInt(), g.asInt(), b.asInt());
 }
 
-void RearWindowXObj::m_getScreenTop(int nargs) {
+void RearWindowXObj::m_getScreenTop(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(0));
 }
 
-void RearWindowXObj::m_getScreenLeft(int nargs) {
+void RearWindowXObj::m_getScreenLeft(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(0));
 }
 
-void RearWindowXObj::m_getScreenBottom(int nargs) {
+void RearWindowXObj::m_getScreenBottom(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(g_director->getMacWindowManager()->getHeight()));
 }
 
-void RearWindowXObj::m_getScreenRight(int nargs) {
+void RearWindowXObj::m_getScreenRight(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(g_director->getMacWindowManager()->getWidth()));
 }
 

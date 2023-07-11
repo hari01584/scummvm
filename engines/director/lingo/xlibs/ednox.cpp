@@ -115,20 +115,20 @@ EdnoxObject::EdnoxObject(ObjectType ObjectType) :Object<EdnoxObject>("Ednox") {
 	_objType = ObjectType;
 }
 
-void Ednox::m_new(int nargs) {
+void Ednox::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
 XOBJSTUBNR(Ednox::m_dispose)
 
-void Ednox::m_getdocumentfile(int nargs) {
+void Ednox::m_getdocumentfile(int nargs, bool allowRetVal) {
 	// Common::U32String hFile = g_lingo->pop().asString();
 	// Common::U32String hDir = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_getdocumentfile", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void Ednox::m_getpathx(int nargs) {
+void Ednox::m_getpathx(int nargs, bool allowRetVal) {
 	/* int mMacMode = */ g_lingo->pop().asInt();
 	Common::U32String hStrIn = g_lingo->pop().asString();
 	/* Common::U32String hSection = */ g_lingo->pop().asString();
@@ -140,7 +140,7 @@ void Ednox::m_getpathx(int nargs) {
 	}
 }
 
-void Ednox::m_iscdx(int nargs) {
+void Ednox::m_iscdx(int nargs, bool allowRetVal) {
 	/* Common::U32String hStrIn = */ g_lingo->pop().asString();
 	Common::U32String hDrive = g_lingo->pop().asString();
 	// g_lingo->printSTUBWithArglist("Ednox::m_iscdx", nargs);
@@ -151,7 +151,7 @@ void Ednox::m_iscdx(int nargs) {
 	}
 }
 
-void Ednox::m_savedocumentfile(int nargs) {
+void Ednox::m_savedocumentfile(int nargs, bool allowRetVal) {
 	// Common::U32String hStrIn = g_lingo->pop().asString();
 	// Common::U32String hFile = g_lingo->pop().asString();
 	// Common::U32String hDir = g_lingo->pop().asString();
@@ -159,7 +159,7 @@ void Ednox::m_savedocumentfile(int nargs) {
 	g_lingo->dropStack(nargs);
 }
 
-void Ednox::m_setdrivex(int nargs) {
+void Ednox::m_setdrivex(int nargs, bool allowRetVal) {
 	// Common::U32String hStrIn = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_setdrivex", nargs);
 	g_lingo->dropStack(nargs);
@@ -169,7 +169,7 @@ void Ednox::m_setdrivex(int nargs) {
 XOBJSTUB(Ednox::m_checksoundx, "")
 XOBJSTUB(Ednox::m_clearsoundx, "")
 
-void Ednox::m_deletedocumentfile(int nargs) {
+void Ednox::m_deletedocumentfile(int nargs, bool allowRetVal) {
 	// Common::U32String hFile = g_lingo->pop().asString();
 	// Common::U32String hDir = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_deletedocumentfile", nargs);
@@ -179,19 +179,19 @@ void Ednox::m_deletedocumentfile(int nargs) {
 XOBJSTUB(Ednox::m_enabletaskswitch, "")
 XOBJSTUB(Ednox::m_disabletaskswitch, "")
 
-void Ednox::m_drawbkgndx(int nargs) {
+void Ednox::m_drawbkgndx(int nargs, bool allowRetVal) {
 	// Common::U32String hBkgnd = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_drawbkgndx", nargs);
 }
 
-void Ednox::m_getdocumentname(int nargs) {
+void Ednox::m_getdocumentname(int nargs, bool allowRetVal) {
 	// Common::U32String hExt = g_lingo->pop().asString();
 	// Common::U32String hDir = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_getdocumentname", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void Ednox::m_error(int nargs) {
+void Ednox::m_error(int nargs, bool allowRetVal) {
 	// int code = g_lingo->pop().asInt();
 	g_lingo->printSTUBWithArglist("Ednox::m_error", nargs);
 	g_lingo->dropStack(nargs);
@@ -199,7 +199,7 @@ void Ednox::m_error(int nargs) {
 
 XOBJSTUB(Ednox::m_lasterror, "")
 
-void Ednox::m_name(int nargs) {
+void Ednox::m_name(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum("ednox"));
 }
 
@@ -207,7 +207,7 @@ XOBJSTUB(Ednox::m_status, 0)
 XOBJSTUB(Ednox::m_playsoundx, "")
 XOBJSTUB(Ednox::m_restorex, "")
 
-void Ednox::m_savex(int nargs) {
+void Ednox::m_savex(int nargs, bool allowRetVal) {
 	// Common::U32String hStrIn = g_lingo->pop().asString();
 	g_lingo->printSTUBWithArglist("Ednox::m_savex", nargs);
 	g_lingo->dropStack(nargs);

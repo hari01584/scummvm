@@ -78,16 +78,16 @@ WidgetXObject::WidgetXObject(ObjectType ObjectType) :Object<WidgetXObject>("Widg
 	_objType = ObjectType;
 }
 
-void WidgetXObj::m_new(int nargs) {
+void WidgetXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void WidgetXObj::m_dispose(int nargs) {
+void WidgetXObj::m_dispose(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("WidgetXObj::m_dispose", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void WidgetXObj::m_getPro(int nargs) {
+void WidgetXObj::m_getPro(int nargs, bool allowRetVal) {
 	// seems to want a disk drive letter
 	g_lingo->push(Datum("D"));
 }

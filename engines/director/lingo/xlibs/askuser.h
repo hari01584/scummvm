@@ -37,9 +37,9 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_ask(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_ask(int nargs, bool allowRetVal);
 
 } // End of namespace AskUser
 

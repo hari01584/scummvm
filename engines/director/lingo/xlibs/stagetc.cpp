@@ -73,17 +73,17 @@ StageTCXObject::StageTCXObject(ObjectType ObjectType) :Object<StageTCXObject>("S
 	_objType = ObjectType;
 }
 
-void StageTCXObj::m_new(int nargs) {
+void StageTCXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("StageTCXObj::m_new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void StageTCXObj::m_dispose(int nargs) {
+void StageTCXObj::m_dispose(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("StageTCXObj::m_dispose", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void StageTCXObj::m_gethandle(int nargs) {
+void StageTCXObj::m_gethandle(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("StageTCXObj::m_gethandle", nargs);
 	g_lingo->dropStack(nargs);
 }

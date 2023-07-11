@@ -72,7 +72,7 @@ void FPlayXObj::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void FPlayXObj::b_fplay(int nargs) {
+void FPlayXObj::b_fplay(int nargs, bool allowRetVal) {
 	if (nargs == 0) {
 		warning("FPlayXObj::b_fplay: requires at least one argument");
 		return;
@@ -98,7 +98,7 @@ XOBJSTUBV(FPlayXObj::b_volume)
 XOBJSTUBV(FPlayXObj::b_filename)
 XOBJSTUBV(FPlayXObj::b_inputlevel)
 
-void FPlayXObj::b_fsound(int nargs) {
+void FPlayXObj::b_fsound(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("FPlayXObj::b_fsound: unhandled arguments");
 		g_lingo->dropStack(nargs);

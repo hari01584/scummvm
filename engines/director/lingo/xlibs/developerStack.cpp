@@ -148,7 +148,7 @@ void DeveloperStack::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void DeveloperStack::b_setvolume(int nargs) {
+void DeveloperStack::b_setvolume(int nargs, bool allowRetVal) {
 	int volume = g_lingo->pop().asInt();
 	Common::String copyright = g_lingo->pop().asString();
 

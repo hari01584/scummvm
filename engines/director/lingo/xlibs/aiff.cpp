@@ -87,12 +87,12 @@ AiffXObject::AiffXObject(ObjectType ObjectType) :Object<AiffXObject>("AiffXObj")
 	_objType = ObjectType;
 }
 
-void AiffXObj::m_new(int nargs) {
+void AiffXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("AiffXObj::new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void AiffXObj::m_duration(int nargs) {
+void AiffXObj::m_duration(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("AiffXObj::m_duration", nargs);
 	auto filePath = g_lingo->pop().asString();
 

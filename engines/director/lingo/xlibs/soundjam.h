@@ -40,17 +40,17 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_defineFileSound(int nargs);
-void m_defineCastSound(int nargs);
-void m_undefineSound(int nargs);
-void m_readSome(int nargs);
-void m_startSound(int nargs);
-void m_switchNew(int nargs);
-void m_switchParallel(int nargs);
-void m_hasSwitchHappened(int nargs);
-void m_toggleMute(int nargs);
-void m_stop(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_defineFileSound(int nargs, bool allowRetVal);
+void m_defineCastSound(int nargs, bool allowRetVal);
+void m_undefineSound(int nargs, bool allowRetVal);
+void m_readSome(int nargs, bool allowRetVal);
+void m_startSound(int nargs, bool allowRetVal);
+void m_switchNew(int nargs, bool allowRetVal);
+void m_switchParallel(int nargs, bool allowRetVal);
+void m_hasSwitchHappened(int nargs, bool allowRetVal);
+void m_toggleMute(int nargs, bool allowRetVal);
+void m_stop(int nargs, bool allowRetVal);
 
 } // End of namespace SoundJam
 

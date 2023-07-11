@@ -86,28 +86,28 @@ FEDraculXObject::FEDraculXObject(ObjectType ObjectType) : Object<FEDraculXObject
 	_objType = ObjectType;
 }
 
-void FEDraculXObj::m_new(int nargs) {
+void FEDraculXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEDraculXObj::m_AddToInventory(int nargs) {
+void FEDraculXObj::m_AddToInventory(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEDraculXObj::AddToInventory", nargs);
 	g_lingo->dropStack(nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEDraculXObj::m_CreateInventory(int nargs) {
+void FEDraculXObj::m_CreateInventory(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEDraculXObj::CreateInventory", nargs);
 	g_lingo->dropStack(nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEDraculXObj::m_DestroyInventory(int nargs) {
+void FEDraculXObj::m_DestroyInventory(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEDraculXObj:mDestroyInventory", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEDraculXObj::m_GetInventory(int nargs) {
+void FEDraculXObj::m_GetInventory(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEDraculXObj::GetInventory", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }

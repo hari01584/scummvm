@@ -102,7 +102,7 @@ void ColorXObj::close(int type) {
 }
 
 
-void ColorXObj::m_new(int nargs) {
+void ColorXObj::m_new(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("ColorXObj::m_new: expected 0 arguments");
 		g_lingo->dropStack(nargs);

@@ -109,7 +109,7 @@ void FindFolder::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void FindFolder::m_findfolder(int nargs) {
+void FindFolder::m_findfolder(int nargs, bool allowRetVal) {
 	g_lingo->dropStack(nargs);
 	g_lingo->push(Datum(""));
 }

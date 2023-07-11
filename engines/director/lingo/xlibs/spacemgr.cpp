@@ -155,7 +155,7 @@ void SpaceMgr::close(int type) {
 	}
 }
 
-void SpaceMgr::m_new(int nargs) {
+void SpaceMgr::m_new(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_new: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -169,7 +169,7 @@ XOBJSTUB(SpaceMgr::m_memUsed, 0)
 XOBJSTUB(SpaceMgr::m_listData, "")
 XOBJSTUB(SpaceMgr::m_sortAll, 0)
 
-void SpaceMgr::m_checkForDups(int nargs) {
+void SpaceMgr::m_checkForDups(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_checkForDups: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -189,7 +189,7 @@ void SpaceMgr::m_checkForDups(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_parseText(int nargs) {
+void SpaceMgr::m_parseText(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_parseText: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -267,7 +267,7 @@ void SpaceMgr::m_parseText(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_getCurData(int nargs) {
+void SpaceMgr::m_getCurData(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_getCurData: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -300,7 +300,7 @@ void SpaceMgr::m_getCurData(int nargs) {
 	g_lingo->push(Datum(result));
 }
 
-void SpaceMgr::m_setCurData(int nargs) {
+void SpaceMgr::m_setCurData(int nargs, bool allowRetVal) {
 	if (nargs != 4) {
 		warning("SpaceMgr::m_setCurData: expected 4 arguments");
 		g_lingo->dropStack(nargs);
@@ -334,7 +334,7 @@ void SpaceMgr::m_setCurData(int nargs) {
 
 XOBJSTUB(SpaceMgr::m_addSpaceCollection, 0)
 
-void SpaceMgr::m_removeSpaceCollection(int nargs) {
+void SpaceMgr::m_removeSpaceCollection(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_removeSpaceCollection: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -351,7 +351,7 @@ void SpaceMgr::m_removeSpaceCollection(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_setCurSpaceCollection(int nargs) {
+void SpaceMgr::m_setCurSpaceCollection(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_setCurSpaceCollection: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -372,7 +372,7 @@ void SpaceMgr::m_setCurSpaceCollection(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_getCurSpaceCollection(int nargs) {
+void SpaceMgr::m_getCurSpaceCollection(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_getCurSpaceCollection: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -389,7 +389,7 @@ void SpaceMgr::m_getCurSpaceCollection(int nargs) {
 	g_lingo->push(Datum(result));
 }
 
-void SpaceMgr::m_getSpaceCollection(int nargs) {
+void SpaceMgr::m_getSpaceCollection(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_getSpaceCollection: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -410,7 +410,7 @@ void SpaceMgr::m_getSpaceCollection(int nargs) {
 XOBJSTUB(SpaceMgr::m_addSpace, 0)
 XOBJSTUB(SpaceMgr::m_removeSpace, 0)
 
-void SpaceMgr::m_setCurSpace(int nargs) {
+void SpaceMgr::m_setCurSpace(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_setCurSpace: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -431,7 +431,7 @@ void SpaceMgr::m_setCurSpace(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_getCurSpace(int nargs) {
+void SpaceMgr::m_getCurSpace(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_getCurSpace: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -451,7 +451,7 @@ void SpaceMgr::m_getCurSpace(int nargs) {
 	g_lingo->push(Datum(result));
 }
 
-void SpaceMgr::m_getSpace(int nargs) {
+void SpaceMgr::m_getSpace(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_getSpace: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -475,7 +475,7 @@ void SpaceMgr::m_getSpace(int nargs) {
 XOBJSTUB(SpaceMgr::m_addNode, 0)
 XOBJSTUB(SpaceMgr::m_removeNode, 0)
 
-void SpaceMgr::m_setCurNode(int nargs) {
+void SpaceMgr::m_setCurNode(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_setCurNode: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -496,7 +496,7 @@ void SpaceMgr::m_setCurNode(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_getCurNode(int nargs) {
+void SpaceMgr::m_getCurNode(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_getCurNode: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -519,7 +519,7 @@ void SpaceMgr::m_getCurNode(int nargs) {
 	g_lingo->push(Datum(result));
 }
 
-void SpaceMgr::m_getNode(int nargs) {
+void SpaceMgr::m_getNode(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_getNode: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -546,7 +546,7 @@ void SpaceMgr::m_getNode(int nargs) {
 XOBJSTUB(SpaceMgr::m_addView, 0)
 XOBJSTUB(SpaceMgr::m_removeView, 0)
 
-void SpaceMgr::m_setCurView(int nargs) {
+void SpaceMgr::m_setCurView(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_setCurView: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -567,7 +567,7 @@ void SpaceMgr::m_setCurView(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void SpaceMgr::m_getCurView(int nargs) {
+void SpaceMgr::m_getCurView(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("SpaceMgr::m_getCurView: expected 0 arguments");
 		g_lingo->dropStack(nargs);
@@ -593,7 +593,7 @@ void SpaceMgr::m_getCurView(int nargs) {
 	g_lingo->push(Datum(result));
 }
 
-void SpaceMgr::m_getView(int nargs) {
+void SpaceMgr::m_getView(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_getView: expected 1 argument");
 		g_lingo->dropStack(nargs);
@@ -624,7 +624,7 @@ XOBJSTUB(SpaceMgr::m_addLocalLink, 0)
 XOBJSTUB(SpaceMgr::m_removeLocalLink, 0)
 XOBJSTUB(SpaceMgr::m_removeLocalLinks, 0)
 
-void SpaceMgr::m_getLocalLink(int nargs) {
+void SpaceMgr::m_getLocalLink(int nargs, bool allowRetVal) {
 	if (nargs != 1) {
 		warning("SpaceMgr::m_getLocalLink: expected 1 argument");
 		g_lingo->dropStack(nargs);

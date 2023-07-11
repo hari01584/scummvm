@@ -117,7 +117,7 @@ void QTVR::close(int type) {
 }
 
 
-void QTVR::m_new(int nargs) {
+void QTVR::m_new(int nargs, bool allowRetVal) {
 	if (nargs != 0) {
 		warning("QTVR::m_new: expected 0 arguments");
 		g_lingo->dropStack(nargs);

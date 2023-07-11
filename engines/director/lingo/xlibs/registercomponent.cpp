@@ -50,7 +50,7 @@ void RegisterComponent::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void RegisterComponent::b_RegisterComponent(int nargs) {
+void RegisterComponent::b_RegisterComponent(int nargs, bool allowRetVal) {
 	g_lingo->dropStack(nargs);
 	g_lingo->push(Datum(0));
 }

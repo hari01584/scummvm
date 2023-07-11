@@ -32,7 +32,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_volumelist(int nargs);
+void m_volumelist(int nargs, bool allowRetVal);
 
 } // End of namespace VolumeList
 

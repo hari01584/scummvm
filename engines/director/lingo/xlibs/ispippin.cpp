@@ -53,7 +53,7 @@ void IsPippin::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void IsPippin::m_ispippin(int nargs) {
+void IsPippin::m_ispippin(int nargs, bool allowRetVal) {
 	// Simply returns "true" or "false"
 	g_lingo->push(Datum(g_director->getPlatform() == Common::kPlatformPippin ? "true" : "false"));
 }

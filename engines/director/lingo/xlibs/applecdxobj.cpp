@@ -126,18 +126,18 @@ AppleCDXObject::AppleCDXObject(ObjectType ObjectType) :Object<AppleCDXObject>("A
 	_objType = ObjectType;
 }
 
-void AppleCDXObj::m_new(int nargs) {
+void AppleCDXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void AppleCDXObj::m_service(int nargs) {
+void AppleCDXObj::m_service(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(0));
 }
 
-void AppleCDXObj::m_readStatus(int nargs) {
+void AppleCDXObj::m_readStatus(int nargs, bool allowRetVal) {
 }
 
-void AppleCDXObj::m_eject(int nargs) {
+void AppleCDXObj::m_eject(int nargs, bool allowRetVal) {
     debug(5, "AppleCDXObj::eject: Ejecting CD");
 }
 

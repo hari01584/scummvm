@@ -58,7 +58,7 @@ void VolumeList::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void VolumeList::m_volumelist(int nargs) {
+void VolumeList::m_volumelist(int nargs, bool allowRetVal) {
 	// Would presumably give a list of volumes attached,
 	// with the first being the boot disk
 	g_lingo->push(Datum(""));

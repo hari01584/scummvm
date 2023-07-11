@@ -32,27 +32,27 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_getHPanAngle(int nargs);
-void m_getMovieRect(int nargs);
-void m_getNodeID(int nargs);
-void m_getQuality(int nargs);
-void m_getVPanAngle(int nargs);
-void m_getZoomAngle(int nargs);
-void m_mouseOver(int nargs);
-void m_name(int nargs);
-void m_openMovie(int nargs);
-void m_setActive(int nargs);
-void m_setHPanAngle(int nargs);
-void m_setNodeID(int nargs);
-void m_setQuality(int nargs);
-void m_setRolloverCallback(int nargs);
-void m_setTransitionMode(int nargs);
-void m_setTransitionSpeed(int nargs);
-void m_setVPanAngle(int nargs);
-void m_setZoomAngle(int nargs);
-void m_update(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_getHPanAngle(int nargs, bool allowRetVal);
+void m_getMovieRect(int nargs, bool allowRetVal);
+void m_getNodeID(int nargs, bool allowRetVal);
+void m_getQuality(int nargs, bool allowRetVal);
+void m_getVPanAngle(int nargs, bool allowRetVal);
+void m_getZoomAngle(int nargs, bool allowRetVal);
+void m_mouseOver(int nargs, bool allowRetVal);
+void m_name(int nargs, bool allowRetVal);
+void m_openMovie(int nargs, bool allowRetVal);
+void m_setActive(int nargs, bool allowRetVal);
+void m_setHPanAngle(int nargs, bool allowRetVal);
+void m_setNodeID(int nargs, bool allowRetVal);
+void m_setQuality(int nargs, bool allowRetVal);
+void m_setRolloverCallback(int nargs, bool allowRetVal);
+void m_setTransitionMode(int nargs, bool allowRetVal);
+void m_setTransitionSpeed(int nargs, bool allowRetVal);
+void m_setVPanAngle(int nargs, bool allowRetVal);
+void m_setZoomAngle(int nargs, bool allowRetVal);
+void m_update(int nargs, bool allowRetVal);
 
 } // End of namespace QTVR
 

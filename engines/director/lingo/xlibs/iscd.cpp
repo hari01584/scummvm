@@ -53,7 +53,7 @@ void IsCD::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void IsCD::m_iscd(int nargs) {
+void IsCD::m_iscd(int nargs, bool allowRetVal) {
 	// -1: running from hard drive
 	//  0: running on CD
 	//  1: no CD

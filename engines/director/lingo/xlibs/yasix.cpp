@@ -57,7 +57,7 @@ void Yasix::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void Yasix::m_yasix(int nargs) {
+void Yasix::m_yasix(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum("Machine_Type   Macintosh\r\n\
 Keyboard_Type ExtISOADBKbd\r\n\
 Processor_Type 68030\r\n\

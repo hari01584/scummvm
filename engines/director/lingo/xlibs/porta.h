@@ -32,7 +32,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void b_porta(int nargs);
+void b_porta(int nargs, bool allowRetVal);
 
 } // End of namespace Porta
 

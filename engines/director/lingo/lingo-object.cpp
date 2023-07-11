@@ -95,7 +95,7 @@ namespace Director {
 
 static struct PredefinedProto {
 	const char *name;
-	void (*func)(int);
+	void (*func)(int, bool);
 	int minArgs;	// -1 -- arglist
 	int maxArgs;
 	int type;
@@ -309,13 +309,13 @@ void Lingo::reloadOpenXLibs() {
 
 // Initialization/disposal
 
-void LM::m_new(int nargs) {
+void LM::m_new(int nargs, bool allowRetVal) {
 	// This is usually overridden by a user-defined mNew
 	g_lingo->printSTUBWithArglist("m_new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void LM::m_dispose(int nargs) {
+void LM::m_dispose(int nargs, bool allowRetVal) {
 	g_lingo->_state->me.u.obj->dispose();
 }
 
@@ -464,7 +464,7 @@ Common::String ScriptContext::formatFunctionList(const char *prefix) {
 
 // Object array
 
-void LM::m_get(int nargs) {
+void LM::m_get(int nargs, bool allowRetVal) {
 	ScriptContext *me = static_cast<ScriptContext *>(g_lingo->_state->me.u.obj);
 	Datum indexD = g_lingo->pop();
 	uint index = MAX(0, indexD.asInt());
@@ -475,7 +475,7 @@ void LM::m_get(int nargs) {
 	}
 }
 
-void LM::m_put(int nargs) {
+void LM::m_put(int nargs, bool allowRetVal) {
 	ScriptContext *me = static_cast<ScriptContext *>(g_lingo->_state->me.u.obj);
 	Datum value = g_lingo->pop();
 	Datum indexD = g_lingo->pop();
@@ -485,7 +485,7 @@ void LM::m_put(int nargs) {
 
 // Other
 
-void LM::m_perform(int nargs) {
+void LM::m_perform(int nargs, bool allowRetVal) {
 	// Lingo doesn't seem to bother cloning the object when
 	// mNew is called with mPerform
 	Datum d(g_lingo->_state->me);
@@ -494,16 +494,20 @@ void LM::m_perform(int nargs) {
 	Symbol funcSym = me->getMethod(*methodName.u.s);
 	// Object methods expect the first argument to be the object
 	g_lingo->_stack.insert_at(g_lingo->_stack.size() - nargs + 1, d);
-	LC::call(funcSym, nargs, true);
+	LC::call(funcSym, nargs, allowRetVal);
+
+	if (allowRetVal) {
+		g_lingo->push(g_lingo->_state->me);
+	}
 }
 
 // XObject
 
-void LM::m_describe(int nargs) {
+void LM::m_describe(int nargs, bool allowRetVal) {
 	warning("STUB: m_describe");
 }
 
-void LM::m_instanceRespondsTo(int nargs) {
+void LM::m_instanceRespondsTo(int nargs, bool allowRetVal) {
 	AbstractObject *me = g_lingo->_state->me.u.obj;
 	Datum d = g_lingo->pop();
 	Common::String methodName = d.asString();
@@ -515,17 +519,17 @@ void LM::m_instanceRespondsTo(int nargs) {
 	}
 }
 
-void LM::m_messageList(int nargs) {
+void LM::m_messageList(int nargs, bool allowRetVal) {
 	warning("STUB: m_messageList");
 	g_lingo->push(Datum(""));
 }
 
-void LM::m_name(int nargs) {
+void LM::m_name(int nargs, bool allowRetVal) {
 	AbstractObject *me = g_lingo->_state->me.u.obj;
 	g_lingo->push(me->getName());
 }
 
-void LM::m_respondsTo(int nargs) {
+void LM::m_respondsTo(int nargs, bool allowRetVal) {
 	AbstractObject *me = g_lingo->_state->me.u.obj;
 	Datum d = g_lingo->pop();
 	Common::String methodName = d.asString();
@@ -632,12 +636,12 @@ bool Window::setField(int field, const Datum &value) {
 	}
 }
 
-void LM::m_close(int nargs) {
+void LM::m_close(int nargs, bool allowRetVal) {
 	Window *me = static_cast<Window *>(g_lingo->_state->me.u.obj);
 	me->setVisible(false);
 }
 
-void LM::m_forget(int nargs) {
+void LM::m_forget(int nargs, bool allowRetVal) {
 	Window *me = static_cast<Window *>(g_lingo->_state->me.u.obj);
 	FArray *windowList = g_lingo->_windowList.u.farr;
 
@@ -665,17 +669,17 @@ void LM::m_forget(int nargs) {
 	}
 }
 
-void LM::m_open(int nargs) {
+void LM::m_open(int nargs, bool allowRetVal) {
 	Window *me = static_cast<Window *>(g_lingo->_state->me.u.obj);
 	me->setVisible(true);
 }
 
-void LM::m_moveToBack(int nargs) {
+void LM::m_moveToBack(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("m_moveToBack", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void LM::m_moveToFront(int nargs) {
+void LM::m_moveToFront(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("m_moveToFront", nargs);
 	g_lingo->dropStack(nargs);
 }

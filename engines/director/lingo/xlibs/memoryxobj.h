@@ -38,10 +38,10 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_clear(int nargs);
-void m_purge(int nargs);
-void m_getVM(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_clear(int nargs, bool allowRetVal);
+void m_purge(int nargs, bool allowRetVal);
+void m_getVM(int nargs, bool allowRetVal);
 
 } // End of namespace MemoryXObj
 

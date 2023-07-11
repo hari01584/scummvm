@@ -75,25 +75,25 @@ namespace FileIO {
 
 	bool charInMatchString(char ch, const Common::String &matchString);
 	void saveFileError();
-	void m_delete(int nargs);
-	void m_dispose(int nargs);
-	void m_error(int nargs);
-	void m_fileName(int nargs);
-	void m_getFinderInfo(int nargs);
-	void m_getLength(int nargs);
-	void m_getPosition(int nargs);
-	void m_new(int nargs);
-	void m_readChar(int nargs);
-	void m_readFile(int nargs);
-	void m_readLine(int nargs);
-	void m_readPict(int nargs);
-	void m_readToken(int nargs);
-	void m_readWord(int nargs);
-	void m_setFinderInfo(int nargs);
-	void m_setPosition(int nargs);
-	void m_status(int nargs);
-	void m_writeChar(int nargs);
-	void m_writeString(int nards);
+	void m_delete(int nargs, bool allowRetVal);
+	void m_dispose(int nargs, bool allowRetVal);
+	void m_error(int nargs, bool allowRetVal);
+	void m_fileName(int nargs, bool allowRetVal);
+	void m_getFinderInfo(int nargs, bool allowRetVal);
+	void m_getLength(int nargs, bool allowRetVal);
+	void m_getPosition(int nargs, bool allowRetVal);
+	void m_new(int nargs, bool allowRetVal);
+	void m_readChar(int nargs, bool allowRetVal);
+	void m_readFile(int nargs, bool allowRetVal);
+	void m_readLine(int nargs, bool allowRetVal);
+	void m_readPict(int nargs, bool allowRetVal);
+	void m_readToken(int nargs, bool allowRetVal);
+	void m_readWord(int nargs, bool allowRetVal);
+	void m_setFinderInfo(int nargs, bool allowRetVal);
+	void m_setPosition(int nargs, bool allowRetVal);
+	void m_status(int nargs, bool allowRetVal);
+	void m_writeChar(int nargs, bool allowRetVal);
+	void m_writeString(int nargs, bool allowRetVal);
 
 } // End of namespace FileIO
 

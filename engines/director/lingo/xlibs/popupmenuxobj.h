@@ -38,18 +38,18 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_appendMenu(int nargs);
-void m_disableItem(int nargs);
-void m_enableItem(int nargs);
-void m_getItem(int nargs);
-void m_getMenuID(int nargs);
-void m_popNum(int nargs);
-void m_popText(int nargs);
-void m_setItem(int nargs);
-void m_setItemMark(int nargs);
-void m_smart(int nargs);
-void m_setItemIcon(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_appendMenu(int nargs, bool allowRetVal);
+void m_disableItem(int nargs, bool allowRetVal);
+void m_enableItem(int nargs, bool allowRetVal);
+void m_getItem(int nargs, bool allowRetVal);
+void m_getMenuID(int nargs, bool allowRetVal);
+void m_popNum(int nargs, bool allowRetVal);
+void m_popText(int nargs, bool allowRetVal);
+void m_setItem(int nargs, bool allowRetVal);
+void m_setItemMark(int nargs, bool allowRetVal);
+void m_smart(int nargs, bool allowRetVal);
+void m_setItemIcon(int nargs, bool allowRetVal);
 
 } // End of namespace PopUpMenuXObj
 

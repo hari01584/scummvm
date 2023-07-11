@@ -80,19 +80,19 @@ DPwAVIXObject::DPwAVIXObject(ObjectType ObjectType) : Object<DPwAVIXObject>("dpw
 	_objType = ObjectType;
 }
 
-void DPwAVI::m_new(int nargs) {
+void DPwAVI::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void DPwAVI::m_startup(int nargs) {
+void DPwAVI::m_startup(int nargs, bool allowRetVal) {
 	// no op
 }
 
-void DPwAVI::m_quit(int nargs) {
+void DPwAVI::m_quit(int nargs, bool allowRetVal) {
 	// no op
 }
 
-void DPwAVI::m_verb(int nargs) {
+void DPwAVI::m_verb(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("DPwAVI::m_verb", nargs);
 }
 

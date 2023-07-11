@@ -37,27 +37,27 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_name(int nargs);
-void m_status(int nargs);
-void m_error(int nargs);
-void m_lasterror(int nargs);
-void m_playsoundx(int nargs);
-void m_clearsoundx(int nargs);
-void m_checksoundx(int nargs);
-void m_drawbkgndx(int nargs);
-void m_savex(int nargs);
-void m_getpathx(int nargs);
-void m_restorex(int nargs);
-void m_setdrivex(int nargs);
-void m_iscdx(int nargs);
-void m_enabletaskswitch(int nargs);
-void m_disabletaskswitch(int nargs);
-void m_getdocumentname(int nargs);
-void m_getdocumentfile(int nargs);
-void m_savedocumentfile(int nargs);
-void m_deletedocumentfile(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_name(int nargs, bool allowRetVal);
+void m_status(int nargs, bool allowRetVal);
+void m_error(int nargs, bool allowRetVal);
+void m_lasterror(int nargs, bool allowRetVal);
+void m_playsoundx(int nargs, bool allowRetVal);
+void m_clearsoundx(int nargs, bool allowRetVal);
+void m_checksoundx(int nargs, bool allowRetVal);
+void m_drawbkgndx(int nargs, bool allowRetVal);
+void m_savex(int nargs, bool allowRetVal);
+void m_getpathx(int nargs, bool allowRetVal);
+void m_restorex(int nargs, bool allowRetVal);
+void m_setdrivex(int nargs, bool allowRetVal);
+void m_iscdx(int nargs, bool allowRetVal);
+void m_enabletaskswitch(int nargs, bool allowRetVal);
+void m_disabletaskswitch(int nargs, bool allowRetVal);
+void m_getdocumentname(int nargs, bool allowRetVal);
+void m_getdocumentfile(int nargs, bool allowRetVal);
+void m_savedocumentfile(int nargs, bool allowRetVal);
+void m_deletedocumentfile(int nargs, bool allowRetVal);
 
 } // End of namespace Ednox
 

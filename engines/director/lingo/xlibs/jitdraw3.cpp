@@ -110,14 +110,14 @@ JITDraw3XObject::JITDraw3XObject(ObjectType ObjectType) :Object<JITDraw3XObject>
 	_objType = ObjectType;
 }
 
-void JITDraw3XObj::m_new(int nargs) {
+void JITDraw3XObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
 XOBJSTUBNR(JITDraw3XObj::m_dispose)
 XOBJSTUB(JITDraw3XObj::m_checkifcdrom, 0)
 
-void JITDraw3XObj::m_msgokcancel(int nargs) {
+void JITDraw3XObj::m_msgokcancel(int nargs, bool allowRetVal) {
 	Common::U32String caption = g_lingo->pop().asString();  // Title of the message box
 	Common::U32String message = g_lingo->pop().asString();
 	GUI::MessageDialog dialog(message, _("Ok"), _("Cancel"));
@@ -125,7 +125,7 @@ void JITDraw3XObj::m_msgokcancel(int nargs) {
 	g_lingo->push(Datum(result == GUI::kMessageOK ? 1 : 0));
 }
 
-void JITDraw3XObj::m_msgok(int nargs) {
+void JITDraw3XObj::m_msgok(int nargs, bool allowRetVal) {
 	Common::U32String caption = g_lingo->pop().asString();  // Title of the message box
 	Common::U32String message = g_lingo->pop().asString();
 	GUI::MessageDialog dialog(message, _("Ok"));
@@ -133,7 +133,7 @@ void JITDraw3XObj::m_msgok(int nargs) {
 	g_lingo->push(Datum());
 }
 
-void JITDraw3XObj::m_msgyesno(int nargs) {
+void JITDraw3XObj::m_msgyesno(int nargs, bool allowRetVal) {
 	Common::U32String caption = g_lingo->pop().asString();  // Title of the message box
 	Common::U32String message = g_lingo->pop().asString();
 	GUI::MessageDialog dialog(message, _("Yes"), _("No"));

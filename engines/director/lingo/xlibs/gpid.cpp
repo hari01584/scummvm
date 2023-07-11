@@ -89,7 +89,7 @@ ProductIdXObject::ProductIdXObject(ObjectType ObjectType) :Object<ProductIdXObje
 	_objType = ObjectType;
 }
 
-void GpidXObj::m_new(int nargs) {
+void GpidXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("gpid::new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }

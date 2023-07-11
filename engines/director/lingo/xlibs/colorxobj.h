@@ -32,14 +32,14 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_setOurColors(int nargs);
-void m_restoreColors(int nargs);
-void m_getSysColor(int nargs);
-void m_setSysColor(int nargs);
-void m_setSysColorRGB(int nargs);
-void m_setSysColorIndex(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_setOurColors(int nargs, bool allowRetVal);
+void m_restoreColors(int nargs, bool allowRetVal);
+void m_getSysColor(int nargs, bool allowRetVal);
+void m_setSysColor(int nargs, bool allowRetVal);
+void m_setSysColorRGB(int nargs, bool allowRetVal);
+void m_setSysColorIndex(int nargs, bool allowRetVal);
 
 } // End of namespace ColorXObj
 

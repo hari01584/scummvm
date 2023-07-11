@@ -86,12 +86,12 @@ JourneyWareXINIXObject::JourneyWareXINIXObject(ObjectType ObjectType) :Object<Jo
    _objType = ObjectType;
 }
 
-void JourneyWareXINIXObj::m_new(int nargs) {
+void JourneyWareXINIXObj::m_new(int nargs, bool allowRetVal) {
    g_lingo->printSTUBWithArglist("JWXIni::new", nargs);
    g_lingo->push(g_lingo->_state->me);
 }
 
-void JourneyWareXINIXObj::m_GetPrivateProfileInt(int nargs) {
+void JourneyWareXINIXObj::m_GetPrivateProfileInt(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("JWXIni::GetPrivateProfileInt", nargs);
 	/*auto file= */g_lingo->pop().asString();
 	auto defaultValue = g_lingo->pop().asInt();
@@ -100,7 +100,7 @@ void JourneyWareXINIXObj::m_GetPrivateProfileInt(int nargs) {
 	g_lingo->push(Datum(defaultValue)); // TODO: We only return the default for now
 }
 
-void JourneyWareXINIXObj::m_GetPrivateProfileString(int nargs) {
+void JourneyWareXINIXObj::m_GetPrivateProfileString(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("JWXIni::GetPrivateProfileString", nargs);
 	/*auto file = */g_lingo->pop().asString();
 	/*auto size = */g_lingo->pop().asInt();
@@ -110,7 +110,7 @@ void JourneyWareXINIXObj::m_GetPrivateProfileString(int nargs) {
 	g_lingo->push(Datum(defaultValue)); // TODO: We only return the default for now
 }
 
-void JourneyWareXINIXObj::m_GetProfileInt(int nargs) {
+void JourneyWareXINIXObj::m_GetProfileInt(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("JWXIni::GetProfileInt", nargs);
 	auto defaultValue = g_lingo->pop().asInt();
 	/*auto key = */g_lingo->pop().asString();
@@ -118,7 +118,7 @@ void JourneyWareXINIXObj::m_GetProfileInt(int nargs) {
 	g_lingo->push(Datum(defaultValue)); // TODO: We only return the default for now
 }
 
-void JourneyWareXINIXObj::m_GetProfileString(int nargs) {
+void JourneyWareXINIXObj::m_GetProfileString(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("JWXIni::GetProfileString", nargs);
 	/*auto size = */g_lingo->pop().asInt();
 	auto defaultValue = g_lingo->pop().asString();

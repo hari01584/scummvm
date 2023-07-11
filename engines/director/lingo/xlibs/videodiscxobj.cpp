@@ -171,7 +171,7 @@ VideodiscXObject::VideodiscXObject(ObjectType ObjectType) :Object<VideodiscXObje
 	_objType = ObjectType;
 }
 
-void VideodiscXObj::m_new(int nargs) {
+void VideodiscXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("VideodiscXObj::m_new", nargs);
 	g_lingo->dropStack(nargs);
 	g_lingo->push(g_lingo->_state->me);

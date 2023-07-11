@@ -113,7 +113,7 @@ BatQTXObject::BatQTXObject(ObjectType ObjectType) : Object<BatQTXObject>("BatQt"
 	_objType = ObjectType;
 }
 
-void BatQT::m_new(int nargs) {
+void BatQT::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 

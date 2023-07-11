@@ -37,27 +37,27 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_name(int nargs);
-void m_status(int nargs);
-void m_error(int nargs);
-void m_lastError(int nargs);
-void m_open(int nargs);
-void m_play(int nargs);
-void m_stop(int nargs);
-void m_getTimeRange(int nargs);
-void m_getMovieBox(int nargs);
-void m_getTime(int nargs);
-void m_setTime(int nargs);
-void m_setVolume(int nargs);
-void m_length(int nargs);
-void m_setMovieBox(int nargs);
-void m_setTimeRange(int nargs);
-void m_addCallback(int nargs);
-void m_removeCallback(int nargs);
-void m_resetCallbacks(int nargs);
-void m_setBatch(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_name(int nargs, bool allowRetVal);
+void m_status(int nargs, bool allowRetVal);
+void m_error(int nargs, bool allowRetVal);
+void m_lastError(int nargs, bool allowRetVal);
+void m_open(int nargs, bool allowRetVal);
+void m_play(int nargs, bool allowRetVal);
+void m_stop(int nargs, bool allowRetVal);
+void m_getTimeRange(int nargs, bool allowRetVal);
+void m_getMovieBox(int nargs, bool allowRetVal);
+void m_getTime(int nargs, bool allowRetVal);
+void m_setTime(int nargs, bool allowRetVal);
+void m_setVolume(int nargs, bool allowRetVal);
+void m_length(int nargs, bool allowRetVal);
+void m_setMovieBox(int nargs, bool allowRetVal);
+void m_setTimeRange(int nargs, bool allowRetVal);
+void m_addCallback(int nargs, bool allowRetVal);
+void m_removeCallback(int nargs, bool allowRetVal);
+void m_resetCallbacks(int nargs, bool allowRetVal);
+void m_setBatch(int nargs, bool allowRetVal);
 
 } // End of namespace BatQT
 

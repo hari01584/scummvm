@@ -22,181 +22,183 @@
 #ifndef DIRECTOR_LINGO_BUILTINS_H
 #define DIRECTOR_LINGO_BUILTINS_H
 
+#include "director/lingo/lingo-utils.h"
+
 namespace Director {
 
 namespace LB {
 
 // builtin functions
-void b_abs(int nargs);
-void b_atan(int nargs);
-void b_cos(int nargs);
-void b_exp(int nargs);
-void b_float(int nargs);
-void b_integer(int nargs);
-void b_log(int nargs);
-void b_pi(int nargs);
-void b_power(int nargs);
-void b_random(int nargs);
-void b_sin(int nargs);
-void b_sqrt(int nargs);
-void b_tan(int nargs);
+DECLAREBUILTIN(b_abs)
+DECLAREBUILTIN(b_atan)
+DECLAREBUILTIN(b_cos)
+DECLAREBUILTIN(b_exp)
+DECLAREBUILTIN(b_float)
+DECLAREBUILTIN(b_integer)
+DECLAREBUILTIN(b_log)
+DECLAREBUILTIN(b_pi)
+DECLAREBUILTIN(b_power)
+DECLAREBUILTIN(b_random)
+DECLAREBUILTIN(b_sin)
+DECLAREBUILTIN(b_sqrt)
+DECLAREBUILTIN(b_tan)
 
-void b_chars(int nargs);
-void b_charToNum(int nargs);
-void b_length(int nargs);
-void b_numToChar(int nargs);
-void b_offset(int nargs);
-void b_string(int nargs);
+DECLAREBUILTIN(b_chars)
+DECLAREBUILTIN(b_charToNum)
+DECLAREBUILTIN(b_length)
+DECLAREBUILTIN(b_numToChar)
+DECLAREBUILTIN(b_offset)
+DECLAREBUILTIN(b_string)
 
-void b_add(int nargs);
-void b_addAt(int nargs);
-void b_addProp(int nargs);
-void b_append(int nargs);
-void b_count(int nargs);
-void b_deleteAt(int nargs);
-void b_deleteOne(int nargs);
-void b_deleteProp(int nargs);
-void b_findPos(int nargs);
-void b_findPosNear(int nargs);
-void b_getaProp(int nargs);
-void b_getAt(int nargs);
-void b_getLast(int nargs);
-void b_getOne(int nargs);
-void b_getPos(int nargs);
-void b_getProp(int nargs);
-void b_getPropAt(int nargs);
-void b_list(int nargs);
-void b_listP(int nargs);
-void b_max(int nargs);
-void b_min(int nargs);
-void b_setaProp(int nargs);
-void b_setAt(int nargs);
-void b_setProp(int nargs);
-void b_sort(int nargs);
+DECLAREBUILTIN(b_add)
+DECLAREBUILTIN(b_addAt)
+DECLAREBUILTIN(b_addProp)
+DECLAREBUILTIN(b_append)
+DECLAREBUILTIN(b_count)
+DECLAREBUILTIN(b_deleteAt)
+DECLAREBUILTIN(b_deleteOne)
+DECLAREBUILTIN(b_deleteProp)
+DECLAREBUILTIN(b_findPos)
+DECLAREBUILTIN(b_findPosNear)
+DECLAREBUILTIN(b_getaProp)
+DECLAREBUILTIN(b_getAt)
+DECLAREBUILTIN(b_getLast)
+DECLAREBUILTIN(b_getOne)
+DECLAREBUILTIN(b_getPos)
+DECLAREBUILTIN(b_getProp)
+DECLAREBUILTIN(b_getPropAt)
+DECLAREBUILTIN(b_list)
+DECLAREBUILTIN(b_listP)
+DECLAREBUILTIN(b_max)
+DECLAREBUILTIN(b_min)
+DECLAREBUILTIN(b_setaProp)
+DECLAREBUILTIN(b_setAt)
+DECLAREBUILTIN(b_setProp)
+DECLAREBUILTIN(b_sort)
 
-void b_factory(int nargs);
-void b_floatP(int nargs);
-void b_ilk(int nargs);
-void b_integerp(int nargs);
-void b_objectp(int nargs);
-void b_pictureP(int nargs);
-void b_stringp(int nargs);
-void b_symbolp(int nargs);
-void b_voidP(int nargs);
+DECLAREBUILTIN(b_factory)
+DECLAREBUILTIN(b_floatP)
+DECLAREBUILTIN(b_ilk)
+DECLAREBUILTIN(b_integerp)
+DECLAREBUILTIN(b_objectp)
+DECLAREBUILTIN(b_pictureP)
+DECLAREBUILTIN(b_stringp)
+DECLAREBUILTIN(b_symbolp)
+DECLAREBUILTIN(b_voidP)
 
-void b_alert(int nargs);
-void b_clearGlobals(int nargs);
-void b_cursor(int nargs);
-void b_framesToHMS(int nargs);
-void b_HMStoFrames(int nargs);
-void b_param(int nargs);
-void b_printFrom(int nargs);
-void b_put(int nargs);
-void b_showGlobals(int nargs);
-void b_showLocals(int nargs);
-void b_value(int nargs);
+DECLAREBUILTIN(b_alert)
+DECLAREBUILTIN(b_clearGlobals)
+DECLAREBUILTIN(b_cursor)
+DECLAREBUILTIN(b_framesToHMS)
+DECLAREBUILTIN(b_HMStoFrames)
+DECLAREBUILTIN(b_param)
+DECLAREBUILTIN(b_printFrom)
+DECLAREBUILTIN(b_put)
+DECLAREBUILTIN(b_showGlobals)
+DECLAREBUILTIN(b_showLocals)
+DECLAREBUILTIN(b_value)
 
-void b_constrainH(int nargs);
-void b_constrainV(int nargs);
-void b_copyToClipBoard(int nargs);
-void b_duplicate(int nargs);
-void b_editableText(int nargs);
-void b_erase(int nargs);
-void b_findEmpty(int nargs);
-void b_importFileInto(int nargs);
-void b_installMenu(int nargs);
-void b_label(int nargs);
-void b_marker(int nargs);
-void b_move(int nargs);
-void b_moveableSprite(int nargs);
-void b_pasteClipBoardInto(int nargs);
-void b_puppetPalette(int nargs);
-void b_puppetSound(int nargs);
-void b_puppetSprite(int nargs);
-void b_puppetTempo(int nargs);
-void b_puppetTransition(int nargs);
-void b_ramNeeded(int nargs);
-void b_rollOver(int nargs);
-void b_spriteBox(int nargs);
-void b_unLoad(int nargs);
-void b_unLoadCast(int nargs);
-void b_updateStage(int nargs);
-void b_zoomBox(int nargs);
-void b_immediateSprite(int nargs);
+DECLAREBUILTIN(b_constrainH)
+DECLAREBUILTIN(b_constrainV)
+DECLAREBUILTIN(b_copyToClipBoard)
+DECLAREBUILTIN(b_duplicate)
+DECLAREBUILTIN(b_editableText)
+DECLAREBUILTIN(b_erase)
+DECLAREBUILTIN(b_findEmpty)
+DECLAREBUILTIN(b_importFileInto)
+DECLAREBUILTIN(b_installMenu)
+DECLAREBUILTIN(b_label)
+DECLAREBUILTIN(b_marker)
+DECLAREBUILTIN(b_move)
+DECLAREBUILTIN(b_moveableSprite)
+DECLAREBUILTIN(b_pasteClipBoardInto)
+DECLAREBUILTIN(b_puppetPalette)
+DECLAREBUILTIN(b_puppetSound)
+DECLAREBUILTIN(b_puppetSprite)
+DECLAREBUILTIN(b_puppetTempo)
+DECLAREBUILTIN(b_puppetTransition)
+DECLAREBUILTIN(b_ramNeeded)
+DECLAREBUILTIN(b_rollOver)
+DECLAREBUILTIN(b_spriteBox)
+DECLAREBUILTIN(b_unLoad)
+DECLAREBUILTIN(b_unLoadCast)
+DECLAREBUILTIN(b_updateStage)
+DECLAREBUILTIN(b_zoomBox)
+DECLAREBUILTIN(b_immediateSprite)
 
-void b_abort(int nargs);
-void b_continue(int nargs);
-void b_dontPassEvent(int nargs);
-void b_delay(int nargs);
-void b_do(int nargs);
-void b_go(int nargs);
-void b_halt(int nargs);
-void b_nothing(int nargs);
-void b_pass(int nargs);
-void b_pause(int nargs);
-void b_play(int nargs);
-void b_playAccel(int nargs);
-void b_preLoad(int nargs);
-void b_preLoadCast(int nargs);
-void b_quit(int nargs);
-void b_restart(int nargs);
-void b_shutDown(int nargs);
-void b_startTimer(int nargs);
-void b_return(int nargs);
+DECLAREBUILTIN(b_abort)
+DECLAREBUILTIN(b_continue)
+DECLAREBUILTIN(b_dontPassEvent)
+DECLAREBUILTIN(b_delay)
+DECLAREBUILTIN(b_do)
+DECLAREBUILTIN(b_go)
+DECLAREBUILTIN(b_halt)
+DECLAREBUILTIN(b_nothing)
+DECLAREBUILTIN(b_pass)
+DECLAREBUILTIN(b_pause)
+DECLAREBUILTIN(b_play)
+DECLAREBUILTIN(b_playAccel)
+DECLAREBUILTIN(b_preLoad)
+DECLAREBUILTIN(b_preLoadCast)
+DECLAREBUILTIN(b_quit)
+DECLAREBUILTIN(b_restart)
+DECLAREBUILTIN(b_shutDown)
+DECLAREBUILTIN(b_startTimer)
+DECLAREBUILTIN(b_return)
 
-void b_closeDA(int nargs);
-void b_closeResFile(int nargs);
-void b_closeXlib(int nargs);
-void b_getNthFileNameInFolder(int nargs);
-void b_open(int nargs);
-void b_openDA(int nargs);
-void b_openResFile(int nargs);
-void b_openXlib(int nargs);
-void b_setCallBack(int nargs);
-void b_saveMovie(int nargs);
-void b_showResFile(int nargs);
-void b_showXlib(int nargs);
-void b_xFactoryList(int nargs);
+DECLAREBUILTIN(b_closeDA)
+DECLAREBUILTIN(b_closeResFile)
+DECLAREBUILTIN(b_closeXlib)
+DECLAREBUILTIN(b_getNthFileNameInFolder)
+DECLAREBUILTIN(b_open)
+DECLAREBUILTIN(b_openDA)
+DECLAREBUILTIN(b_openResFile)
+DECLAREBUILTIN(b_openXlib)
+DECLAREBUILTIN(b_setCallBack)
+DECLAREBUILTIN(b_saveMovie)
+DECLAREBUILTIN(b_showResFile)
+DECLAREBUILTIN(b_showXlib)
+DECLAREBUILTIN(b_xFactoryList)
 
-void b_point(int nargs);
-void b_inside(int nargs);
-void b_intersect(int nargs);
-void b_map(int nargs);
-void b_offsetRect(int nargs);
-void b_rect(int nargs);
-void b_union(int nargs);
+DECLAREBUILTIN(b_point)
+DECLAREBUILTIN(b_inside)
+DECLAREBUILTIN(b_intersect)
+DECLAREBUILTIN(b_map)
+DECLAREBUILTIN(b_offsetRect)
+DECLAREBUILTIN(b_rect)
+DECLAREBUILTIN(b_union)
 
-void b_window(int nargs);
+DECLAREBUILTIN(b_window)
 
-void b_beep(int nargs);
-void b_mci(int nargs);
-void b_mciwait(int nargs);
-void b_sound(int nargs);
-void b_soundBusy(int nargs);
+DECLAREBUILTIN(b_beep)
+DECLAREBUILTIN(b_mci)
+DECLAREBUILTIN(b_mciwait)
+DECLAREBUILTIN(b_sound)
+DECLAREBUILTIN(b_soundBusy)
 
-void b_backspace(int nargs);
-void b_empty(int nargs);
-void b_enter(int nargs);
-void b_false(int nargs);
-void b_quote(int nargs);
-void b_returnconst(int nargs);
-void b_tab(int nargs);
-void b_true(int nargs);
-void b_version(int nargs);
+DECLAREBUILTIN(b_backspace)
+DECLAREBUILTIN(b_empty)
+DECLAREBUILTIN(b_enter)
+DECLAREBUILTIN(b_false)
+DECLAREBUILTIN(b_quote)
+DECLAREBUILTIN(b_returnconst)
+DECLAREBUILTIN(b_tab)
+DECLAREBUILTIN(b_true)
+DECLAREBUILTIN(b_version)
 
-void b_cast(int nargs);
-void b_script(int nargs);
+DECLAREBUILTIN(b_cast)
+DECLAREBUILTIN(b_script)
 
-void b_numberofchars(int nargs);
-void b_numberofitems(int nargs);
-void b_numberoflines(int nargs);
-void b_numberofwords(int nargs);
+DECLAREBUILTIN(b_numberofchars)
+DECLAREBUILTIN(b_numberofitems)
+DECLAREBUILTIN(b_numberoflines)
+DECLAREBUILTIN(b_numberofwords)
 
-void b_scummvmassert(int nargs);
-void b_scummvmassertequal(int nargs);
+DECLAREBUILTIN(b_scummvmassert)
+DECLAREBUILTIN(b_scummvmassertequal)
 
 // XCMD/XFCN (HyperCard), normally exposed
-void b_getVolumes(int nargs);
+DECLAREBUILTIN(b_getVolumes)
 
 } // End of namespace LB
 

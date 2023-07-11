@@ -37,17 +37,17 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_getPortNum(int nargs);
-void m_writeString(int nargs);
-void m_writeChar(int nargs);
-void m_readString(int nargs);
-void m_readChar(int nargs);
-void m_readCount(int nargs);
-void m_readFlush(int nargs);
-void m_configChan(int nargs);
-void m_hShakeChan(int nargs);
-void m_setUp(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_getPortNum(int nargs, bool allowRetVal);
+void m_writeString(int nargs, bool allowRetVal);
+void m_writeChar(int nargs, bool allowRetVal);
+void m_readString(int nargs, bool allowRetVal);
+void m_readChar(int nargs, bool allowRetVal);
+void m_readCount(int nargs, bool allowRetVal);
+void m_readFlush(int nargs, bool allowRetVal);
+void m_configChan(int nargs, bool allowRetVal);
+void m_hShakeChan(int nargs, bool allowRetVal);
+void m_setUp(int nargs, bool allowRetVal);
 
 } // End of namespace SerialPortXObj
 

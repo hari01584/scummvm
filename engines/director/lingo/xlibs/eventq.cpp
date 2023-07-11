@@ -93,7 +93,7 @@ EventQXObject::EventQXObject(ObjectType ObjectType) : Object<EventQXObject>("Eve
 	_objType = ObjectType;
 }
 
-void EventQXObj::m_new(int nargs) {
+void EventQXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 

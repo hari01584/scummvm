@@ -32,7 +32,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void b_setvolume(int nargs);
+void b_setvolume(int nargs, bool allowRetVal);
 
 } // End of namespace DeveloperStack
 

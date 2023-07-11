@@ -93,11 +93,11 @@ DialogsXObject::DialogsXObject(ObjectType ObjectType) : Object<DialogsXObject>("
 	_objType = ObjectType;
 }
 
-void DialogsXObj::m_new(int nargs) {
+void DialogsXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void DialogsXObj::m_putFile(int nargs) {
+void DialogsXObj::m_putFile(int nargs, bool allowRetVal) {
 	Common::String extn = g_lingo->pop().asString();
 	Common::String name = g_lingo->pop().asString();
 	Common::String title = g_lingo->pop().asString();
@@ -121,7 +121,7 @@ void DialogsXObj::m_putFile(int nargs) {
 	g_lingo->push(Datum(filename));
 }
 
-void DialogsXObj::m_getFile(int nargs) {
+void DialogsXObj::m_getFile(int nargs, bool allowRetVal) {
 	Common::String extn = g_lingo->pop().asString();
 	Common::String name = g_lingo->pop().asString();
 	Common::String title = g_lingo->pop().asString();

@@ -79,11 +79,11 @@ FindSysXObject::FindSysXObject(ObjectType ObjectType) : Object<FindSysXObject>("
 	_objType = ObjectType;
 }
 
-void FindSys::m_new(int nargs) {
+void FindSys::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FindSys::m_do(int nargs) {
+void FindSys::m_do(int nargs, bool allowRetVal) {
 	g_lingo->push(Common::String("C:\\WINDOWS\\"));
 }
 

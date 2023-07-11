@@ -38,15 +38,15 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_clear(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_clear(int nargs, bool allowRetVal);
 
-void m_GetPrivateProfileInt(int nargs);
-void m_GetPrivateProfileString(int nargs);
-void m_GetProfileInt(int nargs);
-void m_GetProfileString(int nargs);
-void m_WritePrivateProfileString(int nargs);
-void m_WriteProfileString(int nargs);
+void m_GetPrivateProfileInt(int nargs, bool allowRetVal);
+void m_GetPrivateProfileString(int nargs, bool allowRetVal);
+void m_GetProfileInt(int nargs, bool allowRetVal);
+void m_GetProfileString(int nargs, bool allowRetVal);
+void m_WritePrivateProfileString(int nargs, bool allowRetVal);
+void m_WriteProfileString(int nargs, bool allowRetVal);
 
 } // End of namespace JourneyWareXINIXObj
 

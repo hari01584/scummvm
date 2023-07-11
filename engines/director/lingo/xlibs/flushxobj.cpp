@@ -107,26 +107,26 @@ FlushXObject::FlushXObject(ObjectType ObjectType) :Object<FlushXObject>("FlushXO
 	_objType = ObjectType;
 }
 
-void FlushXObj::m_new(int nargs) {
+void FlushXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FlushXObj::m_clearMask(int nargs) {
+void FlushXObj::m_clearMask(int nargs, bool allowRetVal) {
 	debug(5, "FlushXobj::m_clearMask: no-op");
 }
 
-void FlushXObj::m_addToMask(int nargs) {
+void FlushXObj::m_addToMask(int nargs, bool allowRetVal) {
 	g_lingo->pop();
 	g_lingo->pop();
 
 	debug(5, "FlushXobj::m_addToMask: no-op");
 }
 
-void FlushXObj::m_flush(int nargs) {
+void FlushXObj::m_flush(int nargs, bool allowRetVal) {
 	debug(5, "FlushXobj::m_flush: no-op");
 }
 
-void FlushXObj::m_flushEvents(int nargs) {
+void FlushXObj::m_flushEvents(int nargs, bool allowRetVal) {
 	g_lingo->pop();
 	g_lingo->pop();
 	debug(5, "FlushXobj::m_flush: no-op");

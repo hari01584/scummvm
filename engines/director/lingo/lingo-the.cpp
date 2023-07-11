@@ -890,7 +890,7 @@ Datum Lingo::getTheEntity(int entity, Datum &id, int field) {
 		break;
 	case kTheWindow:
 		g_lingo->push(id);
-		LB::b_window(1);
+		LB::b_window(1, false);
 		d = g_lingo->pop().u.obj->getField(field);
 		break;
 	case kTheWindowList:
@@ -1206,7 +1206,7 @@ void Lingo::setTheEntity(int entity, Datum &id, int field, Datum &d) {
 		break;
 	case kTheWindow:
 		g_lingo->push(id);
-		LB::b_window(1);
+		LB::b_window(1, false);
 		g_lingo->pop().u.obj->setField(field, d);
 		break;
 	case kTheWindowList:

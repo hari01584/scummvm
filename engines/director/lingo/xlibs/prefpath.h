@@ -37,8 +37,8 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_prefpath(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_prefpath(int nargs, bool allowRetVal);
 
 } // End of namespace PrefPath
 

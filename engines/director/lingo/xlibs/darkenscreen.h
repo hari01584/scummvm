@@ -32,7 +32,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_darkenscreen(int nargs);
+void m_darkenscreen(int nargs, bool allowRetVal);
 
 } // End of namespace DarkenScreen
 

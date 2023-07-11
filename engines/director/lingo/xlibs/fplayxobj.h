@@ -32,18 +32,18 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void b_fplay(int nargs);
-void b_copysnd(int nargs);
-void b_erasesnd(int nargs);
-void b_pastesnd(int nargs);
-void b_renamesnd(int nargs);
-void b_duplicatesnd(int nargs);
-void b_sndinfo(int nargs);
-void b_sndlist(int nargs);
-void b_volume(int nargs);
-void b_filename(int nargs);
-void b_inputlevel(int nargs);
-void b_fsound(int nargs);
+void b_fplay(int nargs, bool allowRetVal);
+void b_copysnd(int nargs, bool allowRetVal);
+void b_erasesnd(int nargs, bool allowRetVal);
+void b_pastesnd(int nargs, bool allowRetVal);
+void b_renamesnd(int nargs, bool allowRetVal);
+void b_duplicatesnd(int nargs, bool allowRetVal);
+void b_sndinfo(int nargs, bool allowRetVal);
+void b_sndlist(int nargs, bool allowRetVal);
+void b_volume(int nargs, bool allowRetVal);
+void b_filename(int nargs, bool allowRetVal);
+void b_inputlevel(int nargs, bool allowRetVal);
+void b_fsound(int nargs, bool allowRetVal);
 
 } // End of namespace FPlayXObj
 

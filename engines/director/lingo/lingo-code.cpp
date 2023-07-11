@@ -1645,10 +1645,10 @@ void LC::call(const Symbol &funcSym, int nargs, bool allowRetVal) {
 			// Pushing an entire stack frame is not necessary
 			Datum retMe = g_lingo->_state->me;
 			g_lingo->_state->me = target;
-			(*funcSym.u.bltin)(nargs);
+			(*funcSym.u.bltin)(nargs, allowRetVal);
 			g_lingo->_state->me = retMe;
 		} else {
-			(*funcSym.u.bltin)(nargs);
+			(*funcSym.u.bltin)(nargs, allowRetVal);
 		}
 
 		uint stackSize = g_lingo->_stack.size();

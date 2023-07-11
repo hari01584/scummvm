@@ -55,7 +55,7 @@ void Porta::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void Porta::b_porta(int nargs) {
+void Porta::b_porta(int nargs, bool allowRetVal) {
 	int mode = g_lingo->pop().asInt();
 
 	debug(5, "LB::b_porta: mode: %d", mode);

@@ -74,12 +74,12 @@ FEIMasksXObject::FEIMasksXObject(ObjectType ObjectType) : Object<FEIMasksXObject
 	_objType = ObjectType;
 }
 
-void FEIMasksXObj::m_new(int nargs) {
+void FEIMasksXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEIMasksXObj::new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEIMasksXObj::m_MaskID(int nargs) {
+void FEIMasksXObj::m_MaskID(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEIMasksXObj::MaskID", nargs);
 	g_lingo->dropStack(nargs);
 	g_lingo->push(Datum());

@@ -40,9 +40,9 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_setRange(int nargs);
-void m_getDrive(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_setRange(int nargs, bool allowRetVal);
+void m_getDrive(int nargs, bool allowRetVal);
 
 } // End of namespace LabelDrvXObject
 

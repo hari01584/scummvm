@@ -77,11 +77,11 @@ BarakeObject::BarakeObject(ObjectType ObjectType) :Object<BarakeObject>("BarakeO
 	_objType = ObjectType;
 }
 
-void BarakeObj::m_new(int nargs) {
+void BarakeObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void BarakeObj::m_clear(int nargs) {
+void BarakeObj::m_clear(int nargs, bool allowRetVal) {
 }
 
 XOBJSTUBNR(BarakeObj::m_gpal)

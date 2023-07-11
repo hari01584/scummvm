@@ -38,9 +38,9 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_prefAppName(int nargs);
-void m_prefReadString(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_prefAppName(int nargs, bool allowRetVal);
+void m_prefReadString(int nargs, bool allowRetVal);
 
 } // End of namespace IntroMaskXObj
 

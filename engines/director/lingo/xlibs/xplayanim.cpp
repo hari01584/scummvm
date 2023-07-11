@@ -55,7 +55,7 @@ void XPlayAnim::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void XPlayAnim::b_xplayanim(int nargs) {
+void XPlayAnim::b_xplayanim(int nargs, bool allowRetVal) {
 	int y = g_lingo->pop().asInt();
 	int x = g_lingo->pop().asInt();
 	Common::String filename = g_lingo->pop().asString();

@@ -156,7 +156,7 @@ PopUpMenuXObject::PopUpMenuXObject(ObjectType ObjectType) : Object<PopUpMenuXObj
 	_objType = ObjectType;
 }
 
-void PopUpMenuXObj::m_new(int nargs) {
+void PopUpMenuXObj::m_new(int nargs, bool allowRetVal) {
 	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
 
 	int menuId = g_lingo->pop().asInt();
@@ -168,7 +168,7 @@ void PopUpMenuXObj::m_new(int nargs) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void PopUpMenuXObj::m_popNum(int nargs) {
+void PopUpMenuXObj::m_popNum(int nargs, bool allowRetVal) {
 	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
 
 	int itemNum = g_lingo->pop().asInt();
@@ -185,7 +185,7 @@ void PopUpMenuXObj::m_popNum(int nargs) {
 	g_lingo->push(Datum(selected));
 }
 
-void PopUpMenuXObj::m_popText(int nargs) {
+void PopUpMenuXObj::m_popText(int nargs, bool allowRetVal) {
 	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
 
 	int itemNum = g_lingo->pop().asInt();
@@ -204,7 +204,7 @@ void PopUpMenuXObj::m_popText(int nargs) {
 	g_lingo->push(Datum(selectedText));
 }
 
-void PopUpMenuXObj::m_smart(int nargs) {
+void PopUpMenuXObj::m_smart(int nargs, bool allowRetVal) {
 	PopUpMenuXObject *me = static_cast<PopUpMenuXObject *>(g_lingo->_state->me.u.obj);
 	bool isSmart = g_lingo->pop().asInt() != 0;
 

@@ -32,7 +32,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_ispippin(int nargs);
+void m_ispippin(int nargs, bool allowRetVal);
 
 } // End of namespace IsPippin
 

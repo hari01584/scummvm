@@ -95,7 +95,7 @@ SoundJamObject::SoundJamObject(ObjectType objType) : Object<SoundJamObject>("Sou
 	_objType = objType;
 }
 
-void SoundJam::m_new(int nargs) {
+void SoundJam::m_new(int nargs, bool allowRetVal) {
 	int numberOfChannels = g_lingo->pop().asInt();
 
 	if (numberOfChannels != 1) {
@@ -109,7 +109,7 @@ void SoundJam::m_new(int nargs) {
 
 XOBJSTUB(SoundJam::m_defineFileSound, 0)
 
-void SoundJam::m_defineCastSound(int nargs) {
+void SoundJam::m_defineCastSound(int nargs, bool allowRetVal) {
 	SoundJamObject *me = static_cast<SoundJamObject *>(g_lingo->_state->me.u.obj);
 
 	/* Datum numberOfBeats = */ g_lingo->pop();
@@ -124,7 +124,7 @@ void SoundJam::m_defineCastSound(int nargs) {
 	g_lingo->push(soundID);
 }
 
-void SoundJam::m_undefineSound(int nargs) {
+void SoundJam::m_undefineSound(int nargs, bool allowRetVal) {
 	SoundJamObject *me = static_cast<SoundJamObject *>(g_lingo->_state->me.u.obj);
 	int soundID = g_lingo->pop().asInt();
 
@@ -146,7 +146,7 @@ void SoundJam::m_undefineSound(int nargs) {
 XOBJSTUB(SoundJam::m_readSome, 0)
 XOBJSTUB(SoundJam::m_startSound, 0)
 
-void SoundJam::m_switchNew(int nargs) {
+void SoundJam::m_switchNew(int nargs, bool allowRetVal) {
 	SoundJamObject *me = static_cast<SoundJamObject *>(g_lingo->_state->me.u.obj);
 	int soundID = g_lingo->pop().asInt();
 
@@ -166,7 +166,7 @@ XOBJSTUB(SoundJam::m_switchParallel, 0)
 XOBJSTUB(SoundJam::m_hasSwitchHappened, 0)
 XOBJSTUBNR(SoundJam::m_toggleMute)
 
-void SoundJam::m_stop(int nargs) {
+void SoundJam::m_stop(int nargs, bool allowRetVal) {
 	DirectorSound *sound = g_director->getCurrentWindow()->getSoundManager();
 	sound->setPuppetSound(SoundID(), kJamChannel);
 	sound->playPuppetSound(kJamChannel);

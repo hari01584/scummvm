@@ -61,7 +61,7 @@ void UnitTest::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void UnitTest::m_UTScreenshot(int nargs) {
+void UnitTest::m_UTScreenshot(int nargs, bool allowRetVal) {
 	Common::String filenameBase = g_director->getCurrentMovie()->getArchive()->getFileName();
 	if (filenameBase.hasSuffixIgnoreCase(".dir"))
 		filenameBase = filenameBase.substr(0, filenameBase.size() - 4);

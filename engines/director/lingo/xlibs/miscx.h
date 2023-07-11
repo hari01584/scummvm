@@ -37,10 +37,10 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_bootName(int nargs);
-void m_insureFolder(int nargs);
-void m_prefsFolder(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_bootName(int nargs, bool allowRetVal);
+void m_insureFolder(int nargs, bool allowRetVal);
+void m_prefsFolder(int nargs, bool allowRetVal);
 
 } // End of namespace MiscX
 

@@ -86,7 +86,7 @@ PalXObject::PalXObject(ObjectType ObjectType) :Object<PalXObject>("PalXObj") {
 	_objType = ObjectType;
 }
 
-void PalXObj::m_new(int nargs) {
+void PalXObj::m_new(int nargs, bool allowRetVal) {
 	PalXObject *me = static_cast<PalXObject *>(g_lingo->_state->me.u.obj);
 
 	Common::Rect rect;
@@ -99,7 +99,7 @@ void PalXObj::m_new(int nargs) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void PalXObj::m_patchIt(int nargs) {
+void PalXObj::m_patchIt(int nargs, bool allowRetVal) {
 	warning("STUB: PalXObj::m_patchIt");
 }
 

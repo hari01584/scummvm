@@ -99,17 +99,17 @@ MemoryXObject::MemoryXObject(ObjectType ObjectType) :Object<MemoryXObject>("Memo
 	_objType = ObjectType;
 }
 
-void MemoryXObj::m_new(int nargs) {
+void MemoryXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void MemoryXObj::m_clear(int nargs) {
+void MemoryXObj::m_clear(int nargs, bool allowRetVal) {
 }
 
-void MemoryXObj::m_purge(int nargs) {
+void MemoryXObj::m_purge(int nargs, bool allowRetVal) {
 }
 
-void MemoryXObj::m_getVM(int nargs) {
+void MemoryXObj::m_getVM(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(0)); // At least Chop Suey Win requires 0 bytes Virtual Memory for running
 }
 

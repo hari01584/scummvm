@@ -41,7 +41,7 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void b_xplayanim(int nargs);
+void b_xplayanim(int nargs, bool allowRetVal);
 
 } // End of namespace XPlayAnim
 

@@ -37,15 +37,15 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_checkifcdrom(int nargs);
-void m_msgokcancel(int nargs);
-void m_msgok(int nargs);
-void m_msgyesno(int nargs);
-void m_gotodraw(int nargs);
-void m_adddrawbutton(int nargs);
-void m_removedrawbutton(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_checkifcdrom(int nargs, bool allowRetVal);
+void m_msgokcancel(int nargs, bool allowRetVal);
+void m_msgok(int nargs, bool allowRetVal);
+void m_msgyesno(int nargs, bool allowRetVal);
+void m_gotodraw(int nargs, bool allowRetVal);
+void m_adddrawbutton(int nargs, bool allowRetVal);
+void m_removedrawbutton(int nargs, bool allowRetVal);
 
 } // End of namespace JITDraw3XObj
 

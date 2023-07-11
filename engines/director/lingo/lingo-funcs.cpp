@@ -73,7 +73,7 @@ void Lingo::func_goto(Datum &frame, Datum &movie, bool calledfromgo) {
 
 		if (g_lingo->_updateMovieEnabled) {
 			// Save the movie when branching to another movie.
-			LB::b_saveMovie(0);
+			LB::b_saveMovie(0, false);
 		}
 
 		score->_playState = kPlayStopped;

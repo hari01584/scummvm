@@ -59,7 +59,7 @@ void FileExists::close(int type) {
 	g_lingo->cleanupBuiltIns(builtins);
 }
 
-void FileExists::m_fileexists(int nargs) {
+void FileExists::m_fileexists(int nargs, bool allowRetVal) {
 	// This is mostly copied from FileIO::m_new
 	Common::SaveFileManager *saves = g_system->getSavefileManager();
 	Common::String path = g_lingo->pop().asString();

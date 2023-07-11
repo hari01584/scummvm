@@ -142,12 +142,12 @@ MovieUtilsXObject::MovieUtilsXObject(ObjectType ObjectType) :Object<MovieUtilsXO
 	_objType = ObjectType;
 }
 
-void MovUtilsXObj::m_new(int nargs) {
+void MovUtilsXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("MovUtilsXObj::new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void MovUtilsXObj::m_getsystempath(int nargs) {
+void MovUtilsXObj::m_getsystempath(int nargs, bool allowRetVal) {
 	g_lingo->dropStack(nargs);
 	// An empty string ensures this just maps to the root of
 	// ScummVM's save data path.

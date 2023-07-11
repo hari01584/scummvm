@@ -38,11 +38,11 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_AddToInventory(int nargs);
-void m_CreateInventory(int nargs);
-void m_DestroyInventory(int nargs);
-void m_GetInventory(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_AddToInventory(int nargs, bool allowRetVal);
+void m_CreateInventory(int nargs, bool allowRetVal);
+void m_DestroyInventory(int nargs, bool allowRetVal);
+void m_GetInventory(int nargs, bool allowRetVal);
 
 } // End of namespace FEDraculXObj
 

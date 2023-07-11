@@ -79,19 +79,19 @@ DPwQTwXObject::DPwQTwXObject(ObjectType ObjectType) : Object<DPwQTwXObject>("dpw
 	_objType = ObjectType;
 }
 
-void DPwQTw::m_new(int nargs) {
+void DPwQTw::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void DPwQTw::m_startup(int nargs) {
+void DPwQTw::m_startup(int nargs, bool allowRetVal) {
 	// no op
 }
 
-void DPwQTw::m_quit(int nargs) {
+void DPwQTw::m_quit(int nargs, bool allowRetVal) {
 	// no op
 }
 
-void DPwQTw::m_verb(int nargs) {
+void DPwQTw::m_verb(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("DPwQTw::m_verb", nargs);
 }
 

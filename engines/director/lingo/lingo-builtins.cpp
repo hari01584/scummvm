@@ -350,7 +350,7 @@ void Lingo::drop(uint num) {
 ///////////////////
 // Math
 ///////////////////
-void LB::b_abs(int nargs) {
+void LB::b_abs(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 
 	if (d.type == INT)
@@ -361,32 +361,32 @@ void LB::b_abs(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_atan(int nargs) {
+void LB::b_atan(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(atan(d.asFloat()));
 	g_lingo->push(res);
 }
 
-void LB::b_cos(int nargs) {
+void LB::b_cos(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(cos(d.asFloat()));
 	g_lingo->push(res);
 }
 
-void LB::b_exp(int nargs) {
+void LB::b_exp(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	// Lingo uses int, so we're enforcing it
 	Datum res((double)exp((double)d.asInt()));
 	g_lingo->push(res);
 }
 
-void LB::b_float(int nargs) {
+void LB::b_float(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(d.asFloat());
 	g_lingo->push(res);
 }
 
-void LB::b_integer(int nargs) {
+void LB::b_integer(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res;
 
@@ -403,43 +403,43 @@ void LB::b_integer(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_log(int nargs) {
+void LB::b_log(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(log(d.asFloat()));
 	g_lingo->push(res);
 }
 
-void LB::b_pi(int nargs) {
+void LB::b_pi(int nargs, bool allowRetVal) {
 	Datum res((double)M_PI);
 	g_lingo->push(res);
 }
 
-void LB::b_power(int nargs) {
+void LB::b_power(int nargs, bool allowRetVal) {
 	Datum d1 = g_lingo->pop();
 	Datum d2 = g_lingo->pop();
 	Datum res(pow(d2.asFloat(), d1.asFloat()));
 	g_lingo->push(d1);
 }
 
-void LB::b_random(int nargs) {
+void LB::b_random(int nargs, bool allowRetVal) {
 	Datum max = g_lingo->pop();
 	Datum res((int)(g_director->_rnd.getRandom(max.asInt()) + 1));
 	g_lingo->push(res);
 }
 
-void LB::b_sin(int nargs) {
+void LB::b_sin(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(sin(d.asFloat()));
 	g_lingo->push(res);
 }
 
-void LB::b_sqrt(int nargs) {
+void LB::b_sqrt(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(sqrt(d.asFloat()));
 	g_lingo->push(res);
 }
 
-void LB::b_tan(int nargs) {
+void LB::b_tan(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(tan(d.asFloat()));
 	g_lingo->push(res);
@@ -448,7 +448,7 @@ void LB::b_tan(int nargs) {
 ///////////////////
 // String
 ///////////////////
-void LB::b_chars(int nargs) {
+void LB::b_chars(int nargs, bool allowRetVal) {
 	Datum d3 = g_lingo->pop();
 	Datum d2 = g_lingo->pop();
 	Datum s = g_lingo->pop();
@@ -479,7 +479,7 @@ void LB::b_chars(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_charToNum(int nargs) {
+void LB::b_charToNum(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	TYPECHECK(d, STRING);
 
@@ -492,7 +492,7 @@ void LB::b_charToNum(int nargs) {
 	g_lingo->push(charToNum(str[0]));
 }
 
-void LB::b_length(int nargs) {
+void LB::b_length(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	if (d.type == INT || d.type == FLOAT) {
 		g_lingo->push(0);
@@ -505,7 +505,7 @@ void LB::b_length(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_numToChar(int nargs) {
+void LB::b_numToChar(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	if (g_director->getVersion() < 400) {
 		TYPECHECK(d, INT);
@@ -518,9 +518,9 @@ void LB::b_numToChar(int nargs) {
 	g_lingo->push(Common::U32String(numToChar(num)).encode(Common::kUtf8));
 }
 
-void LB::b_offset(int nargs) {
+void LB::b_offset(int nargs, bool allowRetVal) {
 	if (nargs == 3) {
-		b_offsetRect(nargs);
+		b_offsetRect(nargs, allowRetVal);
 		return;
 	}
 	Common::String source = g_lingo->pop().asString();
@@ -534,13 +534,13 @@ void LB::b_offset(int nargs) {
 		g_lingo->push(Datum(int(str - source.c_str() + 1)));
 }
 
-void LB::b_string(int nargs) {
+void LB::b_string(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(d.asString());
 	g_lingo->push(res);
 }
 
-void LB::b_value(int nargs) {
+void LB::b_value(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	if (d.type != STRING) {
 		g_lingo->push(d);
@@ -567,13 +567,13 @@ void LB::b_value(int nargs) {
 ///////////////////
 // Lists
 ///////////////////
-void LB::b_add(int nargs) {
+void LB::b_add(int nargs, bool allowRetVal) {
 	// FIXME: when a list is "sorted", add should insert based on
 	// the current ordering. otherwise, append to the end.
-	LB::b_append(nargs);
+	LB::b_append(nargs, allowRetVal);
 }
 
-void LB::b_addAt(int nargs) {
+void LB::b_addAt(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum indexD = g_lingo->pop();
 	Datum list = g_lingo->pop();
@@ -590,7 +590,7 @@ void LB::b_addAt(int nargs) {
 	list.u.farr->arr.insert_at(index - 1, value);
 }
 
-void LB::b_addProp(int nargs) {
+void LB::b_addProp(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
@@ -617,7 +617,7 @@ void LB::b_addProp(int nargs) {
 	}
 }
 
-void LB::b_append(int nargs) {
+void LB::b_append(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum list = g_lingo->pop();
 
@@ -641,7 +641,7 @@ void LB::b_append(int nargs) {
 	}
 }
 
-void LB::b_count(int nargs) {
+void LB::b_count(int nargs, bool allowRetVal) {
 	Datum list = g_lingo->pop();
 	Datum result;
 	result.type = INT;
@@ -660,7 +660,7 @@ void LB::b_count(int nargs) {
 	g_lingo->push(result);
 }
 
-void LB::b_deleteAt(int nargs) {
+void LB::b_deleteAt(int nargs, bool allowRetVal) {
 	Datum indexD = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK2(indexD, INT, FLOAT);
@@ -679,7 +679,7 @@ void LB::b_deleteAt(int nargs) {
 	}
 }
 
-void LB::b_deleteOne(int nargs) {
+void LB::b_deleteOne(int nargs, bool allowRetVal) {
 	Datum val = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK3(val, INT, FLOAT, SYMBOL);
@@ -689,7 +689,7 @@ void LB::b_deleteOne(int nargs) {
 	case ARRAY: {
 		g_lingo->push(list);
 		g_lingo->push(val);
-		b_getPos(nargs);
+		b_getPos(nargs, allowRetVal);
 		int index = g_lingo->pop().asInt();
 		if (index > 0) {
 			list.u.farr->arr.remove_at(index - 1);
@@ -710,7 +710,7 @@ void LB::b_deleteOne(int nargs) {
 }
 
 
-void LB::b_deleteProp(int nargs) {
+void LB::b_deleteProp(int nargs, bool allowRetVal) {
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK2(list, ARRAY, PARRAY);
@@ -719,7 +719,7 @@ void LB::b_deleteProp(int nargs) {
 	case ARRAY:
 		g_lingo->push(list);
 		g_lingo->push(prop);
-		b_deleteAt(nargs);
+		b_deleteAt(nargs, allowRetVal);
 		break;
 	case PARRAY: {
 		int index = LC::compareArrays(LC::eqData, list, prop, true).u.i;
@@ -733,7 +733,7 @@ void LB::b_deleteProp(int nargs) {
 	}
 }
 
-void LB::b_findPos(int nargs) {
+void LB::b_findPos(int nargs, bool allowRetVal) {
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	Datum d(0);
@@ -747,7 +747,7 @@ void LB::b_findPos(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_findPosNear(int nargs) {
+void LB::b_findPosNear(int nargs, bool allowRetVal) {
 	Common::String prop = g_lingo->pop().asString();
 	Datum list = g_lingo->pop();
 	Datum res(0);
@@ -769,7 +769,7 @@ void LB::b_findPosNear(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_getaProp(int nargs) {
+void LB::b_getaProp(int nargs, bool allowRetVal) {
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
 
@@ -777,7 +777,7 @@ void LB::b_getaProp(int nargs) {
 	case ARRAY:
 		g_lingo->push(list);
 		g_lingo->push(prop);
-		b_getAt(nargs);
+		b_getAt(nargs, allowRetVal);
 		break;
 	case PARRAY: {
 		Datum d;
@@ -793,7 +793,7 @@ void LB::b_getaProp(int nargs) {
 	}
 }
 
-void LB::b_getAt(int nargs) {
+void LB::b_getAt(int nargs, bool allowRetVal) {
 	Datum indexD = g_lingo->pop();
 	TYPECHECK2(indexD, INT, FLOAT);
 	Datum list = g_lingo->pop();
@@ -815,7 +815,7 @@ void LB::b_getAt(int nargs) {
 	}
 }
 
-void LB::b_getLast(int nargs) {
+void LB::b_getLast(int nargs, bool allowRetVal) {
 	Datum list = g_lingo->pop();
 	switch (list.type) {
 	case ARRAY:
@@ -829,7 +829,7 @@ void LB::b_getLast(int nargs) {
 	}
 }
 
-void LB::b_getOne(int nargs) {
+void LB::b_getOne(int nargs, bool allowRetVal) {
 	Datum val = g_lingo->pop();
 	Datum list = g_lingo->pop();
 
@@ -837,7 +837,7 @@ void LB::b_getOne(int nargs) {
 	case ARRAY:
 		g_lingo->push(list);
 		g_lingo->push(val);
-		b_getPos(nargs);
+		b_getPos(nargs, allowRetVal);
 		break;
 	case PARRAY: {
 		Datum d;
@@ -853,7 +853,7 @@ void LB::b_getOne(int nargs) {
 	}
 }
 
-void LB::b_getPos(int nargs) {
+void LB::b_getPos(int nargs, bool allowRetVal) {
 	Datum val = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK2(list, ARRAY, PARRAY);
@@ -882,7 +882,7 @@ void LB::b_getPos(int nargs) {
 	}
 }
 
-void LB::b_getProp(int nargs) {
+void LB::b_getProp(int nargs, bool allowRetVal) {
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK2(list, ARRAY, PARRAY);
@@ -891,7 +891,7 @@ void LB::b_getProp(int nargs) {
 	case ARRAY:
 		g_lingo->push(list);
 		g_lingo->push(prop);
-		b_getPos(nargs);
+		b_getPos(nargs, allowRetVal);
 		break;
 	case PARRAY: {
 		int index = LC::compareArrays(LC::eqData, list, prop, true).u.i;
@@ -907,7 +907,7 @@ void LB::b_getProp(int nargs) {
 	}
 }
 
-void LB::b_getPropAt(int nargs) {
+void LB::b_getPropAt(int nargs, bool allowRetVal) {
 	Datum indexD = g_lingo->pop();
 	Datum list = g_lingo->pop();
 	TYPECHECK2(indexD, INT, FLOAT);
@@ -917,7 +917,7 @@ void LB::b_getPropAt(int nargs) {
 	g_lingo->push(list.u.parr->arr[index - 1].p);
 }
 
-void LB::b_list(int nargs) {
+void LB::b_list(int nargs, bool allowRetVal) {
 	Datum result;
 	result.type = ARRAY;
 	result.u.farr = new FArray;
@@ -928,7 +928,7 @@ void LB::b_list(int nargs) {
 	g_lingo->push(result);
 }
 
-void LB::b_listP(int nargs) {
+void LB::b_listP(int nargs, bool allowRetVal) {
 	Datum list = g_lingo->pop();
 	Datum d(0);
 	if (list.type == ARRAY || list.type == PARRAY) {
@@ -937,7 +937,7 @@ void LB::b_listP(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_max(int nargs) {
+void LB::b_max(int nargs, bool allowRetVal) {
 	Datum max;
 	max.type = INT;
 	max.u.i = 0;
@@ -970,7 +970,7 @@ void LB::b_max(int nargs) {
 	g_lingo->push(max);
 }
 
-void LB::b_min(int nargs) {
+void LB::b_min(int nargs, bool allowRetVal) {
 	Datum min;
 	min.type = INT;
 	min.u.i = 0;
@@ -1003,7 +1003,7 @@ void LB::b_min(int nargs) {
 	g_lingo->push(min);
 }
 
-void LB::b_setaProp(int nargs) {
+void LB::b_setaProp(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
@@ -1013,7 +1013,7 @@ void LB::b_setaProp(int nargs) {
 		g_lingo->push(list);
 		g_lingo->push(prop);
 		g_lingo->push(value);
-		b_setAt(nargs);
+		b_setAt(nargs, allowRetVal);
 		break;
 	case PARRAY: {
 		int index = LC::compareArrays(LC::eqData, list, prop, true).u.i;
@@ -1030,7 +1030,7 @@ void LB::b_setaProp(int nargs) {
 	}
 }
 
-void LB::b_setAt(int nargs) {
+void LB::b_setAt(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum indexD = g_lingo->pop();
 	Datum list = g_lingo->pop();
@@ -1062,7 +1062,7 @@ void LB::b_setAt(int nargs) {
 	}
 }
 
-void LB::b_setProp(int nargs) {
+void LB::b_setProp(int nargs, bool allowRetVal) {
 	Datum value = g_lingo->pop();
 	Datum prop = g_lingo->pop();
 	Datum list = g_lingo->pop();
@@ -1092,7 +1092,7 @@ static bool sortNumericPArrayHelper(const PCell &lhs, const PCell &rhs) {
 	return lhs.p.asFloat() < rhs.p.asFloat();
 }
 
-void LB::b_sort(int nargs) {
+void LB::b_sort(int nargs, bool allowRetVal) {
 	// in D4 manual, p266. linear list is sorted by values
 	// property list is sorted alphabetically by properties
 	// once the list is sorted, it maintains its sort order even when we add new variables using add command
@@ -1139,11 +1139,11 @@ void LB::b_sort(int nargs) {
 ///////////////////
 // Files
 ///////////////////
-void LB::b_closeDA(int nargs) {
+void LB::b_closeDA(int nargs, bool allowRetVal) {
 	warning("BUILDBOT: closeDA is not supported in ScummVM");
 }
 
-void LB::b_closeResFile(int nargs) {
+void LB::b_closeResFile(int nargs, bool allowRetVal) {
 	// closeResFile closes only resource files that were opened with openResFile.
 
 	if (nargs == 0) { // Close all open resource files
@@ -1164,7 +1164,7 @@ void LB::b_closeResFile(int nargs) {
 	}
 }
 
-void LB::b_closeXlib(int nargs) {
+void LB::b_closeXlib(int nargs, bool allowRetVal) {
 	if (nargs ==0) { // Close all Xlibs
 		g_lingo->closeOpenXLibs();
 		return;
@@ -1175,7 +1175,7 @@ void LB::b_closeXlib(int nargs) {
 	g_lingo->closeXLib(xlibName);
 }
 
-void LB::b_getNthFileNameInFolder(int nargs) {
+void LB::b_getNthFileNameInFolder(int nargs, bool allowRetVal) {
 	int fileNum = g_lingo->pop().asInt() - 1;
 	Common::String path = pathMakeRelative(g_lingo->pop().asString(), true, false, true);
 	// for directory, we either return the correct path, which we can access recursively.
@@ -1222,7 +1222,7 @@ void LB::b_getNthFileNameInFolder(int nargs) {
 	g_lingo->push(r);
 }
 
-void LB::b_open(int nargs) {
+void LB::b_open(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	if (nargs == 2)
 		g_lingo->pop();
@@ -1236,13 +1236,13 @@ void LB::b_open(int nargs) {
 	}
 }
 
-void LB::b_openDA(int nargs) {
+void LB::b_openDA(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 
 	warning("BUILDBOT: openDA is not supported in ScummVM");
 }
 
-void LB::b_openResFile(int nargs) {
+void LB::b_openResFile(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Common::String resPath = g_director->getCurrentWindow()->getCurrentPath() + d.asString();
 
@@ -1263,7 +1263,7 @@ void LB::b_openResFile(int nargs) {
 	}
 }
 
-void LB::b_openXlib(int nargs) {
+void LB::b_openXlib(int nargs, bool allowRetVal) {
 	// TODO: When Xtras are implemented, determine whether to initialize
 	// the XObject or Xtra version of FileIO
 	Common::String xlibName;
@@ -1306,18 +1306,18 @@ void LB::b_openXlib(int nargs) {
 	g_lingo->openXLib(xlibName, kXObj);
 }
 
-void LB::b_saveMovie(int nargs) {
+void LB::b_saveMovie(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("b_saveMovie", nargs);
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_setCallBack(int nargs) {
+void LB::b_setCallBack(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("b_setCallBack", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_showResFile(int nargs) {
+void LB::b_showResFile(int nargs, bool allowRetVal) {
 	if (nargs)
 		g_lingo->pop();
 	Common::String out;
@@ -1326,7 +1326,7 @@ void LB::b_showResFile(int nargs) {
 	g_debugger->debugLogFile(out, false);
 }
 
-void LB::b_showXlib(int nargs) {
+void LB::b_showXlib(int nargs, bool allowRetVal) {
 	if (nargs)
 		g_lingo->pop();
 	Common::String out;
@@ -1335,7 +1335,7 @@ void LB::b_showXlib(int nargs) {
 	g_debugger->debugLogFile(out, false);
 }
 
-void LB::b_xFactoryList(int nargs) {
+void LB::b_xFactoryList(int nargs, bool allowRetVal) {
 	g_lingo->pop();
 	Datum d("");
 
@@ -1347,30 +1347,30 @@ void LB::b_xFactoryList(int nargs) {
 ///////////////////
 // Control
 ///////////////////
-void LB::b_abort(int nargs) {
+void LB::b_abort(int nargs, bool allowRetVal) {
 	g_lingo->_abort = true;
 }
 
-void LB::b_continue(int nargs) {
+void LB::b_continue(int nargs, bool allowRetVal) {
 	g_director->_playbackPaused = false;
 }
 
-void LB::b_dontPassEvent(int nargs) {
+void LB::b_dontPassEvent(int nargs, bool allowRetVal) {
 	g_lingo->_passEvent = false;
 	warning("dontPassEvent raised");
 }
 
-void LB::b_nothing(int nargs) {
+void LB::b_nothing(int nargs, bool allowRetVal) {
 	// Noop
 }
 
-void LB::b_delay(int nargs) {
+void LB::b_delay(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	g_director->getCurrentMovie()->getScore()->_nextFrameTime = g_system->getMillis() + (float)d.asInt() / 60 * 1000;
 	debugC(5, kDebugLoading, "b_delay(): delaying %d ticks, next frame time at %d", d.asInt(), g_director->getCurrentMovie()->getScore()->_nextFrameTime);
 }
 
-void LB::b_do(int nargs) {
+void LB::b_do(int nargs, bool allowRetVal) {
 	Common::String code = g_lingo->pop().asString();
 	ScriptContext *sc = g_lingo->_compiler->compileAnonymous(code);
 	if (!sc) {
@@ -1389,7 +1389,7 @@ void LB::b_do(int nargs) {
 	LC::call(sym, 0, false);
 }
 
-void LB::b_go(int nargs) {
+void LB::b_go(int nargs, bool allowRetVal) {
 	// Builtin function for go as used by the Director bytecode engine.
 	//
 	// Accepted arguments:
@@ -1455,22 +1455,22 @@ void LB::b_go(int nargs) {
 	}
 }
 
-void LB::b_halt(int nargs) {
-	b_quit(nargs);
+void LB::b_halt(int nargs, bool allowRetVal) {
+	b_quit(nargs, allowRetVal);
 
 	warning("Movie halted");
 }
 
-void LB::b_pass(int nargs) {
+void LB::b_pass(int nargs, bool allowRetVal) {
 	g_lingo->_passEvent = true;
 	warning("pass raised");
 }
 
-void LB::b_pause(int nargs) {
+void LB::b_pause(int nargs, bool allowRetVal) {
 	g_director->_playbackPaused = true;
 }
 
-void LB::b_play(int nargs) {
+void LB::b_play(int nargs, bool allowRetVal) {
 	// Builtin function for play as used by the Director bytecode engine.
 	//
 	// Accepted arguments:
@@ -1504,13 +1504,13 @@ void LB::b_play(int nargs) {
 	g_lingo->func_play(frame, movie);
 }
 
-void LB::b_playAccel(int nargs) {
+void LB::b_playAccel(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("b_playAccel", nargs);
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_preLoad(int nargs) {
+void LB::b_preLoad(int nargs, bool allowRetVal) {
 	// We always pretend we preloaded all frames
 	// Returning the number of the last frame successfully "loaded"
 	if (nargs == 0) {
@@ -1524,7 +1524,7 @@ void LB::b_preLoad(int nargs) {
 		g_lingo->dropStack(nargs - 1);
 }
 
-void LB::b_preLoadCast(int nargs) {
+void LB::b_preLoadCast(int nargs, bool allowRetVal) {
 	// We always pretend we preloaded all cast
 	// Returning the number of the last cast successfully "loaded"
 
@@ -1538,7 +1538,7 @@ void LB::b_preLoadCast(int nargs) {
 		g_lingo->pop();
 }
 
-void LB::b_framesToHMS(int nargs) {
+void LB::b_framesToHMS(int nargs, bool allowRetVal) {
 	int fractionalSeconds = g_lingo->pop().asInt();
 	int dropFrame = g_lingo->pop().asInt();
 	int fps = g_lingo->pop().asInt();
@@ -1578,7 +1578,7 @@ void LB::b_framesToHMS(int nargs) {
 	g_lingo->push(hms);
 }
 
-void LB::b_HMStoFrames(int nargs) {
+void LB::b_HMStoFrames(int nargs, bool allowRetVal) {
 	// The original implementation of this accepts some really weird,
 	// seemingly malformed input strings.
 	// (Try, for example, "12345678901234567890")
@@ -1659,19 +1659,19 @@ void LB::b_HMStoFrames(int nargs) {
 	g_lingo->push(frames);
 }
 
-void LB::b_param(int nargs) {
+void LB::b_param(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("b_param", nargs);
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_printFrom(int nargs) {
+void LB::b_printFrom(int nargs, bool allowRetVal) {
 	warning("BUILDBOT: printFrom is not supported in ScummVM");
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_quit(int nargs) {
+void LB::b_quit(int nargs, bool allowRetVal) {
 	Movie *movie = g_director->getCurrentMovie();
 	if (movie)
 		movie->getScore()->_playState = kPlayStopped;
@@ -1679,7 +1679,7 @@ void LB::b_quit(int nargs) {
 	g_lingo->pushVoid();
 }
 
-void LB::b_return(int nargs) {
+void LB::b_return(int nargs, bool allowRetVal) {
 	CFrame *fp = g_lingo->_state->callstack.back();
 
 	Datum retVal;
@@ -1701,26 +1701,26 @@ void LB::b_return(int nargs) {
 	LC::c_procret();
 }
 
-void LB::b_restart(int nargs) {
-	b_quit(nargs);
+void LB::b_restart(int nargs, bool allowRetVal) {
+	b_quit(nargs, allowRetVal);
 
 	warning("Computer restarts");
 }
 
-void LB::b_shutDown(int nargs) {
-	b_quit(nargs);
+void LB::b_shutDown(int nargs, bool allowRetVal) {
+	b_quit(nargs, allowRetVal);
 
 	warning("Computer shuts down");
 }
 
-void LB::b_startTimer(int nargs) {
+void LB::b_startTimer(int nargs, bool allowRetVal) {
 	g_director->getCurrentMovie()->_lastTimerReset = g_director->getMacTicks();
 }
 
 ///////////////////
 // Types
 ///////////////////
-void LB::b_factory(int nargs) {
+void LB::b_factory(int nargs, bool allowRetVal) {
 	Datum factoryName = g_lingo->pop();
 	factoryName.type = GLOBALREF;
 	Datum o = g_lingo->varFetch(factoryName);
@@ -1732,13 +1732,13 @@ void LB::b_factory(int nargs) {
 	}
 }
 
-void LB::b_floatP(int nargs) {
+void LB::b_floatP(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == FLOAT) ? 1 : 0);
 	g_lingo->push(res);
 }
 
-void LB::b_ilk(int nargs) {
+void LB::b_ilk(int nargs, bool allowRetVal) {
 	Datum res(0);
 	if (nargs == 1) {
 		// Single-argument mode returns the type of the item as a symbol.
@@ -1778,13 +1778,13 @@ void LB::b_ilk(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_integerp(int nargs) {
+void LB::b_integerp(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == INT) ? 1 : 0);
 	g_lingo->push(res);
 }
 
-void LB::b_objectp(int nargs) {
+void LB::b_objectp(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res;
 	if (d.type == OBJECT) {
@@ -1797,25 +1797,25 @@ void LB::b_objectp(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_pictureP(int nargs) {
+void LB::b_pictureP(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == PICTUREREF) ? 1 : 0);
 	g_lingo->push(res);
 }
 
-void LB::b_stringp(int nargs) {
+void LB::b_stringp(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == STRING) ? 1 : 0);
 	g_lingo->push(res);
 }
 
-void LB::b_symbolp(int nargs) {
+void LB::b_symbolp(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == SYMBOL) ? 1 : 0);
 	g_lingo->push(res);
 }
 
-void LB::b_voidP(int nargs) {
+void LB::b_voidP(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res((d.type == VOID) ? 1 : 0);
 	g_lingo->push(res);
@@ -1825,7 +1825,7 @@ void LB::b_voidP(int nargs) {
 ///////////////////
 // Misc
 ///////////////////
-void LB::b_alert(int nargs) {
+void LB::b_alert(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 
 	Common::String alert = d.asString();
@@ -1844,7 +1844,7 @@ void LB::b_alert(int nargs) {
 	}
 }
 
-void LB::b_clearGlobals(int nargs) {
+void LB::b_clearGlobals(int nargs, bool allowRetVal) {
 	for (auto &it : g_lingo->_globalvars) {
 		if (!it._value.ignoreGlobal) {
 			g_lingo->_globalvars.erase(it._key);
@@ -1852,12 +1852,12 @@ void LB::b_clearGlobals(int nargs) {
 	}
 }
 
-void LB::b_cursor(int nargs) {
+void LB::b_cursor(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	g_lingo->func_cursor(d);
 }
 
-void LB::b_put(int nargs) {
+void LB::b_put(int nargs, bool allowRetVal) {
 	// Prints a statement to the Message window
 	Common::String output;
 	for (int i = nargs - 1; i >= 0; i--) {
@@ -1873,8 +1873,8 @@ void LB::b_put(int nargs) {
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_showGlobals(int nargs) {
-	b_version(0);
+void LB::b_showGlobals(int nargs, bool allowRetVal) {
+	b_version(0, allowRetVal);
 	Datum ver = g_lingo->pop();
 	Common::String global_out = "-- Global Variables --\nversion = ";
 	global_out += ver.asString() + "\n";
@@ -1888,7 +1888,7 @@ void LB::b_showGlobals(int nargs) {
 	g_debugger->debugLogFile(global_out, false);
 }
 
-void LB::b_showLocals(int nargs) {
+void LB::b_showLocals(int nargs, bool allowRetVal) {
 	Common::String local_out = "-- Local Variables --\n";
 	if (g_lingo->_state->localVars) {
 		for (auto it = g_lingo->_state->localVars->begin(); it != g_lingo->_state->localVars->end(); it++) {
@@ -1901,7 +1901,7 @@ void LB::b_showLocals(int nargs) {
 ///////////////////
 // Score
 ///////////////////
-void LB::b_constrainH(int nargs) {
+void LB::b_constrainH(int nargs, bool allowRetVal) {
 	Datum num = g_lingo->pop();
 	Datum sprite = g_lingo->pop();
 	Score *score = g_director->getCurrentMovie()->getScore();
@@ -1920,7 +1920,7 @@ void LB::b_constrainH(int nargs) {
 	g_lingo->push(Datum(res));
 }
 
-void LB::b_constrainV(int nargs) {
+void LB::b_constrainV(int nargs, bool allowRetVal) {
 	Datum num = g_lingo->pop();
 	Datum sprite = g_lingo->pop();
 
@@ -1940,12 +1940,12 @@ void LB::b_constrainV(int nargs) {
 	g_lingo->push(Datum(res));
 }
 
-void LB::b_copyToClipBoard(int nargs) {
+void LB::b_copyToClipBoard(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	g_director->_clipBoard = new CastMemberID(d.asMemberID());
 }
 
-void LB::b_duplicate(int nargs) {
+void LB::b_duplicate(int nargs, bool allowRetVal) {
 	// Removed previous implementation since it copied only the reference to the cast
 	// and didn't actually duplicate it.
 	// See commit: 76e56f5b1f51a51d073ecf3970134d87964a4ea4
@@ -1953,7 +1953,7 @@ void LB::b_duplicate(int nargs) {
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_editableText(int nargs) {
+void LB::b_editableText(int nargs, bool allowRetVal) {
 	Score *sc = g_director->getCurrentMovie()->getScore();
 	if (!sc) {
 		warning("b_editableText: no score");
@@ -1985,7 +1985,7 @@ void LB::b_editableText(int nargs) {
 	}
 }
 
-void LB::b_erase(int nargs) {
+void LB::b_erase(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Movie *movie = g_director->getCurrentMovie();
 	CastMember *eraseCast = movie->getCastMember(d.asMemberID());
@@ -2002,7 +2002,7 @@ void LB::b_erase(int nargs) {
 	}
 }
 
-void LB::b_findEmpty(int nargs) {
+void LB::b_findEmpty(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Cast *cast = g_director->getCurrentMovie()->getCast();
 	uint16 c_start = cast->_castArrayStart;
@@ -2037,7 +2037,7 @@ void LB::b_findEmpty(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_importFileInto(int nargs) {
+void LB::b_importFileInto(int nargs, bool allowRetVal) {
 
 	Datum file = g_lingo->pop();
 	Datum dst = g_lingo->pop();
@@ -2087,7 +2087,7 @@ void menuCommandsCallback(int action, Common::String &text, void *data) {
 	g_director->getCurrentMovie()->queueUserEvent(kEventMenuCallback, action);
 }
 
-void LB::b_installMenu(int nargs) {
+void LB::b_installMenu(int nargs, bool allowRetVal) {
 	// installMenu castNum
 	Datum d = g_lingo->pop();
 
@@ -2227,14 +2227,14 @@ void LB::b_installMenu(int nargs) {
 	}
 }
 
-void LB::b_label(int nargs) {
+void LB::b_label(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	uint16 label = g_lingo->func_label(d);
 
 	g_lingo->push(label);
 }
 
-void LB::b_marker(int nargs) {
+void LB::b_marker(int nargs, bool allowRetVal) {
 	// marker functions as label when the input is a string
 	Datum d = g_lingo->pop();
 	int marker;
@@ -2246,7 +2246,7 @@ void LB::b_marker(int nargs) {
 	g_lingo->push(marker);
 }
 
-void LB::b_move(int nargs) {
+void LB::b_move(int nargs, bool allowRetVal) {
 	Datum src, dest;
 
 	if (nargs == 1) {
@@ -2255,7 +2255,7 @@ void LB::b_move(int nargs) {
 		Datum d = Datum(*castId);
 		delete castId;
 		g_lingo->push(d);
-		b_findEmpty(1);
+		b_findEmpty(1, allowRetVal);
 		dest = g_lingo->pop();
 		src = g_lingo->pop();
 	} else if (nargs == 2) {
@@ -2291,7 +2291,7 @@ void LB::b_move(int nargs) {
 
 	g_lingo->push(dest);
 	// Room for improvement, b_erase already marks the sprites as dirty
-	b_erase(1);
+	b_erase(1, allowRetVal);
 	Score *score = movie->getScore();
 	uint16 frame = score->getCurrentFrame();
 	Frame *currentFrame = score->_frames[frame];
@@ -2320,7 +2320,7 @@ void LB::b_move(int nargs) {
 	score->renderFrame(frame, kRenderForceUpdate);
 }
 
-void LB::b_moveableSprite(int nargs) {
+void LB::b_moveableSprite(int nargs, bool allowRetVal) {
 	Movie *movie = g_director->getCurrentMovie();
 	Score *score = movie->getScore();
 	Frame *frame = score->_frames[score->getCurrentFrame()];
@@ -2337,7 +2337,7 @@ void LB::b_moveableSprite(int nargs) {
 	frame->_sprites[g_lingo->_currentChannelId]->_moveable = true;
 }
 
-void LB::b_pasteClipBoardInto(int nargs) {
+void LB::b_pasteClipBoardInto(int nargs, bool allowRetVal) {
 	Datum to = g_lingo->pop();
 	if (!g_director->_clipBoard) {
 		warning("LB::b_pasteClipBoardInto(): Nothing to paste from clipboard, skipping paste..");
@@ -2402,7 +2402,7 @@ static const struct PaletteNames {
 	{ "\x83V\x83X\x83""e\x83\x80 - Win (Dir 4)", kClutSystemWin },		// システム - Win (Dir 4)
 };
 
-void LB::b_puppetPalette(int nargs) {
+void LB::b_puppetPalette(int nargs, bool allowRetVal) {
 	g_lingo->convertVOIDtoString(0, nargs);
 	int numFrames = 0, speed = 0;
 	CastMemberID palette(0, 0);
@@ -2462,7 +2462,7 @@ void LB::b_puppetPalette(int nargs) {
 		warning("b_puppetPalette: Skipping extra features");
 }
 
-void LB::b_puppetSound(int nargs) {
+void LB::b_puppetSound(int nargs, bool allowRetVal) {
 
 	if (nargs < 1 || nargs >= 3) {
 		warning("b_puppetSound(): needs 1 or 2 args");
@@ -2510,7 +2510,7 @@ void LB::b_puppetSound(int nargs) {
 	}
 }
 
-void LB::b_immediateSprite(int nargs) {
+void LB::b_immediateSprite(int nargs, bool allowRetVal) {
 	Score *sc = g_director->getCurrentMovie()->getScore();
 	if (!sc) {
 		warning("b_immediateSprite: no score");
@@ -2550,7 +2550,7 @@ void LB::b_immediateSprite(int nargs) {
 	}
 }
 
-void LB::b_puppetSprite(int nargs) {
+void LB::b_puppetSprite(int nargs, bool allowRetVal) {
 	Score *sc = g_director->getCurrentMovie()->getScore();
 	if (!sc) {
 		warning("b_puppetSprite: no score");
@@ -2591,11 +2591,11 @@ void LB::b_puppetSprite(int nargs) {
 	}
 }
 
-void LB::b_puppetTempo(int nargs) {
+void LB::b_puppetTempo(int nargs, bool allowRetVal) {
 	g_director->getCurrentMovie()->getScore()->_puppetTempo = g_lingo->pop().asInt();
 }
 
-void LB::b_puppetTransition(int nargs) {
+void LB::b_puppetTransition(int nargs, bool allowRetVal) {
 	// puppetTransition whichTransition [, time] [, chunkSize] [, changeArea]
 	Window *stage = g_director->getCurrentWindow();
 	uint16 duration = 250, area = 1, chunkSize = 1, type = 0;
@@ -2627,7 +2627,7 @@ void LB::b_puppetTransition(int nargs) {
 	stage->_puppetTransition = new TransParams(duration, area, chunkSize, ((TransitionType)type));
 }
 
-void LB::b_ramNeeded(int nargs) {
+void LB::b_ramNeeded(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum d2 = g_lingo->pop();
 
@@ -2636,7 +2636,7 @@ void LB::b_ramNeeded(int nargs) {
 	g_lingo->push(Datum(0));
 }
 
-void LB::b_rollOver(int nargs) {
+void LB::b_rollOver(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res(0);
 	int arg = d.asInt();
@@ -2661,7 +2661,7 @@ void LB::b_rollOver(int nargs) {
 	g_lingo->push(res);
 }
 
-void LB::b_spriteBox(int nargs) {
+void LB::b_spriteBox(int nargs, bool allowRetVal) {
 	int b = g_lingo->pop().asInt();
 	int r = g_lingo->pop().asInt();
 	int t = g_lingo->pop().asInt();
@@ -2681,19 +2681,19 @@ void LB::b_spriteBox(int nargs) {
 	channel->_dirty = true;
 }
 
-void LB::b_unLoad(int nargs) {
+void LB::b_unLoad(int nargs, bool allowRetVal) {
 	// No op for us, we do not unload casts
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_unLoadCast(int nargs) {
+void LB::b_unLoadCast(int nargs, bool allowRetVal) {
 	// No op for us, we do not unload casts
 
 	g_lingo->dropStack(nargs);
 }
 
-void LB::b_zoomBox(int nargs) {
+void LB::b_zoomBox(int nargs, bool allowRetVal) {
 	// zoomBox startSprite, endSprite [, delatTicks]
 	//   ticks are in 1/60th, default 1
 	if (nargs < 2 || nargs > 3) {
@@ -2755,7 +2755,7 @@ void LB::b_zoomBox(int nargs) {
 	g_director->_wm->addZoomBox(box);
 }
 
-void LB::b_updateStage(int nargs) {
+void LB::b_updateStage(int nargs, bool allowRetVal) {
 	if (g_director->getGameGID() == GID_TEST) {
 		warning("b_updateStage: Skipping due to tests");
 
@@ -2799,7 +2799,7 @@ void LB::b_updateStage(int nargs) {
 ///////////////////
 // Point
 ///////////////////
-void LB::b_point(int nargs) {
+void LB::b_point(int nargs, bool allowRetVal) {
 	Datum y(g_lingo->pop().asFloat());
 	Datum x(g_lingo->pop().asFloat());
 	Datum d;
@@ -2813,7 +2813,7 @@ void LB::b_point(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_rect(int nargs) {
+void LB::b_rect(int nargs, bool allowRetVal) {
 	Datum d(0);
 
 	if (nargs == 4) {
@@ -2851,7 +2851,7 @@ void LB::b_rect(int nargs) {
 }
 
 
-void LB::b_intersect(int nargs) {
+void LB::b_intersect(int nargs, bool allowRetVal) {
 	Datum d;
 	Datum r2 = g_lingo->pop();
 	Datum r1 = g_lingo->pop();
@@ -2863,7 +2863,7 @@ void LB::b_intersect(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_inside(int nargs) {
+void LB::b_inside(int nargs, bool allowRetVal) {
 	Datum d;
 	Datum r2 = g_lingo->pop();
 	Datum p1 = g_lingo->pop();
@@ -2875,7 +2875,7 @@ void LB::b_inside(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_map(int nargs) {
+void LB::b_map(int nargs, bool allowRetVal) {
 	Datum toRect = g_lingo->pop();
 	Datum fromRect = g_lingo->pop();
 	Datum srcArr = g_lingo->pop();
@@ -2914,7 +2914,7 @@ void LB::b_map(int nargs) {
 	g_lingo->push(d);
 }
 
-void LB::b_offsetRect(int nargs) {
+void LB::b_offsetRect(int nargs, bool allowRetVal) {
 	Datum vert = g_lingo->pop();
 	Datum hori = g_lingo->pop();
 	Datum rect = g_lingo->pop();
@@ -2938,7 +2938,7 @@ void LB::b_offsetRect(int nargs) {
 	g_lingo->push(rect);
 }
 
-void LB::b_union(int nargs) {
+void LB::b_union(int nargs, bool allowRetVal) {
 	if (nargs != 2) {
 		warning("Wrong number of arguments for b_union: Expected 2, got %d", nargs);
 		g_lingo->dropStack(nargs);
@@ -2971,7 +2971,7 @@ void LB::b_union(int nargs) {
 ///////////////////
 // Sound
 ///////////////////
-void LB::b_beep(int nargs) {
+void LB::b_beep(int nargs, bool allowRetVal) {
 	int repeat = 1;
 	if (nargs == 1) {
 		Datum d = g_lingo->pop();
@@ -2980,19 +2980,19 @@ void LB::b_beep(int nargs) {
 	g_lingo->func_beep(repeat);
 }
 
-void LB::b_mci(int nargs) {
+void LB::b_mci(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 
 	g_lingo->func_mci(d.asString());
 }
 
-void LB::b_mciwait(int nargs) {
+void LB::b_mciwait(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 
 	g_lingo->func_mciwait(d.asString());
 }
 
-void LB::b_sound(int nargs) {
+void LB::b_sound(int nargs, bool allowRetVal) {
 	// Builtin function for sound as used by the Director bytecode engine.
 	//
 	// Accepted arguments:
@@ -3072,7 +3072,7 @@ void LB::b_sound(int nargs) {
 	}
 }
 
-void LB::b_soundBusy(int nargs) {
+void LB::b_soundBusy(int nargs, bool allowRetVal) {
 	DirectorSound *sound = g_director->getCurrentWindow()->getSoundManager();
 	Datum whichChannel = g_lingo->pop();
 
@@ -3088,39 +3088,39 @@ void LB::b_soundBusy(int nargs) {
 ///////////////////
 // Constants
 ///////////////////
-void LB::b_backspace(int nargs) {
+void LB::b_backspace(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("\b")));
 }
 
-void LB::b_empty(int nargs) {
+void LB::b_empty(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("")));
 }
 
-void LB::b_enter(int nargs) {
+void LB::b_enter(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("\03")));
 }
 
-void LB::b_false(int nargs) {
+void LB::b_false(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(0));
 }
 
-void LB::b_quote(int nargs) {
+void LB::b_quote(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("\"")));
 }
 
-void LB::b_returnconst(int nargs) {
+void LB::b_returnconst(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("\r")));
 }
 
-void LB::b_tab(int nargs) {
+void LB::b_tab(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(Common::String("\t")));
 }
 
-void LB::b_true(int nargs) {
+void LB::b_true(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(1));
 }
 
-void LB::b_version(int nargs) {
+void LB::b_version(int nargs, bool allowRetVal) {
 	int major = g_director->getVersion() / 100;
 	int minor = (g_director->getVersion() / 10) % 10;
 	int patch = g_director->getVersion() % 10;
@@ -3136,14 +3136,14 @@ void LB::b_version(int nargs) {
 ///////////////////
 // References
 ///////////////////
-void LB::b_cast(int nargs) {
+void LB::b_cast(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum res = d.asMemberID();
 	res.type = CASTREF;
 	g_lingo->push(res);
 }
 
-void LB::b_script(int nargs) {
+void LB::b_script(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	// FIXME: Check with later versions of director
 	//        The kCastText check version breaks Phibos, which loads a
@@ -3174,7 +3174,7 @@ void LB::b_script(int nargs) {
 	g_lingo->push(Datum());
 }
 
-void LB::b_window(int nargs) {
+void LB::b_window(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Common::String windowName = d.asString();
 	FArray *windowList = g_lingo->_windowList.u.farr;
@@ -3218,31 +3218,31 @@ void LB::b_window(int nargs) {
 	g_lingo->push(window);
 }
 
-void LB::b_numberofchars(int nargs) {
+void LB::b_numberofchars(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum chunkRef = LC::lastChunk(kChunkChar, d);
 	g_lingo->push(chunkRef.u.cref->startChunk);
 }
 
-void LB::b_numberofitems(int nargs) {
+void LB::b_numberofitems(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum chunkRef = LC::lastChunk(kChunkItem, d);
 	g_lingo->push(chunkRef.u.cref->startChunk);
 }
 
-void LB::b_numberoflines(int nargs) {
+void LB::b_numberoflines(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum chunkRef = LC::lastChunk(kChunkLine, d);
 	g_lingo->push(chunkRef.u.cref->startChunk);
 }
 
-void LB::b_numberofwords(int nargs) {
+void LB::b_numberofwords(int nargs, bool allowRetVal) {
 	Datum d = g_lingo->pop();
 	Datum chunkRef = LC::lastChunk(kChunkWord, d);
 	g_lingo->push(chunkRef.u.cref->startChunk);
 }
 
-void LB::b_scummvmassert(int nargs) {
+void LB::b_scummvmassert(int nargs, bool allowRetVal) {
 	Datum line = g_lingo->pop();
 	Datum d = g_lingo->pop();
 
@@ -3252,7 +3252,7 @@ void LB::b_scummvmassert(int nargs) {
 	assert(d.asInt() != 0);
 }
 
-void LB::b_scummvmassertequal(int nargs) {
+void LB::b_scummvmassertequal(int nargs, bool allowRetVal) {
 	Datum line = g_lingo->pop();
 	Datum d2 = g_lingo->pop();
 	Datum d1 = g_lingo->pop();
@@ -3264,7 +3264,7 @@ void LB::b_scummvmassertequal(int nargs) {
 	assert(result == 1);
 }
 
-void LB::b_getVolumes(int nargs) {
+void LB::b_getVolumes(int nargs, bool allowRetVal) {
 	// Right now, only "Journeyman Project 2: Buried in Time" is known to check
 	// for its volume name.
 	Datum d;

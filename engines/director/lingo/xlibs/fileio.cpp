@@ -203,7 +203,7 @@ void FileIO::saveFileError() {
 	}
 }
 
-void FileIO::m_new(int nargs) {
+void FileIO::m_new(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	Datum d2 = g_lingo->pop();
@@ -300,7 +300,7 @@ void FileIO::m_new(int nargs) {
 
 // Read
 
-void FileIO::m_readChar(int nargs) {
+void FileIO::m_readChar(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (!me->_inStream || me->_inStream->eos() || me->_inStream->err()) {
@@ -315,22 +315,22 @@ void FileIO::m_readChar(int nargs) {
 	g_lingo->push(Datum(ch));
 }
 
-void FileIO::m_readLine(int nargs) {
+void FileIO::m_readLine(int nargs, bool allowRetVal) {
 	// file(mReadLine) is equivalent to file(mReadToken, "", RETURN)
 	// See D4 Using Lingo p. 323
 
 	g_lingo->push(Datum(""));
 	g_lingo->push(Datum("\r"));
-	FileIO::m_readToken(2);
+	FileIO::m_readToken(2, false);
 }
 
-void FileIO::m_readWord(int nargs) {
+void FileIO::m_readWord(int nargs, bool allowRetVal) {
 	// file(mReadWord) is equivalent to file(mReadToken, " ", " " & RETURN)
 	// See D4 Using Lingo p. 323
 
 	g_lingo->push(Datum(" "));
 	g_lingo->push(Datum(" \r"));
-	FileIO::m_readToken(2);
+	FileIO::m_readToken(2, false);
 }
 
 XOBJSTUB(FileIO::m_readPict, "")
@@ -339,7 +339,7 @@ bool FileIO::charInMatchString(char ch, const Common::String &matchString) {
 	return matchString.contains(ch);
 }
 
-void FileIO::m_readToken(int nargs) {
+void FileIO::m_readToken(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	Datum d2 = g_lingo->pop();
@@ -383,7 +383,7 @@ void FileIO::m_readToken(int nargs) {
 	g_lingo->push(Datum(tok));
 }
 
-void FileIO::m_readFile(int nargs) {
+void FileIO::m_readFile(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (!me->_inStream || me->_inStream->eos() || me->_inStream->err()) {
@@ -403,7 +403,7 @@ void FileIO::m_readFile(int nargs) {
 
 // Write
 
-void FileIO::m_writeChar(int nargs) {
+void FileIO::m_writeChar(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 	Datum d = g_lingo->pop();
 
@@ -416,7 +416,7 @@ void FileIO::m_writeChar(int nargs) {
 	g_lingo->push(Datum(kErrorNone));
 }
 
-void FileIO::m_writeString(int nargs) {
+void FileIO::m_writeString(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 	Datum d = g_lingo->pop();
 
@@ -434,7 +434,7 @@ void FileIO::m_writeString(int nargs) {
 XOBJSTUB(FileIO::m_getFinderInfo, "")
 XOBJSTUB(FileIO::m_setFinderInfo, 0)
 
-void FileIO::m_getPosition(int nargs) {
+void FileIO::m_getPosition(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (me->_inStream) {
@@ -447,7 +447,7 @@ void FileIO::m_getPosition(int nargs) {
 	}
 }
 
-void FileIO::m_setPosition(int nargs) {
+void FileIO::m_setPosition(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 	Datum d = g_lingo->pop();
 	int pos = d.asInt();
@@ -474,7 +474,7 @@ void FileIO::m_setPosition(int nargs) {
 	}
 }
 
-void FileIO::m_getLength(int nargs) {
+void FileIO::m_getLength(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (me->_inStream) {
@@ -487,7 +487,7 @@ void FileIO::m_getLength(int nargs) {
 	}
 }
 
-void FileIO::m_fileName(int nargs) {
+void FileIO::m_fileName(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (me->_filename) {
@@ -509,7 +509,7 @@ XOBJSTUB(FileIO::m_status, 0)
 
 // Other
 
-void FileIO::m_delete(int nargs) {
+void FileIO::m_delete(int nargs, bool allowRetVal) {
 	FileObject *me = static_cast<FileObject *>(g_lingo->_state->me.u.obj);
 
 	if (me->_filename) {

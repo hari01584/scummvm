@@ -37,10 +37,10 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_clear(int nargs);
-void m_gpal(int nargs);
-void m_line(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_clear(int nargs, bool allowRetVal);
+void m_gpal(int nargs, bool allowRetVal);
+void m_line(int nargs, bool allowRetVal);
 
 } // End of namespace BarakeObj
 

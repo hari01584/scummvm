@@ -38,16 +38,16 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_getAppName(int nargs);
-void m_getMemoryNeeded(int nargs);
-void m_indexColorToWindow(int nargs);
-void m_patToWindow(int nargs);
-void m_rgbColorToWindow(int nargs);
-void m_getScreenTop(int nargs);
-void m_getScreenLeft(int nargs);
-void m_getScreenBottom(int nargs);
-void m_getScreenRight(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_getAppName(int nargs, bool allowRetVal);
+void m_getMemoryNeeded(int nargs, bool allowRetVal);
+void m_indexColorToWindow(int nargs, bool allowRetVal);
+void m_patToWindow(int nargs, bool allowRetVal);
+void m_rgbColorToWindow(int nargs, bool allowRetVal);
+void m_getScreenTop(int nargs, bool allowRetVal);
+void m_getScreenLeft(int nargs, bool allowRetVal);
+void m_getScreenBottom(int nargs, bool allowRetVal);
+void m_getScreenRight(int nargs, bool allowRetVal);
 
 } // End of namespace RearWindowXObj
 

@@ -74,7 +74,7 @@ LabelDrvXObject::LabelDrvXObject(ObjectType ObjectType) :Object<LabelDrvXObject>
 	_objType = ObjectType;
 }
 
-void LabelDrvXObj::m_new(int nargs) {
+void LabelDrvXObj::m_new(int nargs, bool allowRetVal) {
 	LabelDrvXObject *me = static_cast<LabelDrvXObject *>(g_lingo->_state->me.u.obj);
 
 	me->_range = "C";
@@ -82,7 +82,7 @@ void LabelDrvXObj::m_new(int nargs) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void LabelDrvXObj::m_setRange(int nargs) {
+void LabelDrvXObj::m_setRange(int nargs, bool allowRetVal) {
 	LabelDrvXObject *me = static_cast<LabelDrvXObject *>(g_lingo->_state->me.u.obj);
 
 	Datum d2 = g_lingo->pop();
@@ -94,7 +94,7 @@ void LabelDrvXObj::m_setRange(int nargs) {
 	me->_range = from; // Store it so we could return value in the requested range
 }
 
-void LabelDrvXObj::m_getDrive(int nargs) {
+void LabelDrvXObj::m_getDrive(int nargs, bool allowRetVal) {
 	LabelDrvXObject *me = static_cast<LabelDrvXObject *>(g_lingo->_state->me.u.obj);
 
 	Datum d1 = g_lingo->pop();

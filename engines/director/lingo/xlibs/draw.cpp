@@ -136,7 +136,7 @@ DrawXObject::DrawXObject(ObjectType ObjectType) :Object<DrawXObject>("DrawXObj")
 	_objType = ObjectType;
 }
 
-void DrawXObj::m_new(int nargs) {
+void DrawXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 

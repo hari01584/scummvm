@@ -37,10 +37,10 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_service(int nargs);
-void m_readStatus(int nargs);
-void m_eject(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_service(int nargs, bool allowRetVal);
+void m_readStatus(int nargs, bool allowRetVal);
+void m_eject(int nargs, bool allowRetVal);
 
 } // End of namespace AppleCDXObj
 

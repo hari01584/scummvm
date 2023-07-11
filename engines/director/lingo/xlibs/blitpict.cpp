@@ -81,7 +81,7 @@ BlitPictXObject::BlitPictXObject(ObjectType ObjectType) : Object<BlitPictXObject
 	_objType = ObjectType;
 }
 
-void BlitPict::m_new(int nargs) {
+void BlitPict::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 

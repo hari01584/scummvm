@@ -85,19 +85,19 @@ ValkyrieXObject::ValkyrieXObject(ObjectType ObjectType) :Object<ValkyrieXObject>
 	_objType = ObjectType;
 }
 
-void ValkyrieXObj::m_new(int nargs) {
+void ValkyrieXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
 XOBJSTUBNR(ValkyrieXObj::m_dispose)
 
-void ValkyrieXObj::m_name(int nargs) {
+void ValkyrieXObj::m_name(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum("Valkyrie"));
 }
 
 XOBJSTUB(ValkyrieXObj::m_status, 0)
 
-void ValkyrieXObj::m_error(int nargs) {
+void ValkyrieXObj::m_error(int nargs, bool allowRetVal) {
 	// TODO: Save error code for m_lastError?
 	int errorCode = g_lingo->pop().asInt();
 	warning("ValkyrieXObj::m_error: Got error %d", errorCode);
@@ -105,7 +105,7 @@ void ValkyrieXObj::m_error(int nargs) {
 
 XOBJSTUB(ValkyrieXObj::m_lastError, "")
 
-void ValkyrieXObj::m_save(int nargs) {
+void ValkyrieXObj::m_save(int nargs, bool allowRetVal) {
 	// should write to namco.ini > Valkyrie > Data
 	// TODO: Should report errors if we fail to save
 	Common::String saveName = g_director->getTargetName() + "-namco.ini.txt";
@@ -118,7 +118,7 @@ void ValkyrieXObj::m_save(int nargs) {
 	g_lingo->push(Datum(1));
 }
 
-void ValkyrieXObj::m_load(int nargs) {
+void ValkyrieXObj::m_load(int nargs, bool allowRetVal) {
 	// should load save from namco.ini > Valkyrie > Data
 	// TODO: Report errors if we fail to load?
 	Common::String saveString;

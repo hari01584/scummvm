@@ -104,18 +104,18 @@ MiscXObject::MiscXObject(ObjectType ObjectType) :Object<MiscXObject>("MiscX") {
 	_objType = ObjectType;
 }
 
-void MiscX::m_new(int nargs) {
+void MiscX::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void MiscX::m_bootName(int nargs) {
+void MiscX::m_bootName(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(""));
 }
 
-void MiscX::m_insureFolder(int nargs) {
+void MiscX::m_insureFolder(int nargs, bool allowRetVal) {
 }
 
-void MiscX::m_prefsFolder(int nargs) {
+void MiscX::m_prefsFolder(int nargs, bool allowRetVal) {
 	g_lingo->push(Datum(""));
 }
 

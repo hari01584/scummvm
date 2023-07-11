@@ -81,7 +81,7 @@ HitMapObject::HitMapObject(ObjectType ObjectType) :Object<HitMapObject>("HitMap"
 	_objType = ObjectType;
 }
 
-void HitMap::m_new(int nargs) {
+void HitMap::m_new(int nargs, bool allowRetVal) {
 	// Common::String hitBitMapfile = g_lingo->pop().asString();
 	// int hitmaposx = g_lingo->pop().asInt();
 	// int hitmaposy = g_lingo->pop().asInt();
@@ -91,7 +91,7 @@ void HitMap::m_new(int nargs) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void HitMap::m_where(int nargs) {
+void HitMap::m_where(int nargs, bool allowRetVal) {
 	// int xpos = g_lingo->pop().asInt();
 	// int ypos = g_lingo->pop().asInt();
 	g_lingo->printSTUBWithArglist("HitMap::m_where", nargs);

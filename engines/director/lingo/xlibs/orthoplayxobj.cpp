@@ -144,7 +144,7 @@ OrthoPlayXObject::OrthoPlayXObject(ObjectType ObjectType) :Object<OrthoPlayXObje
 	_objType = ObjectType;
 }
 
-void OrthoPlayXObj::m_new(int nargs) {
+void OrthoPlayXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 

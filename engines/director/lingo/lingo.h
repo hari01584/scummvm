@@ -77,7 +77,7 @@ typedef Common::HashMap<void *, FuncDesc *> FuncHash;
 
 struct BuiltinProto {
 	const char *name;
-	void (*func)(int);
+	void (*func)(int, bool);
 	int minArgs;	// -1 -- arglist
 	int maxArgs;
 	int version;
@@ -90,7 +90,7 @@ struct Symbol {	/* symbol table entry */
 	union {
 		ScriptData	*defn;	/* HANDLER */
 		void (*func)();		/* OPCODE */
-		void (*bltin)(int);	/* BUILTIN */
+		void (*bltin)(int, bool);	/* BUILTIN */
 		Common::String	*s;	/* STRING */
 	} u;
 

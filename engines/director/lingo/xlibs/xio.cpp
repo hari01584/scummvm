@@ -80,16 +80,16 @@ XioXObject::XioXObject(ObjectType ObjectType) :Object<XioXObject>("XioXObj") {
 	_objType = ObjectType;
 }
 
-void XioXObj::m_new(int nargs) {
+void XioXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void XioXObj::m_dispose(int nargs) {
+void XioXObj::m_dispose(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("XioXObj::m_dispose", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void XioXObj::m_unlock(int nargs) {
+void XioXObj::m_unlock(int nargs, bool allowRetVal) {
 	Common::String unlockPassword = g_lingo->pop().asString();
 	warning("XioXObj::m_unlock: Unlocked with password \"%s\"", unlockPassword.c_str());
 	g_lingo->push(Datum(1));

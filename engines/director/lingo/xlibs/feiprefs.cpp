@@ -80,17 +80,17 @@ FEIPrefsXObject::FEIPrefsXObject(ObjectType ObjectType) : Object<FEIPrefsXObject
 	_objType = ObjectType;
 }
 
-void FEIPrefsXObj::m_new(int nargs) {
+void FEIPrefsXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEIPrefsXObj::new", nargs);
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void FEIPrefsXObj::m_prefAppName(int nargs) {
+void FEIPrefsXObj::m_prefAppName(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEIPrefsXObj::m_prefAppName", nargs);
 	g_lingo->dropStack(nargs);
 }
 
-void FEIPrefsXObj::m_prefReadString(int nargs) {
+void FEIPrefsXObj::m_prefReadString(int nargs, bool allowRetVal) {
 	g_lingo->printSTUBWithArglist("FEIPrefsXObj::m_prefReadString", nargs);
 	g_lingo->pop(); // TODO
 	auto key = g_lingo->pop().asString();

@@ -36,13 +36,13 @@ extern const char *fileNames[];
 void open(int type);
 void close(int type);
 
-void m_new(int nargs);
-void m_dispose(int nargs);
-void m_bufferEvents(int nargs);
-void m_flushEvents(int nargs);
-void m_postEvents(int nargs);
-void m_bufferStatus(int nargs);
-void m_getNextEvent(int nargs);
+void m_new(int nargs, bool allowRetVal);
+void m_dispose(int nargs, bool allowRetVal);
+void m_bufferEvents(int nargs, bool allowRetVal);
+void m_flushEvents(int nargs, bool allowRetVal);
+void m_postEvents(int nargs, bool allowRetVal);
+void m_bufferStatus(int nargs, bool allowRetVal);
+void m_getNextEvent(int nargs, bool allowRetVal);
 
 } // End of namespace EventQXObj
 

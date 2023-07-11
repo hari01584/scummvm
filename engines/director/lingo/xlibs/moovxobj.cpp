@@ -106,11 +106,11 @@ MoovXObject::~MoovXObject() {
 	}
 }
 
-void MoovXObj::m_new(int nargs) {
+void MoovXObj::m_new(int nargs, bool allowRetVal) {
 	g_lingo->push(g_lingo->_state->me);
 }
 
-void MoovXObj::m_dispose(int nargs) {
+void MoovXObj::m_dispose(int nargs, bool allowRetVal) {
 	debug(5, "MoovXObj::m_dispose");
 	MoovXObject *me = static_cast<MoovXObject *>(g_lingo->_state->me.u.obj);
 	if (me->_video) {
@@ -124,7 +124,7 @@ XOBJSTUB(MoovXObj::m_name, "MoovXObj")
 // called in C.H.A.O.S. ScummVMs setup happens in playMovie
 XOBJSTUB(MoovXObj::m_movieInit, 0)
 
-void MoovXObj::m_movieKill(int nargs) {
+void MoovXObj::m_movieKill(int nargs, bool allowRetVal) {
 	debug(5, "MoovXObj::m_movieKill");
 	MoovXObject *me = static_cast<MoovXObject *>(g_lingo->_state->me.u.obj);
 
@@ -132,7 +132,7 @@ void MoovXObj::m_movieKill(int nargs) {
 		me->_video->stop();
 }
 
-void MoovXObj::m_fondler(int nargs) {
+void MoovXObj::m_fondler(int nargs, bool allowRetVal) {
 	MoovXObject *me = static_cast<MoovXObject *>(g_lingo->_state->me.u.obj);
 
 	debug(10, "MoovXObj::m_fondler");
@@ -147,7 +147,7 @@ void MoovXObj::m_fondler(int nargs) {
 	}
 }
 
-void MoovXObj::m_playMovie(int nargs) {
+void MoovXObj::m_playMovie(int nargs, bool allowRetVal) {
 	MoovXObject *me = static_cast<MoovXObject *>(g_lingo->_state->me.u.obj);
 
 	me->_y = g_lingo->pop().asInt();
@@ -175,7 +175,7 @@ XOBJSTUB(MoovXObj::m_soundMovie, 0)
 // unused in C.H.A.O.S.
 XOBJSTUB(MoovXObj::m_stopMovie, 0)
 
-void MoovXObj::m_movieDone(int nargs) {
+void MoovXObj::m_movieDone(int nargs, bool allowRetVal) {
 	MoovXObject *me = static_cast<MoovXObject *>(g_lingo->_state->me.u.obj);
 	debug(10, "MoovXObj::m_movieDone");
 	bool result = (me->_video && !me->_video->endOfVideo());
