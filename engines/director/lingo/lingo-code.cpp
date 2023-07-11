@@ -1658,7 +1658,7 @@ void LC::call(const Symbol &funcSym, int nargs, bool allowRetVal) {
 
 		uint stackSize = g_lingo->_stack.size();
 
-		if (funcSym.u.bltin != LB::b_return && funcSym.u.bltin != LB::b_value) {
+		if (funcSym.u.bltin != LB::b_return && funcSym.u.bltin != LB::b_value && funcSym.u.bltin != LM::m_perform) {
 			if (stackSize == stackSizeBefore + 1) {
 				// Set "the result" to return value!, when a method
 				// this is for handling result after execution!
