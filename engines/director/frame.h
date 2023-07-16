@@ -88,6 +88,98 @@ struct PaletteInfo {
 	}
 };
 
+struct MainChannels {
+	CastMemberID _actionId;
+	uint16 _transDuration;
+	uint8 _transArea; // 1 - Whole Window, 0 - Changing Area
+	uint8 _transChunkSize;
+	TransitionType _transType;
+	CastMemberID _trans;
+	PaletteInfo _palette;
+	uint8 _tempo;
+
+	uint8 _scoreCachedTempo;
+	CastMemberID _scoreCachedPaletteId;
+
+	CastMemberID _sound1;
+	uint8 _soundType1;
+	CastMemberID _sound2;
+	uint8 _soundType2;
+
+	byte _colorTempo;
+	byte _colorSound1;
+	byte _colorSound2;
+	byte _colorScript;
+	byte _colorTrans;
+
+	uint8 _skipFrameFlag;
+	uint8 _blend;
+
+	MainChannels() {
+		_transDuration = 0;
+		_transType = kTransNone;
+		_transArea = 0;
+		_transChunkSize = 0;
+		_tempo = 0;
+
+		_scoreCachedTempo = 0;
+		_scoreCachedPaletteId = CastMemberID(0, 0);
+
+		_sound1 = CastMemberID(0, 0);
+		_sound2 = CastMemberID(0, 0);
+		_soundType1 = 0;
+		_soundType2 = 0;
+
+		_actionId = CastMemberID(0, 0);
+		_skipFrameFlag = 0;
+		_blend = 0;
+
+		_colorTempo = 0;
+		_colorSound1 = 0;
+		_colorSound2 = 0;
+		_colorScript = 0;
+		_colorTrans = 0;
+	}
+
+	MainChannels(const MainChannels &old) : _actionId(old._actionId), _transDuration(old._transDuration),
+											_transArea(old._transArea), _transChunkSize(old._transChunkSize),
+											_transType(old._transType), _trans(old._trans),
+											_palette(old._palette), _tempo(old._tempo),
+											_scoreCachedTempo(old._scoreCachedTempo), _scoreCachedPaletteId(old._scoreCachedPaletteId),
+											_sound1(old._sound1), _soundType1(old._soundType1),
+											_sound2(old._sound2), _soundType2(old._soundType2),
+											_colorTempo(old._colorTempo), _colorSound1(old._colorSound1),
+											_colorSound2(old._colorSound2), _colorScript(old._colorScript),
+											_colorTrans(old._colorTrans), _skipFrameFlag(old._skipFrameFlag),
+											_blend(old._blend) {}
+
+	MainChannels& operator=(const MainChannels& mainChannels) {
+		_actionId = mainChannels._actionId;
+		_transDuration = mainChannels._transDuration;
+		_transArea = mainChannels._transArea;
+		_transChunkSize = mainChannels._transChunkSize;
+		_transType = mainChannels._transType;
+		_trans = mainChannels._trans;
+		_palette = mainChannels._palette;
+		_tempo = mainChannels._tempo;
+		_scoreCachedTempo = mainChannels._scoreCachedTempo;
+		_scoreCachedPaletteId = mainChannels._scoreCachedPaletteId;
+		_sound1 = mainChannels._sound1;
+		_soundType1 = mainChannels._soundType1;
+		_sound2 = mainChannels._sound2;
+		_soundType2 = mainChannels._soundType2;
+		_colorTempo = mainChannels._colorTempo;
+		_colorSound1 = mainChannels._colorSound1;
+		_colorSound2 = mainChannels._colorSound2;
+		_colorScript = mainChannels._colorScript;
+		_colorTrans = mainChannels._colorTrans;
+		_skipFrameFlag = mainChannels._skipFrameFlag;
+		_blend = mainChannels._blend;
+
+		return *this;
+	}
+};
+
 struct FrameEntity {
 	uint16 spriteId;
 	Common::Rect rect;
@@ -134,31 +226,7 @@ private:
 
 public:
 	int _numChannels;
-	CastMemberID _actionId;
-	uint16 _transDuration;
-	uint8 _transArea; // 1 - Whole Window, 0 - Changing Area
-	uint8 _transChunkSize;
-	TransitionType _transType;
-	CastMemberID _trans;
-	PaletteInfo _palette;
-	uint8 _tempo;
-
-	uint8 _scoreCachedTempo;
-	CastMemberID _scoreCachedPaletteId;
-
-	CastMemberID _sound1;
-	uint8 _soundType1;
-	CastMemberID _sound2;
-	uint8 _soundType2;
-
-	byte _colorTempo;
-	byte _colorSound1;
-	byte _colorSound2;
-	byte _colorScript;
-	byte _colorTrans;
-
-	uint8 _skipFrameFlag;
-	uint8 _blend;
+	MainChannels _mainChannels;
 	Common::Array<Sprite *> _sprites;
 	Score *_score;
 	DirectorEngine *_vm;
