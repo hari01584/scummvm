@@ -130,6 +130,17 @@ inline void lerpPalette(byte *target, byte *palA, int palALength, byte *palB, in
 	}
 }
 
+template <typename T> void setFlagBit(T *flags, int position, bool value) {
+	if (value)
+		*flags |= (1 << position);
+	else
+		*flags &= ~(1 << position);
+}
+
+template <typename T> bool getFlagBit(T flags, int position) {
+	return (flags & (1 << position)) != 0;
+}
+
 } // End of namespace Director
 
 #endif

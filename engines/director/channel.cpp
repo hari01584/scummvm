@@ -368,7 +368,7 @@ void Channel::setCast(CastMemberID memberID) {
 
 	if (!_sprite->_puppet && g_director->getVersion() >= 600) {
 		// Based on Director in a Nutshell, page 15
-		_sprite->_autoPuppet = true;
+		_sprite->setAutoPuppet(AutoPuppetProperty::kPuppetCast, true);
 	}
 }
 
@@ -550,7 +550,7 @@ void Channel::setWidth(int w) {
 
 	if (!_sprite->_puppet && g_director->getVersion() >= 600) {
 		// Based on Director in a Nutshell, page 15
-		_sprite->_autoPuppet = true;
+		_sprite->setAutoPuppet(AutoPuppetProperty::kPuppetWidth, true);
 	}
 }
 
@@ -561,7 +561,7 @@ void Channel::setHeight(int h) {
 
 	if (!_sprite->_puppet && g_director->getVersion() >= 600) {
 		// Based on Director in a Nutshell, page 15
-		_sprite->_autoPuppet = true;
+		_sprite->setAutoPuppet(AutoPuppetProperty::kPuppetHeight, true);
 	}
 }
 
@@ -583,7 +583,7 @@ void Channel::setBbox(int l, int t, int r, int b) {
 
 	if (!_sprite->_puppet && g_director->getVersion() >= 600) {
 		// Based on Director in a Nutshell, page 15
-		_sprite->_autoPuppet = true;
+		_sprite->setAutoPuppet(AutoPuppetProperty::kPuppetBbox, true);
 	}
 }
 
@@ -599,7 +599,7 @@ void Channel::setPosition(int x, int y, bool force) {
 
 	if (!_sprite->_puppet && g_director->getVersion() >= 600) {
 		// Based on Director in a Nutshell, page 15
-		_sprite->_autoPuppet = true;
+		_sprite->setAutoPuppet(AutoPuppetProperty::kPuppetLoc, true);
 	}
 }
 

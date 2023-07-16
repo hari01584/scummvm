@@ -31,6 +31,7 @@
 #include "director/castmember/shape.h"
 #include "director/lingo/lingo.h"
 #include "director/lingo/lingo-object.h"
+#include "director/util.h"
 
 namespace Director {
 
@@ -62,7 +63,7 @@ Sprite::Sprite(Frame *frame) {
 	_moveable = false;
 	_editable = false;
 	_puppet = false;
-	_autoPuppet = false; // Based on Director in a Nutshell, page 15
+	_autoPuppet = 0; // Based on Director in a Nutshell, page 15
 	_immediate = false;
 	_backColor = g_director->_wm->_colorWhite;
 	_foreColor = g_director->_wm->_colorBlack;
@@ -389,6 +390,14 @@ void Sprite::setPattern(uint16 pattern) {
 	default:
 		return;
 	}
+}
+
+void Sprite::setAutoPuppet(AutoPuppetProperty property, bool value) {
+	setFlagBit<uint32>(&_autoPuppet, property, value);
+}
+
+bool Sprite::getAutoPuppet(AutoPuppetProperty property) {
+	return getFlagBit<uint32>(_autoPuppet, property);
 }
 
 bool Sprite::checkSpriteType() {
