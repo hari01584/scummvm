@@ -98,7 +98,6 @@ struct MainChannels {
 	PaletteInfo _palette;
 	uint8 _tempo;
 
-	uint8 _scoreCachedTempo;
 	CastMemberID _scoreCachedPaletteId;
 
 	CastMemberID _sound1;
@@ -122,7 +121,6 @@ struct MainChannels {
 		_transChunkSize = 0;
 		_tempo = 0;
 
-		_scoreCachedTempo = 0;
 		_scoreCachedPaletteId = CastMemberID(0, 0);
 
 		_sound1 = CastMemberID(0, 0);
@@ -141,18 +139,6 @@ struct MainChannels {
 		_colorTrans = 0;
 	}
 
-	MainChannels(const MainChannels &old) : _actionId(old._actionId), _transDuration(old._transDuration),
-											_transArea(old._transArea), _transChunkSize(old._transChunkSize),
-											_transType(old._transType), _trans(old._trans),
-											_palette(old._palette), _tempo(old._tempo),
-											_scoreCachedTempo(old._scoreCachedTempo), _scoreCachedPaletteId(old._scoreCachedPaletteId),
-											_sound1(old._sound1), _soundType1(old._soundType1),
-											_sound2(old._sound2), _soundType2(old._soundType2),
-											_colorTempo(old._colorTempo), _colorSound1(old._colorSound1),
-											_colorSound2(old._colorSound2), _colorScript(old._colorScript),
-											_colorTrans(old._colorTrans), _skipFrameFlag(old._skipFrameFlag),
-											_blend(old._blend) {}
-
 	MainChannels& operator=(const MainChannels& mainChannels) {
 		_actionId = mainChannels._actionId;
 		_transDuration = mainChannels._transDuration;
@@ -162,7 +148,6 @@ struct MainChannels {
 		_trans = mainChannels._trans;
 		_palette = mainChannels._palette;
 		_tempo = mainChannels._tempo;
-		_scoreCachedTempo = mainChannels._scoreCachedTempo;
 		_scoreCachedPaletteId = mainChannels._scoreCachedPaletteId;
 		_sound1 = mainChannels._sound1;
 		_soundType1 = mainChannels._soundType1;

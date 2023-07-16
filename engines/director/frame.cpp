@@ -63,7 +63,6 @@ Frame::Frame(const Frame &frame) {
 	_mainChannels._transType = frame._mainChannels._transType;
 	_mainChannels._transChunkSize = frame._mainChannels._transChunkSize;
 	_mainChannels._tempo = frame._mainChannels._tempo;
-	_mainChannels._scoreCachedTempo = frame._mainChannels._scoreCachedTempo;
 	_mainChannels._sound1 = frame._mainChannels._sound1;
 	_mainChannels._sound2 = frame._mainChannels._sound2;
 	_mainChannels._soundType1 = frame._mainChannels._soundType1;
