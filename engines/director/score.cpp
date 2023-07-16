@@ -1528,12 +1528,6 @@ bool Score::readOneFrame() {
 			debugC(4, kDebugLoading, "%s", _currentFrame->formatChannelInfo().c_str());
 		}
 
-		// Precache the current palette ID, as this carries forward to frames to the right
-		// of the instruction
-		if (!_currentFrame->_mainChannels._palette.paletteId.isNull())
-			_currentPaletteId = _currentFrame->_mainChannels._palette.paletteId;
-		_currentFrame->_mainChannels._scoreCachedPaletteId = _currentPaletteId;
-
 		debugC(8, kDebugLoading, "Score::readOneFrame(): Frame %d actionId: %s", _curFrameNumber, _currentFrame->_mainChannels._actionId.asString().c_str());
 		return true;
 	} else {
